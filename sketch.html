@@ -358,11 +358,19 @@ html.testcopy .skbar, html.testcopy .bar { border-bottom-color: #7b2cbf; }
 .scrolly.tall { max-height: 52vh; } .btn.room { background: #eef4ff; } .btn small { font-weight: 400; color: #555; margin-left: 4px; }
 .ver { font-size: 12px; color: #666; }
 .chip.lv.dots { margin-left: auto; border-style: solid; } .chip.lv.dots.on { background: #dbe8ff; }
+.calc { font-size: 15px; line-height: 1.5; margin: 6px 0; } details summary { cursor: pointer; padding: 6px 0; }
+.btn.symb { flex-direction: column; gap: 4px; min-width: 120px; } .btn.symb canvas { display: block; }
+.ctx input.sz { width: 70px; text-align: center; }
+.ctx .nmpos { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-top: 6px; width: 100%; }
+.ctx .nmpos .btn.on { background: #ffe2c2; border-color: #ff7a00; }
+.ctx .rotbar { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.ctx .rotb { font-size: 26px; line-height: 1; min-width: 56px; min-height: 48px; padding: 4px 10px; }
+.ctx .rotbar select { width: auto; min-height: 44px; }
 
 </style></head><body>
 <div id="app"><p style="font:700 22px system-ui,sans-serif;padding:32px">Opening the sketch…</p></div>
 <script>
-const BUILD='1g-1012-1752';
+const BUILD='1k-1012-1905';
 const UAD={"RoomType":[["Bedroom","Bedroom"],["BreakfastRoom","Breakfast Room"],["Den","Den"],["DiningRoom","Dining Room"],["FamilyRoom","Family Room"],["FullBathroom","Bath - Full"],["HalfBathroom","Bath - Half"],["Kitchen","Kitchen"],["LaundryRoom","Laundry Room"],["LivingRoom","Living Room"],["Loft","Loft"],["MediaRoom","Media Room"],["Mudroom","Mudroom"],["RecreationRoom","Recreation Room"],["Sunroom","Sunroom"],["UtilityRoom","Utility Room"],["WalkInPantry","Walk-In Pantry"],["Workshop","Workshop"],["Other","Other"]],"AmenityType":[["Airstrip","Airstrip"],["Beach","Beach"],["BoatRamp","Boat Ramp"],["BoatSlip","Boat Slip"],["BuildingMaintenance","Building Maintenance"],["BuiltInPool","Built-in Pool"],["BusinessCenter","Business Center"],["CaregiverServices","Caregiver Services"],["Clubhouse","Clubhouse"],["ClubMembership","Club Membership"],["CommunityPier","Community Pier"],["ConciergeServiceCoordination","Concierge Service Coordination"],["Cooling","Cooling"],["Deck","Deck"],["DoorAttendant","Door Attendant"],["ElectricVehicleChargingStation","EV Station"],["Elevator","Elevator"],["FitnessArea","Fitness Area"],["GatedCommunity","Gated Community"],["GroundsMaintenance","Grounds Maintenance"],["Heating","Heating"],["IngroundPool","Inground Pool"],["IngroundSpa","Inground Spa"],["Lobby","Lobby"],["None","None"],["OngoingCleaningServices","Ongoing Cleaning Services"],["OutdoorRidingRing","Outdoor Riding Ring"],["OutdoorShower","Outdoor Shower"],["Patio","Patio"],["Playground","Playground"],["RecreationArea","Recreation Area"],["RegistrationServices","Registration Services"],["Sauna","Sauna"],["SharedLaundryFacilities","Shared Laundry Facilities"],["ShortTermRentalServices","Short Term Rental Services"],["SportsCourt","Sports Court"],["TelevisionOrInternetServices","Television or Internet Services"],["TrashRemoval","Trash Removal"],["UnitStorage","Unit Storage"],["WaterAccess","Water Access"],["WaterFrontage","Water Frontage"],["Other","Other"],["Fence","Fence"],["IrrigationSystem","Irrigation System"],["OutdoorFireplace","Outdoor Fireplace"],["OutdoorKitchen","Outdoor Kitchen"],["Balcony","Balcony"],["Gazebo","Gazebo"],["Porch","Porch"],["Portico","Portico"],["FireSuppressionSystem","Fire Suppression System"],["IndoorFireplace","Indoor Fireplace"],["MultipleZoneHeatingVentilationAndAirConditioning","Multi-Zone HVAC"],["SmartHomeSystem","Smart Home System"],["WholeHouseVentilation","Whole House Ventilation"],["WoodStove","Wood Stove"]],"FlooringType":[["Carpet","Carpet"],["CeramicTile","Ceramic Tile"],["EngineeredWood","Engineered Wood"],["FinishedConcrete","Finished Concrete"],["Hardwood","Hardwood"],["Laminate","Laminate"],["Marble","Marble"],["SubflooringOnly","Subflooring Only"],["Vinyl","Vinyl"],["Other","Other"]],"ViewType":[["Bay","Bay"],["Canal","Canal"],["CityStreet","City Street"],["Commercial","Commercial"],["Cove","Cove"],["Creek","Creek"],["GolfCourse","Golf Course"],["Gulf","Gulf"],["HighDensityResidential","High Density Residential"],["Highway","Highway"],["Industrial","Industrial"],["Lake","Lake"],["Marsh","Marsh"],["Mountain","Mountain"],["Ocean","Ocean"],["Park","Park"],["ParkingLot","Parking Lot"],["Pastoral","Pastoral"],["Pond","Pond"],["Reservoir","Reservoir"],["Residential","Residential"],["River","River"],["School","School"],["Skyline","Skyline"],["Sound","Sound"],["TrafficWallBarriers","Traffic Wall Barriers"],["Valley","Valley"],["Woods","Woods"],["Other","Other"]],"SiteInfluenceType":[["Agricultural","Agricultural"],["Airport","Airport"],["BusyRoadway","Busy Roadway"],["CommercialArea","Commercial Area"],["GolfCourse","Golf Course"],["GreenSpace","Green Space"],["HighDensityResidential","High Density Residential"],["HighPressureGasLine","High Pressure Gas Line"],["HistoricDistrict","Historic District"],["IndustrialArea","Industrial Area"],["LocalDistributionLine","Local Distribution Line"],["OilOrGasWell","Oil or Gas Well"],["OverheadElectricPowerTransmissionLine","Overhead Electric Power Transmission Line"],["Park","Park"],["PublicTransportationHub","Public Transportation Hub"],["RailLine","Rail Line"],["Residential","Residential"],["School","School"],["StormwaterRetention","Stormwater Retention"],["BodyOfWater","Body Of Water"],["Other","Other"]],"SiteFeatureType":[["None","None"],["CoastalBarrierResourcesSystem","Coastal Barrier Resources System"],["Drainage","Drainage"],["ExcessLand","Excess Land"],["Landlocked","Landlocked"],["Landscaping","Landscaping"],["RoadFrontage","Road Frontage"],["Shape","Shape"],["SoilSuitability","Soil Suitability"],["SurplusLand","Surplus Land"],["Topography","Topography"],["Wetlands","Wetlands"],["ZeroLotLine","Zero Lot Line"],["Other","Other"]],"TopographyType":[["Flat","Flat"],["Rocky","Rocky"],["Rolling","Rolling"],["Sloping","Sloping"],["Other","Other"]],"ArchitecturalDesignCategoryType":[["AFrame","A-Frame"],["Barn","Barn"],["BiLevel","Bi-Level"],["Bungalow","Bungalow"],["CapeCod","Cape Cod"],["Chalet","Chalet"],["Colonial","Colonial"],["Contemporary","Contemporary"],["Cottage","Cottage"],["Craftsman","Craftsman"],["EarthBerm","Earth / Berm"],["Farmhouse","Farmhouse"],["GeodesicDome","Geodesic Dome"],["Georgian","Georgian"],["Log","Log"],["Mediterranean","Mediterranean"],["Modern","Modern"],["NeoEclectic","Neo-Eclectic"],["RaisedRanch","Raised Ranch"],["Rambler","Rambler"],["Ranch","Ranch"],["Southwest","Southwest"],["Spanish","Spanish"],["SplitFoyerOrEntry","Split Foyer or Entry"],["SplitLevel","Split Level"],["Stilt","Stilt"],["Traditional","Traditional"],["Tudor","Tudor"],["Victorian","Victorian"],["Other","Other"]],"WallMaterialType":[["Adobe","Adobe"],["Aluminum","Aluminum"],["Asbestos","Asbestos"],["Brick","Brick"],["CementBoard","Cement Board"],["ConcreteBlock","Concrete Block"],["EngineeredWood","Engineered Wood"],["Glass","Glass"],["Log","Log"],["PouredConcrete","Poured Concrete"],["Steel","Steel"],["Stone","Stone"],["Stucco","Stucco"],["SyntheticStone","Synthetic Stone"],["SyntheticStucco","Synthetic Stucco"],["Vinyl","Vinyl"],["Wood","Wood"],["Other","Other"]],"RoofMaterialType":[["Asbestos","Asbestos"],["Asphalt","Asphalt"],["CeramicTile","Ceramic Tile"],["Clay","Clay"],["Composition","Composition"],["Concrete","Concrete"],["Copper","Copper"],["Metal","Metal"],["Rubber","Rubber"],["Slate","Slate"],["SolarShingles","Solar Shingles"],["Synthetic","Synthetic"],["TarAndGravel","Tar / Gravel"],["Wood","Wood"],["Other","Other"]],"FoundationType":[["Basement","Basement"],["CrawlSpace","Crawl Space"],["PostAndPier","Post and Pier"],["Runner","Runner"],["Slab","Slab"],["Other","Other"]],"FoundationMaterialType":[["Brick","Brick"],["ConcreteBlock","Concrete Block"],["Metal","Metal"],["PouredConcrete","Poured Concrete"],["Stone","Stone"],["Wood","Wood"],["Other","Other"]],"HeatingSystemType":[["Baseboard","Baseboard"],["Fireplace","Fireplace"],["ForcedWarmAir","Forced Warm Air"],["GravityAir","Gravity Air"],["MiniSplit","Mini Split"],["None","None"],["PassiveSolar","Passive Solar"],["Radiant","Radiant"],["Radiators","Radiators"],["Stove","Stove"],["Other","Other"]],"HeatingFuelType":[["Coal","Coal"],["Electric","Electric"],["Geothermal","Geothermal"],["NaturalGas","Natural Gas"],["Oil","Oil"],["Propane","Propane"],["Solar","Solar"],["Wood","Wood"],["Other","Other"]],"CoolingSystemType":[["Centralized","Centralized"],["Individual","Individual"],["Other","Other"]],"MechanicalSystemType":[["RadonMitigation","Radon Mitigation"],["SumpPump","Sump Pump"],["WaterHeater","Water Heater"],["WholeHouseWaterTreatment","Whole House Water Treatment"],["Other","Other"]],"CarStorageType":[["Carport","Carport"],["CommonCarport","Common Carport"],["Driveway","Driveway"],["Garage","Garage"],["OpenLot","Open Lot"],["ParkingGarage","Parking Garage"],["SharedDriveway","Shared Driveway"],["None","None"],["Other","Other"]],"CarStorageAttachmentType":[["Attached","Attached"],["BuiltIn","Built-in"],["Detached","Detached"]],"ImprovedSurfaceMaterialType":[["Asphalt","Asphalt"],["Brick","Brick"],["Cobblestone","Cobblestone"],["Concrete","Concrete"],["Dirt","Dirt"],["Gravel","Gravel"],["Other","Other"]],"OutbuildingType":[["Barn","Barn"],["Boathouse","Boathouse"],["Bunkhouse","Bunkhouse"],["EnclosedKennel","Enclosed Kennel"],["Greenhouse","Greenhouse"],["GuestHouse","Guest House"],["IndoorRidingArena","Indoor Riding Arena"],["ManufacturedHome","Manufactured Home"],["Office","Office"],["PoolHouse","Pool House"],["Shed","Shed"],["Silo","Silo"],["Stable","Stable"],["StandaloneADU","Standalone ADU"],["Studio","Studio"],["Workshop","Workshop"],["Other","Other"]],"FunctionalIssueType":[["CeilingHeight","Ceiling Height"],["FloorPlan","Floor Plan"],["NonConformity","Nonconformity"],["None","None"],["Overimprovement","Overimprovement"],["Underimprovement","Underimprovement"],["Other","Other"]],"DisasterMitigationFeatureType":[["EnclosedSoffits","Enclosed Soffits"],["FireResistantDecking","Fire Resistant Decking"],["FireResistantExteriorWalls","Fire Resistant Exterior Walls"],["FloodVents","Flood Vents"],["FortifiedRoof","Fortified Roof"],["FramingAnchorageOrBracing","Framing Anchorage or Bracing"],["ImpactResistantGlass","Impact Resistant Glass"],["ImpactResistantShingles","Impact Resistant Shingles"],["NoncombustiblePerimeter","Noncombustible Perimeter"],["None","None"],["StormShelter","Storm Shelter"],["StormShutters","Storm Shutters"],["WaterHeaterStrapping","Water Heater Strapping"],["Other","Other"]],"RenewableEnergyComponentType":[["Geothermal","Geothermal"],["Solar","Solar"],["WindTurbine","Wind Turbine"],["Other","Other"]],"RenewableEnergyComponentOwnershipType":[["Leased","Leased"],["Owned","Owned"],["PowerPurchaseAgreement","Power Purchase Agreement"],["Other","Other"]],"CeilingStyleType":[["Barrel","Barrel"],["Beams","Beams"],["Cathedral","Cathedral"],["Coffered","Coffered"],["Drop","Drop"],["Flat","Flat"],["Tray","Tray"],["Vaulted","Vaulted"],["Other","Other"]],"ApproximateCeilingHeightType":[["EightFeet","8 Ft."],["LessThanSevenFeet","Less than 7 feet"],["NineFeet","9 Ft."],["SevenFeet","7 Ft."],["TenFeetAndAbove","10 or more feet"],["TwoOrMoreStories","2 or more stories"]],"RoomUpdateStatusType":[["FullyUpdated","Fully Updated"],["NotUpdated","Not Updated"],["PartiallyUpdated","Partially Updated"]],"RoomUpdatedTimeframeType":[["FiveToTenYears","5-10 years"],["LessThanOneYear","Less than 1 year"],["OneToFiveYears","1-5 years"],["TenOrMoreYears","10 or more years"]],"RoomConditionStatusType":[["DamagedAndFunctional","Damaged and Functional"],["DamagedAndNonfunctional","Damaged and Nonfunctional"],["NewOrLikeNew","New or Like New"],["TypicalWearAndTear","Typical Wear and Tear"]],"DefectComponentLabelType":[["ExteriorWallsAndTrim","Exterior Walls and Trim"],["Foundation","Foundation"],["MechanicalSystem","Mechanical System"],["Roof","Roof"],["Windows","Windows"],["Other","Other"],["Flooring","Flooring"],["WallsAndCeiling","Walls and Ceiling"]],"DefectItemRecommendedActionType":[["Completion","Completion"],["Inspection","Inspection"],["None","None"],["Repair","Repair"]],"LevelType":[["BelowGradeFive","Level B5"],["BelowGradeFour","Level B4"],["BelowGradeOne","Level B1"],["BelowGradeThree","Level B3"],["BelowGradeTwo","Level B2"],["LevelEight","Level 8"],["LevelFive","Level 5"],["LevelFour","Level 4"],["LevelNine","Level 9"],["LevelOne","Level 1"],["LevelSeven","Level 7"],["LevelSix","Level 6"],["LevelTen","Level 10"],["LevelThree","Level 3"],["LevelTwo","Level 2"]],"GradeLevelType":[["AboveGrade","Above Grade"],["FullyBelowGrade","Below Grade"],["PartiallyBelowGrade","Partially Below Grade"]],"AccessType":[["ExteriorAccessOnly","Exterior Access Only"],["InteriorAccessOnly","Interior Access Only"],["InteriorAndExteriorAccess","Interior and Exterior Access"]],"UnitOccupancyType":[["OwnerOccupied","Owner"],["Tenant","Tenant"],["Vacant","Vacant"]],"AmenityMaterialType":[["Asphalt","Asphalt"],["Brick","Brick"],["Composite","Composite"],["Concrete","Concrete"],["Fiberglass","Fiberglass"],["Metal","Metal"],["NaturalStone","Natural Stone"],["Pavers","Pavers"],["Vinyl","Vinyl"],["Wood","Wood"],["Other","Other"]],"HazardZoneType":[["FEMASpecialFloodHazardArea","FEMA Special Flood Hazard Area"],["None","No Hazard Zone Noted"],["USGSLavaFlowZone","USGS Lava Flow Zone"],["Other","Other"]],"AccessibilityFeatureType":[["Appliances","Appliances"],["Auditory","Auditory"],["Bathtub","Bathtub"],["Cabinets","Cabinets"],["Counters","Counters"],["Doorways","Doorways"],["ElectricalSwitches","Electrical Switches"],["GrabBars","Grab Bars"],["Handrails","Handrails"],["Hardware","Hardware"],["Lighting","Lighting"],["None","None"],["Ramps","Ramps"],["Shower","Shower"],["Sink","Sink"],["Toilet","Toilet"],["Other","Other"]],"ValueMarketabilityImpactType":[["Adverse","Adverse"],["Beneficial","Beneficial"],["Neutral","Neutral"]],"ViewRangeType":[["Full","Full"],["Partial","Partial"],["Seasonal","Seasonal"],["Other","Other"]],"SiteInfluenceProximityType":[["Bordering","Bordering"],["Offsite","Offsite"],["Onsite","Onsite"]],"StreetAccessType":[["Alley","Alley"],["Arterial","Arterial Street"],["Collector","Collector Street"],["CulDeSac","Cul-de-sac"],["DeadEnd","Dead End"],["Local","Local Road"],["Rural","Rural Road"],["Other","Other"]],"PropertyPrimaryEntryExitMethodType":[["PedestrianOnlyAccess","Pedestrian Only Access"],["PrivateAirstrip","Private Airstrip"],["PrivateStreet","Private Street"],["PublicStreet","Public Street"],["Waterway","Waterway"],["Other","Other"]],"ConstructionMethodType":[["Container","Container"],["Manufactured","Manufactured"],["Modular","Modular"],["OnFrameModular","On-Frame Modular"],["SiteBuilt","Site Built"],["ThreeDimensionalPrintingTechnology","3D Technology"],["Other","Other"]],"AttachmentType":[["Attached","Attached"],["Detached","Detached"]],"FrontDoorApproximateElevationRangeType":[["EightToNineFeet","8-9 Ft."],["FiveToSixFeet","5-6 Ft."],["FourToFiveFeet","4-5 Ft."],["GroundLevel","Ground Level"],["NineToTenFeet","9-10 Ft."],["OneToTwoFeet","1-2 Ft."],["SevenToEightFeet","7-8 Ft."],["SixToSevenFeet","6-7 Ft."],["TenOrMoreFeet","10 or more feet"],["ThreeToFourFeet","3-4 Ft."],["TwoToThreeFeet","2-3 Ft."],["UpToOneFoot","Up to 1 foot"]],"ImprovementComponentConditionStatusType":[["DamagedAndFunctional","Damaged and Functional"],["DamagedAndNonfunctional","Damaged and Nonfunctional"],["NewOrLikeNew","New or Like New"],["NoFinish","No Finish"],["TypicalWearAndTear","Typical Wear and Tear"]],"OverallBathroomsUpdateStatusType":[["FullyUpdated","Fully Updated"],["ModeratelyUpdated","Moderately Updated"],["NotUpdated","Not Updated"],["SignificantlyUpdated","Significantly Updated"]],"OverallFlooringUpdateStatusType":[["FullyUpdated","Fully Updated"],["ModeratelyUpdated","Moderately Updated"],["NotUpdated","Not Updated"],["SignificantlyUpdated","Significantly Updated"]],"BelowGradeExteriorAccessType":[["CellarDoor","Cellar Door"],["WalkOut","Walk Out"],["WalkUp","Walk Up"],["Other","Other"]],"EnvironmentalConditionType":[["HazardousAboveGroundStorageTank","Hazardous Above Ground Storage Tank"],["HazardousSubstances","Hazardous Substances"],["Landfill","Landfill"],["None","None"],["Radon","Radon"],["SlushPit","Slush Pit"],["SoilContamination","Soil Contamination"],["SuperfundSite","Superfund Site"],["UndergroundStorageTank","Underground Storage Tank"],["WaterContamination","Water Contamination"],["Other","Other"]],"ConvertedAreaOriginalUseType":[["Garage","Garage"],["Patio","Patio"],["Porch","Porch"],["Other","Other"]],"ConvertedAreaFinishComparisonType":[["Inferior","Inferior"],["Similar","Similar"],["Superior","Superior"]],"RoofEstimatedAgeRangeType":[["LessThanOneYear","Less than 1 year"],["OneToTenYears","1-10 years"],["TenToTwentyYears","10-20 years"],["TwentyOrMoreYears","20 or more years"]],"SewerSystemType":[["Cesspool","Cesspool"],["Septic","Septic"],["Other","Other"]],"WaterSourceType":[["Cistern","Cistern"],["HauledWaterHoldingTank","Hauled Water Holding Tank"],["LakeOrSpring","Lake or Spring"],["Well","Well"],["Other","Other"]],"WaterWellType":[["Artesian","Artesian"],["Drilled","Drilled"],["Dug","Dug"],["Other","Other"]],"BodyOfWaterType":[["Bay","Bay"],["Canal","Canal"],["Cove","Cove"],["Creek","Creek"],["Gulf","Gulf"],["Lake","Lake"],["Marsh","Marsh"],["Ocean","Ocean"],["Pond","Pond"],["Reservoir","Reservoir"],["River","River"],["Sound","Sound"],["Other","Other"]],"WaterfrontFeatureType":[["Beach","Beach"],["BoatLift","Boat Lift"],["BoatRamp","Boat Ramp"],["BoatSlip","Boat Slip"],["Dock","Dock"],["None","None"],["Pier","Pier"],["Riprap","Riprap"],["SeawallOrBulkhead","Seawall or Bulkhead"],["Other","Other"]],"WaterAccessRightType":[["Deeded","Deeded Access"],["Permitted","By Permit"],["PrivatelyOwned","Privately Owned"],["Other","Other"]],"WaterAccessDepthType":[["DeepWater","Deep Water"],["NonNavigable","Non-Navigable"],["ShallowWater","Shallow Water"],["Other","Other"]],"BodyOfWaterProximityType":[["Bordering","Bordering"],["Offsite","Offsite"],["Onsite","Onsite"]],"UnitBelowGradeFinishComparisonType":[["Inferior","Inferior"],["Similar","Similar"],["Superior","Superior"]],"EncroachmentType":[["Building","Building"],["Driveway","Driveway"],["Fence","Fence"],["Overhang","Overhang"],["Other","Other"]],"EasementType":[["Conservation","Conservation"],["Drainage","Drainage"],["IngressOrEgress","Ingress / Egress"],["Utility","Utility"],["Other","Other"]],"RestrictionType":[["Age","Age"],["HistoricPreservation","Historic Preservation"],["Income","Income"],["LandUse","Land Use"],["Rental","Rental"],["SalePrice","Sale Price"],["Other","Other"]],"SiteZoningComplianceType":[["Illegal","Illegal"],["Legal","Legal"],["LegalNonConforming","Legal Nonconforming"],["NoZoning","No Zoning"]],"PropertyEstateType":[["FeeSimple","Fee Simple"],["Leasehold","Leasehold"],["Other","Other"]],"StructuralDesignType":[["Highrise","High-rise"],["Lowrise","Low-rise"],["Midrise","Mid-rise"],["RowhouseTownhouse","Rowhouse / Townhouse"],["SemiDetached","Semi-Detached"],["Other","Other"]],"SwimmingPoolFeatureType":[["Caged","Caged"],["Heated","Heated"],["Indoor","Indoor"],["Other","Other"]],"SiteDrainageReasonType":[["EvidenceOfErosion","Evidence of Erosion"],["ImproperGrading","Improper Grading"],["StandingWater","Standing Water"],["Other","Other"]]};
 
 /* ============================================================
@@ -1598,6 +1606,21 @@ async function thumbFor(id) {
 /* ---------------- Minimal ZIP writer / reader (store method) ---------------- */
 const CRC_T = (() => { const t = new Uint32Array(256); for (let n = 0; n < 256; n++) { let c = n; for (let k = 0; k < 8; k++) c = c & 1 ? 0xEDB88320 ^ (c >>> 1) : c >>> 1; t[n] = c >>> 0; } return t; })();
 function crc32(u8) { let c = 0xFFFFFFFF; for (let i = 0; i < u8.length; i++) c = CRC_T[(c ^ u8[i]) & 0xFF] ^ (c >>> 8); return (c ^ 0xFFFFFFFF) >>> 0; }
+/* letter-size PDF from JPEG pages (one picture per page) */
+function makePdf(pages) { // pages: [{bytes: Uint8Array (JPEG), w, h}]
+  const enc = new TextEncoder(); const parts = []; let len = 0; const offs = [];
+  const add = x => { const b = typeof x === 'string' ? enc.encode(x) : x; parts.push(b); len += b.length; };
+  const obj = (n, body) => { offs[n] = len; add(`${n} 0 obj\n`); body(); add('\nendobj\n'); };
+  add('%PDF-1.4\n%\xE2\xE3\n'); const n = pages.length; const kids = pages.map((_, i) => `${3 + i * 3} 0 R`).join(' ');
+  obj(1, () => add('<< /Type /Catalog /Pages 2 0 R >>')); obj(2, () => add(`<< /Type /Pages /Kids [${kids}] /Count ${n} >>`));
+  pages.forEach((pg, i) => { const P = 3 + i * 3, Cn = P + 1, Im = P + 2; const W = 612, H = Math.round(612 * pg.h / pg.w);
+    obj(P, () => add(`<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ${W} ${H}] /Resources << /XObject << /Im0 ${Im} 0 R >> >> /Contents ${Cn} 0 R >>`));
+    const cs = `q ${W} 0 0 ${H} 0 0 cm /Im0 Do Q`; obj(Cn, () => add(`<< /Length ${cs.length} >>\nstream\n${cs}\nendstream`));
+    obj(Im, () => { add(`<< /Type /XObject /Subtype /Image /Width ${pg.w} /Height ${pg.h} /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length ${pg.bytes.length} >>\nstream\n`); add(pg.bytes); add('\nendstream'); }); });
+  const xref = len; const total = 3 + n * 3; let x = `xref\n0 ${total}\n0000000000 65535 f \n`; for (let i = 1; i < total; i++) x += String(offs[i]).padStart(10, '0') + ' 00000 n \n';
+  add(x + `trailer\n<< /Size ${total} /Root 1 0 R >>\nstartxref\n${xref}\n%%EOF\n`);
+  const out = new Uint8Array(len); let o = 0; parts.forEach(b => { out.set(b, o); o += b.length; }); return out;
+}
 async function makeZip(entries) { // entries: [{name, data: Uint8Array|string|Blob}]
   const enc = new TextEncoder(); const parts = []; const central = []; let offset = 0;
   const d = new Date(); const dosTime = (d.getHours() << 11) | (d.getMinutes() << 5) | (d.getSeconds() >> 1); const dosDate = ((d.getFullYear() - 1980) << 9) | ((d.getMonth() + 1) << 5) | d.getDate();
@@ -1696,6 +1719,30 @@ const allDefs = () => [...DEFAULT_DEFS, ...((SK.lib && SK.lib.defs) || [])].filt
 const defOf = id => [...DEFAULT_DEFS, ...((SK.lib && SK.lib.defs) || [])].find(d => d.id === id) || DEFAULT_DEFS[0];
 const allLabels = () => [...new Set([...DEFAULT_LABELS, ...((SK.lib && SK.lib.labels) || [])])].sort((a, b) => a.localeCompare(b, undefined, { numeric: true }));
 
+/* ---------- display settings (saved with your labels): text size, dimension size, colors ---------- */
+const TS = () => (SK.lib && SK.lib.textScale) || 1, DS = () => (SK.lib && SK.lib.dimScale) || 1;
+const FILL = a => (SK.lib && SK.lib.fills === false) ? null : BUCKETS[defOf(a.def).bucket].fill;
+/* ---------- symbols: fireplaces, wood stove, stairs, elevator (sizes in feet, resizable) ---------- */
+const SYMBOLS = { fireplace: { n: 'Fireplace', w: 5, h: 2 }, cornerfp: { n: 'Corner fireplace', w: 4, h: 4 }, dblfp: { n: 'Double-sided fireplace', w: 5, h: 2.5 },
+  woodstove: { n: 'Wood stove', w: 2.5, h: 2.5 }, stairs: { n: 'Stairs', w: 3.5, h: 10 }, spiral: { n: 'Spiral stairs', w: 5, h: 5 }, elevator: { n: 'Elevator', w: 5, h: 5 } };
+function drawSymbol(g, sym, T, s, hi) { // T: feet -> screen; s: px per foot
+  const [cx, cy] = T([sym.x, sym.y]); const w = sym.w * s, h = sym.h * s; g.save(); g.translate(cx, cy); g.rotate(-(sym.rot || 0) * Math.PI / 180);
+  g.strokeStyle = hi ? '#ff7a00' : '#000'; g.lineWidth = hi ? 3 : 1.6; g.fillStyle = '#fff'; const R = (x, y, a, b) => { g.fillRect(x, y, a, b); g.strokeRect(x, y, a, b); };
+  const trap = (sgn) => { g.beginPath(); g.moveTo(-w * 0.32, sgn * h / 2); g.lineTo(w * 0.32, sgn * h / 2); g.lineTo(w * 0.2, sgn * h * 0.05); g.lineTo(-w * 0.2, sgn * h * 0.05); g.closePath(); g.stroke(); };
+  if (sym.type === 'fireplace') { R(-w / 2, -h / 2, w, h); trap(1); }
+  else if (sym.type === 'dblfp') { R(-w / 2, -h / 2, w, h); trap(1); trap(-1); }
+  else if (sym.type === 'cornerfp') { g.beginPath(); g.moveTo(-w / 2, -h / 2); g.lineTo(w / 2, -h / 2); g.lineTo(-w / 2, h / 2); g.closePath(); g.fill(); g.stroke();
+    g.beginPath(); g.moveTo(-w * 0.05, -h * 0.05); g.lineTo(w * 0.28, -h / 2 + h * 0.08); g.moveTo(-w * 0.05, -h * 0.05); g.lineTo(-w / 2 + w * 0.08, h * 0.28); g.stroke(); }
+  else if (sym.type === 'woodstove') { R(-w / 2, -h / 2, w, h); g.beginPath(); g.arc(0, -h * 0.22, Math.min(w, h) * 0.16, 0, 7); g.stroke(); g.fillStyle = '#000'; g.font = `700 ${Math.max(8, Math.min(w, h) * 0.3)}px system-ui`; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText('WS', 0, h * 0.2); }
+  else if (sym.type === 'stairs') { R(-w / 2, -h / 2, w, h); const n = Math.max(2, Math.round(sym.h / 0.9)); g.beginPath(); for (let i = 1; i < n; i++) { const y = -h / 2 + h * i / n; g.moveTo(-w / 2, y); g.lineTo(w / 2, y); } g.stroke();
+    g.lineWidth = hi ? 3 : 1.8; g.beginPath(); g.moveTo(0, h / 2 - h * 0.08); g.lineTo(0, -h / 2 + h * 0.1); g.moveTo(-w * 0.18, -h / 2 + h * 0.1 + w * 0.22); g.lineTo(0, -h / 2 + h * 0.1); g.lineTo(w * 0.18, -h / 2 + h * 0.1 + w * 0.22); g.stroke(); }
+  else if (sym.type === 'spiral') { const r = Math.min(w, h) / 2; g.beginPath(); g.arc(0, 0, r, 0, 7); g.fill(); g.stroke(); g.beginPath(); g.arc(0, 0, r * 0.15, 0, 7); g.stroke(); g.beginPath(); for (let i = 0; i < 10; i++) { const t = i * Math.PI / 5; g.moveTo(Math.cos(t) * r * 0.15, Math.sin(t) * r * 0.15); g.lineTo(Math.cos(t) * r, Math.sin(t) * r); } g.stroke(); }
+  else if (sym.type === 'elevator') { R(-w / 2, -h / 2, w, h); g.beginPath(); g.moveTo(-w / 2, -h / 2); g.lineTo(w / 2, h / 2); g.moveTo(w / 2, -h / 2); g.lineTo(-w / 2, h / 2); g.stroke(); }
+  g.restore();
+}
+function hitSymbol(ft) { const tol = 10 / SK.view.s; return (SK.sk.symbols || []).filter(x => x.level === SK.level).find(x => { const t = (x.rot || 0) * Math.PI / 180, dx = ft[0] - x.x, dy = ft[1] - x.y;
+  const lx = dx * Math.cos(t) - dy * Math.sin(t), ly = dx * Math.sin(t) + dy * Math.cos(t); return Math.abs(lx) <= x.w / 2 + tol && Math.abs(ly) <= x.h / 2 + tol; }) || null; }
+
 /* ---------- geometry ---------- */
 const r1 = n => Math.round(n * 10) / 10;
 const polyArea = p => { let s = 0; for (let i = 0; i < p.length; i++) { const [x1, y1] = p[i], [x2, y2] = p[(i + 1) % p.length]; s += x1 * y2 - x2 * y1; } return Math.abs(s) / 2; };
@@ -1729,20 +1776,90 @@ const pathDist = (pt, path) => Math.min(...path.slice(1).map((q, k) => segDist(p
 function rotatePts(pts, deg, c) { const t = -deg * Math.PI / 180, cs = Math.cos(t), sn = Math.sin(t); return pts.map(([x, y]) => { const dx = x - c[0], dy = y - c[1]; return [r3(c[0] + dx * cs - dy * sn), r3(c[1] + dx * sn + dy * cs)]; }); }
 const r3 = n => Math.round(n * 1000) / 1000;
 
-/* where to print an area's name: the roomiest spot inside it that is not inside an area drawn within it */
-function labelPoint(a, C) {
-  const kids = [...C.parent.entries()].filter(([, pid]) => pid === a.id).map(([cid]) => SK.sk.areas.find(x => x.id === cid)).filter(Boolean);
-  const sh = shape(a); const c0 = centroid(sh); if (!kids.length && inPoly(c0, sh)) return c0;
-  const xs = sh.map(p => p[0]), ys = sh.map(p => p[1]); const x0 = Math.min(...xs), x1 = Math.max(...xs), y0 = Math.min(...ys), y1 = Math.max(...ys);
-  const segs = [...walls(a), ...kids.flatMap(walls)]; let best = c0, bd = -1;
-  for (let i = 1; i < 16; i++) for (let j = 1; j < 16; j++) { const pt = [x0 + (x1 - x0) * i / 16, y0 + (y1 - y0) * j / 16];
-    if (!inPoly(pt, sh) || kids.some(k => inPoly(pt, shape(k)))) continue; const d = Math.min(...segs.map(([, p, q]) => segDist(pt, p, q))); if (d > bd) { bd = d; best = pt; } }
-  return best;
+/* ---------- area calculations (Apex style): how each area is derived ---------- */
+function cleanPts(pts) { // drop repeated corners and corners in the middle of a straight wall
+  let p = pts.filter((v, i) => { const q = pts[(i + 1) % pts.length]; return Math.hypot(v[0] - q[0], v[1] - q[1]) > 0.005; });
+  let changed = true; while (changed && p.length > 3) { changed = false; for (let i = 0; i < p.length; i++) { const a = p[(i - 1 + p.length) % p.length], b = p[i], c = p[(i + 1) % p.length];
+    if (Math.abs((b[0] - a[0]) * (c[1] - a[1]) - (b[1] - a[1]) * (c[0] - a[0])) < 0.002 * Math.max(1, wallLen(a, c))) { p.splice(i, 1); changed = true; break; } } }
+  return p;
 }
+function arcSegs(a) { // signed circular-segment areas of the curved walls (+ bulges out, − bulges in)
+  if (!a.arcs || !a.closed) return [];
+  return walls(a).map(([i, p, q]) => { const ar = arcOf(a, i); if (!ar) return null; const g = arcGeom(p, q, ar.h, ar.side); if (!g) return null;
+    const th = g.len / g.R; const seg = g.R * g.R / 2 * (th - Math.sin(th)); const sign = inPoly(g.B, a.pts) ? -1 : 1; return { g, area: sign * seg }; }).filter(Boolean);
+}
+const exactArea = a => polyArea(cleanPts(a.pts)) + arcSegs(a).reduce((t, x) => t + x.area, 0);
+const f1 = n => (Math.round(n * 10) / 10).toFixed(1);
+function slicePieces(pts, th) { // turn by -th, cut into horizontal strips, merge stacked same-width rectangles
+  const cs = Math.cos(-th), sn = Math.sin(-th); const R = pts.map(([x, y]) => [Math.round((x * cs - y * sn) * 1000) / 1000, Math.round((x * sn + y * cs) * 1000) / 1000]);
+  const ys = [...new Set(R.map(p => p[1]))].sort((u, v) => u - v); const pieces = [];
+  for (let k = 0; k < ys.length - 1; k++) { const y0 = ys[k], y1 = ys[k + 1], h = y1 - y0; if (h < 0.005) continue; const ym = (y0 + y1) / 2;
+    const xs = []; R.forEach((p, i) => { const q = R[(i + 1) % R.length]; if ((p[1] <= ym) !== (q[1] <= ym)) { const xAt = y => p[0] + (q[0] - p[0]) * (y - p[1]) / (q[1] - p[1]); xs.push({ x0: xAt(y0), x1: xAt(y1), xm: xAt(ym), vert: Math.abs(q[0] - p[0]) < 0.005 }); } });
+    xs.sort((u, v) => u.xm - v.xm);
+    for (let j = 0; j + 1 < xs.length; j += 2) { const L = xs[j], Rr = xs[j + 1]; pieces.push({ y0, y1, h, top: Rr.x0 - L.x0, bot: Rr.x1 - L.x1, rect: L.vert && Rr.vert, l0: L.x0, r0: Rr.x0, l1: L.x1, r1: Rr.x1 }); } }
+  const merged = []; pieces.forEach(pc => { const m = merged.find(x => x.rect && pc.rect && Math.abs(x.l1 - pc.l0) < 0.01 && Math.abs(x.r1 - pc.r0) < 0.01 && Math.abs(x.y1 - pc.y0) < 0.01); if (m) { m.y1 = pc.y1; m.h += pc.h; } else merged.push({ ...pc }); });
+  return merged;
+}
+function calcBreakdown(a) {
+  const pts = cleanPts(a.pts); const lines = [];
+  if (pts.length >= 3) {
+    // try each wall direction as "level" and keep the one that needs the fewest, simplest pieces (square to the grid wins ties)
+    const angs = [0]; pts.forEach((p, i) => { const q = pts[(i + 1) % pts.length]; let t = Math.atan2(q[1] - p[1], q[0] - p[0]); t = ((t % (Math.PI / 2)) + Math.PI / 2) % (Math.PI / 2); if (!angs.some(x => Math.abs(x - t) < 0.002)) angs.push(t); });
+    let best = null; angs.forEach(t => { const pc = slicePieces(pts, t); const score = pc.length + pc.filter(x => !x.rect).length * 0.5; if (!best || score < best.score - 1e-9) best = { pc, score }; });
+    best.pc.forEach(pc => { if (Math.abs(pc.top - pc.bot) < 0.01) lines.push({ t: `${f1(pc.top)} × ${f1(pc.h)}`, a: pc.top * pc.h });
+      else if (pc.top < 0.01 || pc.bot < 0.01) lines.push({ t: `½ × ${f1(Math.max(pc.top, pc.bot))} × ${f1(pc.h)}`, a: Math.max(pc.top, pc.bot) * pc.h / 2 });
+      else lines.push({ t: `½ × (${f1(pc.top)} + ${f1(pc.bot)}) × ${f1(pc.h)}`, a: (pc.top + pc.bot) * pc.h / 2 }); });
+  }
+  arcSegs(a).forEach(x => lines.push({ t: `${x.area < 0 ? 'less ' : ''}curve: chord ${f1(x.g.chord)}, depth ${f1(x.g.h)}, radius ${f1(x.g.R)}`, a: x.area }));
+  return lines;
+}
+function calcAll() { // every closed area with its pieces, what is subtracted, gross and net
+  const C = computeAreas(); const kids = id => [...C.parent.entries()].filter(([, p]) => p === id).map(([c]) => SK.sk.areas.find(x => x.id === c));
+  const order = { LIV: 0, LIVN: 1, UNF: 2, GAR: 3, OUT: 4, OB: 5, ADU: 6, AMEN: 7, NCA: 8 };
+  return C.list.slice().sort((a, b) => (LEVELS.indexOf(a.level) - LEVELS.indexOf(b.level)) || (order[defOf(a.def).bucket] - order[defOf(b.def).bucket])).map(a => ({
+    id: a.id, name: a.name || defOf(a.def).name, code: defOf(a.def).code, level: a.level, bucket: defOf(a.def).bucket,
+    lines: calcBreakdown(a).map(l => ({ t: l.t, a: Math.round(l.a * 10) / 10 })), gross: Math.round(C.gross.get(a.id) * 10) / 10,
+    less: kids(a.id).map(k => ({ name: k.name || defOf(k.def).name, a: Math.round(C.gross.get(k.id) * 10) / 10 })), net: Math.round(C.net.get(a.id)) }));
+}
+/* where to print an area's name: the roomiest spot inside it that is not inside an area drawn within it */
+function labelPoint(a, C, sc, px) { // sc = pixels per foot where it will be drawn, px = name font size in pixels
+  sc = sc || 12; px = px || 16;
+  const kids = [...C.parent.entries()].filter(([, pid]) => pid === a.id).map(([cid]) => SK.sk.areas.find(x => x.id === cid)).filter(Boolean);
+  const sh = shape(a); const c0 = centroid(sh); const labs = SK.sk.labels.filter(l => l.level === a.level && inPoly([l.x, l.y], sh)); const syms = (SK.sk.symbols || []).filter(y => y.level === a.level && inPoly([y.x, y.y], sh));
+  const nm = String(a.name || defOf(a.def).name || ''); const nW = Math.max(nm.length, 10) * px * 0.6; // name or "1,234 sf" line, whichever is wider
+  const clear = pt => !labs.some(l => { const lW = String(l.text || '').length * px * 0.58;
+    return Math.abs(pt[0] - l.x) * sc < (nW + lW) / 2 + 10 && Math.abs(pt[1] - l.y) * sc < px * 2.6; })
+    && !syms.some(y => { const r = Math.max(y.w, y.h) / 2 * sc; return Math.abs(pt[0] - y.x) * sc < nW / 2 + r + 6 && Math.abs(pt[1] - y.y) * sc < px * 1.8 + r; });
+  if (!kids.length && inPoly(c0, sh) && clear(c0)) return c0;
+  const xs = sh.map(p => p[0]), ys = sh.map(p => p[1]); const x0 = Math.min(...xs), x1 = Math.max(...xs), y0 = Math.min(...ys), y1 = Math.max(...ys);
+  const segs = [...walls(a), ...kids.flatMap(walls)];
+  const pick = strict => { let best = null, bd = -1;
+    for (let i = 1; i < 20; i++) for (let j = 1; j < 20; j++) { const pt = [x0 + (x1 - x0) * i / 20, y0 + (y1 - y0) * j / 20];
+      if (!inPoly(pt, sh) || kids.some(k => inPoly(pt, shape(k))) || (strict && !clear(pt))) continue;
+      const d = Math.min(...segs.map(([, p, q]) => segDist(pt, p, q))); if (d > bd) { bd = d; best = pt; } }
+    return best; };
+  return pick(true) || pick(false) || c0;
+}
+/* where the area's name goes: automatic inside (a.nameAt unset), 'above' | 'below' | 'left' | 'right' of the building, or dragged {x, y} */
+function namePt(a, C, sc, px) { const p = a.nameAt; sc = sc || 12; px = px || 16;
+  if (p && typeof p === 'object') return [p.x, p.y];
+  if (!p) return labelPoint(a, C, sc, px);
+  const sh = shape(a); const xs = sh.map(q => q[0]), ys = sh.map(q => q[1]); const x0 = Math.min(...xs), x1 = Math.max(...xs), y0 = Math.min(...ys), y1 = Math.max(...ys);
+  const cx = (x0 + x1) / 2, cy = (y0 + y1) / 2, dim = 21 + 12 * DS(); const nW = Math.max(String(a.name || defOf(a.def).name || '').length, 10) * px * 0.6;
+  if (p === 'above') return [cx, y0 - (dim + 26) / sc];
+  if (p === 'below') return [cx, y1 + (dim + px + 4) / sc];
+  if (p === 'left') return [x0 - (dim + nW / 2) / sc, cy];
+  if (p === 'right') return [x1 + (dim + nW / 2) / sc, cy];
+  return labelPoint(a, C, sc, px);
+}
+const NAME_PX = () => Math.max(11, Math.min(17, SK.view.s * 0.9)) * TS();
+function hitName(ft) { const C = computeAreas(), s = SK.view.s, px = NAME_PX(); const [X, Y] = toScr(ft);
+  return SK.sk.areas.filter(a => a.level === SK.level && a.closed && a.pts.length > 2).reverse().find(a => { const [nx, ny] = toScr(namePt(a, C, s, px)); const w = Math.max(String(a.name || defOf(a.def).name).length, 8) * px * 0.6;
+    return Math.abs(X - nx) < w / 2 + 6 && Y > ny - px - 10 && Y < ny + 20; }) || null; }
 /* ---------- areas: net of areas drawn inside them ---------- */
 function computeAreas() {
   const A = SK.sk.areas.filter(a => a.closed && a.pts.length > 2);
-  const SH = new Map(A.map(a => [a.id, shape(a)])); const gross = new Map(A.map(a => [a.id, polyArea(SH.get(a.id))]));
+  const SH = new Map(A.map(a => [a.id, shape(a)])); const gross = new Map(A.map(a => [a.id, exactArea(a)]));
   const parent = new Map();
   A.forEach(c => {
     let best = null;
@@ -1785,7 +1902,7 @@ async function saveSketch() {
 async function pushTotals() { // keep the inspection's area totals current after every change
   const ins = await DB.get('inspections', SK.ins.id); if (!ins) return;
   const linked = syncRooms(ins);
-  ins.sketch = Object.assign({}, ins.sketch || {}, { updated: Date.now(), totals: totals(), areaCount: SK.sk.areas.filter(a => a.closed).length, labelIds: SK.sk.labels.map(l => l.id) });
+  ins.sketch = Object.assign({}, ins.sketch || {}, { updated: Date.now(), totals: totals(), calcs: calcAll().map(x => ({ ...x, levelName: LEVEL_NAME(x.level) })), areaCount: SK.sk.areas.filter(a => a.closed).length, labelIds: SK.sk.labels.map(l => l.id) });
   ins.updated = Date.now(); await DB.put('inspections', ins); SK.ins = ins;
   if (linked) { await DB.put('sketches', JSON.parse(JSON.stringify(SK.sk))); draw(); renderPanel(); }
 }
@@ -1793,7 +1910,7 @@ function snapshotVersion(why) {
   const v = SK.sk.versions = SK.sk.versions || [];
   const last = v[v.length - 1]; const now = Date.now();
   if (last && now - last.ts < 60000 && why === 'auto') return;
-  v.push({ ts: now, why, areas: JSON.parse(JSON.stringify(SK.sk.areas)), labels: JSON.parse(JSON.stringify(SK.sk.labels)) });
+  v.push({ ts: now, why, areas: JSON.parse(JSON.stringify(SK.sk.areas)), labels: JSON.parse(JSON.stringify(SK.sk.labels)), symbols: JSON.parse(JSON.stringify(SK.sk.symbols || [])) });
   if (v.length > 25) v.splice(0, v.length - 25);
 }
 async function saveLib() { try { await DB.put('sketches', SK.lib); } catch (e) {} }
@@ -1804,14 +1921,13 @@ async function pushToInspection(withImage) {
   const T = totals(); syncRooms(ins);
   ins.sketch = Object.assign({}, ins.sketch || {}, { labelIds: SK.sk.labels.map(l => l.id), updated: Date.now(), totals: T, areaCount: SK.sk.areas.filter(a => a.closed).length });
   if (withImage) {
-    const blob = await sketchImageBlob(); if (blob) {
-      const thumb = await blobThumb(blob);
+    const pages = await sketchPages(); if (pages.length) {
       const old = (ins.photos || []).filter(p => p.sec === 'interior' && p.field === 'sketchImg');
       for (const p of old) await DB.del('photos', p.id);
       ins.photos = (ins.photos || []).filter(p => !(p.sec === 'interior' && p.field === 'sketchImg'));
-      const id = uid(); await DB.put('photos', { id, insId: ins.id, blob, thumb });
-      ins.photos.push({ id, sec: 'interior', field: 'sketchImg', list: null, item: null, slot: null, extra: false, label: 'Sketch', cat: 'SubjectPropertyImprovementSketch', roomType: null, required: false, ts: Date.now(), w: 2400, h: 0, autoLabel: true });
-      ins.sketch.imageAt = Date.now();
+      for (let i = 0; i < pages.length; i++) { const pg = pages[i]; const thumb = await blobThumb(pg.blob); const id = uid(); await DB.put('photos', { id, insId: ins.id, blob: pg.blob, thumb });
+        ins.photos.push({ id, sec: 'interior', field: 'sketchImg', list: null, item: null, slot: null, extra: false, label: pages.length > 1 ? `Sketch page ${i + 1} of ${pages.length}` : 'Sketch', cat: 'SubjectPropertyImprovementSketch', roomType: null, required: false, ts: Date.now() + i, w: pg.w, h: pg.h, autoLabel: true }); }
+      ins.sketch.imageAt = Date.now(); ins.sketch.pages = pages.length;
     }
   }
   ins.updated = Date.now();
@@ -1820,9 +1936,9 @@ async function pushToInspection(withImage) {
 function setSaved(ok) { const s = document.getElementById('skSaved'); if (s) { s.textContent = !DB.persistent ? 'NOT SAVED – storage closed' : ok ? 'Saved ✓ ' + new Date().toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }) : 'Not saved!'; s.classList.toggle('bad', !ok || !DB.persistent); } }
 
 /* ---------- undo ---------- */
-function pushUndo() { SK.undo.push(JSON.stringify({ a: SK.sk.areas, l: SK.sk.labels })); if (SK.undo.length > 60) SK.undo.shift(); SK.redo = []; }
-function doUndo() { if (!SK.undo.length) return toast('Nothing to undo'); SK.redo.push(JSON.stringify({ a: SK.sk.areas, l: SK.sk.labels })); const s = JSON.parse(SK.undo.pop()); SK.sk.areas = s.a; SK.sk.labels = s.l; if (SK.drawId && !SK.sk.areas.find(a => a.id === SK.drawId)) { SK.drawId = null; SK.mode = 'select'; } SK.sel = null; markDirty(); draw(); renderPanel(); }
-function doRedo() { if (!SK.redo.length) return toast('Nothing to redo'); SK.undo.push(JSON.stringify({ a: SK.sk.areas, l: SK.sk.labels })); const s = JSON.parse(SK.redo.pop()); SK.sk.areas = s.a; SK.sk.labels = s.l; SK.sel = null; markDirty(); draw(); renderPanel(); }
+function pushUndo() { SK.undo.push(JSON.stringify({ a: SK.sk.areas, l: SK.sk.labels, y: SK.sk.symbols || [] })); if (SK.undo.length > 60) SK.undo.shift(); SK.redo = []; }
+function doUndo() { if (!SK.undo.length) return toast('Nothing to undo'); SK.redo.push(JSON.stringify({ a: SK.sk.areas, l: SK.sk.labels, y: SK.sk.symbols || [] })); const s = JSON.parse(SK.undo.pop()); SK.sk.areas = s.a; SK.sk.labels = s.l; SK.sk.symbols = s.y || []; if (SK.drawId && !SK.sk.areas.find(a => a.id === SK.drawId)) { SK.drawId = null; SK.mode = 'select'; } SK.sel = null; markDirty(); draw(); renderPanel(); }
+function doRedo() { if (!SK.redo.length) return toast('Nothing to redo'); SK.undo.push(JSON.stringify({ a: SK.sk.areas, l: SK.sk.labels, y: SK.sk.symbols || [] })); const s = JSON.parse(SK.redo.pop()); SK.sk.areas = s.a; SK.sk.labels = s.l; SK.sk.symbols = s.y || []; SK.sel = null; markDirty(); draw(); renderPanel(); }
 
 /* ---------- view transforms ---------- */
 let cv, ctx, dpr = 1;
@@ -1851,16 +1967,16 @@ function draw() {
   SK.sk.areas.filter(a => a.level !== SK.level && a.pts.length > 1).forEach(a => { ctx.setLineDash([6, 6]); ctx.strokeStyle = 'rgba(120,120,160,.35)'; ctx.lineWidth = 1.5; pathOf(a); ctx.stroke(); ctx.setLineDash([]); });
   const mine = SK.sk.areas.filter(a => a.level === SK.level);
   // fills (largest first so inner areas show on top)
-  [...mine].filter(a => a.closed).sort((a, b) => polyArea(shape(b)) - polyArea(shape(a))).forEach(a => { ctx.fillStyle = BUCKETS[defOf(a.def).bucket].fill; pathOf(a); ctx.fill(); });
+  [...mine].filter(a => a.closed).sort((a, b) => polyArea(shape(b)) - polyArea(shape(a))).forEach(a => { const f = FILL(a); if (!f) return; ctx.fillStyle = f; pathOf(a); ctx.fill(); });
   mine.forEach(a => {
     const selA = SK.sel && SK.sel.type === 'area' && SK.sel.id === a.id, drawing = SK.drawId === a.id;
     ctx.strokeStyle = selA ? '#ff7a00' : '#111'; ctx.lineWidth = selA ? 4 : drawing ? 3 : 2.2; pathOf(a); ctx.stroke();
     walls(a).forEach(([i, p, q]) => { const selW = SK.sel && SK.sel.type === 'wall' && SK.sel.id === a.id && SK.sel.i === i;
       if (selW) { ctx.strokeStyle = '#ff7a00'; ctx.lineWidth = 6; ctx.beginPath(); wallPath(a, i, p, q).forEach((v, k) => k ? ctx.lineTo(...toScr(v)) : ctx.moveTo(...toScr(v))); ctx.stroke(); }
       dimText(a, p, q, selW, i); });
-    if (a.closed && a.pts.length > 2) { const [cx, cy] = toScr(labelPoint(a, C)); const d = defOf(a.def); const sf = Math.round(C.net.get(a.id) || 0);
-      ctx.fillStyle = '#111'; ctx.textAlign = 'center'; ctx.font = `700 ${Math.max(11, Math.min(17, s * 0.9))}px system-ui,sans-serif`; ctx.fillText(a.name || d.name, cx, cy - 4);
-      ctx.font = `${Math.max(10, Math.min(15, s * 0.8))}px system-ui,sans-serif`; ctx.fillText(sf.toLocaleString() + ' sf' + (C.net.get(a.id) !== C.gross.get(a.id) ? ' net' : ''), cx, cy + 14); }
+    if (a.closed && a.pts.length > 2) { const [cx, cy] = toScr(namePt(a, C, s, NAME_PX())); const d = defOf(a.def); const sf = Math.round(C.net.get(a.id) || 0);
+      ctx.fillStyle = '#111'; ctx.textAlign = 'center'; ctx.font = `700 ${Math.max(11, Math.min(17, s * 0.9)) * TS()}px system-ui,sans-serif`; ctx.fillText(a.name || d.name, cx, cy - 4);
+      ctx.font = `${Math.max(10, Math.min(15, s * 0.8)) * TS()}px system-ui,sans-serif`; ctx.fillText(sf.toLocaleString() + ' sf' + (C.net.get(a.id) !== C.gross.get(a.id) ? ' net' : ''), cx, cy + 14); }
     if (drawing) { a.pts.forEach((p, i) => { const [X, Y] = toScr(p); ctx.fillStyle = i === 0 ? '#0fa84a' : '#111'; ctx.beginPath(); ctx.arc(X, Y, i === 0 ? 7 : 4, 0, 7); ctx.fill(); });
       const last = a.pts[a.pts.length - 1]; if (last) { const [X, Y] = toScr(last); ctx.strokeStyle = '#ff7a00'; ctx.lineWidth = 3; ctx.beginPath(); ctx.arc(X, Y, 11, 0, 7); ctx.stroke(); } }
   });
@@ -1877,25 +1993,28 @@ function draw() {
     const L = wallLen(d.from, d.pt); ctx.font = '700 20px system-ui'; ctx.textAlign = 'left'; const t = `${r1(L).toFixed(1)}'${d.snap === 'corner' ? ' → corner' : d.snap === 'dot' ? ' · on dot' : d.snap === 'align' ? ' · lined up' : d.snap === '45' ? ' · ' + Math.round(d.ang) + '°' : ''}`; const w = ctx.measureText(t).width;
     ctx.fillStyle = 'rgba(255,255,255,.9)'; ctx.fillRect(X2 + 12, Y2 - 34, w + 12, 28); ctx.fillStyle = '#c75b00'; ctx.fillText(t, X2 + 18, Y2 - 13); }
   if (SK.cursor) { const [X, Y] = toScr(SK.cursor); ctx.strokeStyle = '#d00'; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(X - 16, Y); ctx.lineTo(X + 16, Y); ctx.moveTo(X, Y - 16); ctx.lineTo(X, Y + 16); ctx.stroke(); ctx.beginPath(); ctx.arc(X, Y, 8, 0, 7); ctx.stroke(); }
+  (SK.sk.symbols || []).filter(x => x.level === SK.level).forEach(x => drawSymbol(ctx, x, toScr, SK.view.s, SK.sel && SK.sel.type === 'symbol' && SK.sel.id === x.id));
   // labels
   SK.sk.labels.filter(l => l.level === SK.level).forEach(l => { const [X, Y] = toScr([l.x, l.y]); const sel = SK.sel && SK.sel.type === 'label' && SK.sel.id === l.id;
-    ctx.font = `600 ${Math.max(11, Math.min(16, s * 0.85))}px system-ui,sans-serif`; ctx.textAlign = 'center'; const w = ctx.measureText(l.text).width;
+    ctx.font = `600 ${Math.max(11, Math.min(16, s * 0.85)) * TS()}px system-ui,sans-serif`; ctx.textAlign = 'center'; const w = ctx.measureText(l.text).width;
     if (sel) { ctx.fillStyle = 'rgba(255,122,0,.18)'; ctx.fillRect(X - w / 2 - 6, Y - 14, w + 12, 22); }
-    ctx.fillStyle = l.room ? (l.room.gone ? '#999' : '#1a3a8a') : '#555'; if (!l.room) ctx.font = `italic 500 ${Math.max(11, Math.min(15, s * 0.8))}px system-ui,sans-serif`; ctx.fillText(l.text + (l.room && l.room.gone ? ' (removed)' : ''), X, Y + 2); });
+    ctx.fillStyle = l.room ? (l.room.gone ? '#999' : '#1a3a8a') : '#555'; if (!l.room) ctx.font = `italic 500 ${Math.max(11, Math.min(15, s * 0.8)) * TS()}px system-ui,sans-serif`; ctx.fillText(l.text + (l.room && l.room.gone ? ' (removed)' : ''), X, Y + 2); });
   // north arrow + scale
   ctx.fillStyle = '#111'; ctx.font = '700 13px system-ui'; ctx.textAlign = 'left'; ctx.fillText(`Grid ${step} ft · ${LEVEL_NAME(SK.level)}`, 12, H - 12);
 }
 function pathOf(a) { ctx.beginPath(); shape(a).forEach((p, i) => { const [X, Y] = toScr(p); i ? ctx.lineTo(X, Y) : ctx.moveTo(X, Y); }); if (a.closed) ctx.closePath(); }
+/* a wall length printed outside an area should not land inside a neighbouring building (two buildings a foot apart) */
+function inNeighbour(a, pt) { const c = centroid(shape(a)); return SK.sk.areas.some(b => b !== a && b.closed && b.level === a.level && b.pts.length > 2 && !inPoly(c, shape(b)) && inPoly(pt, shape(b))); }
 function dimText(a, p, q, hi, i) {
   const L = wallLen(p, q); if (L < 0.05) return; const [X1, Y1] = toScr(p), [X2, Y2] = toScr(q); const px = Math.hypot(X2 - X1, Y2 - Y1); if (px < 28 && !hi) return;
   const ar = i !== undefined && arcOf(a, i), g = ar && arcGeom(p, q, ar.h, ar.side);
-  if (g) { const [bx, by] = toScr(g.B); ctx.save(); ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.font = `${hi ? 700 : 500} ${hi ? 15 : 12}px system-ui,sans-serif`; ctx.fillStyle = hi ? '#c75b00' : '#333'; const t = '⌒ ' + r1(g.len).toFixed(1) + "'"; const w = ctx.measureText(t).width; ctx.fillStyle = 'rgba(255,255,255,.85)'; ctx.fillRect(bx - w / 2 - 3, by - 9, w + 6, 18); ctx.fillStyle = hi ? '#c75b00' : '#333'; ctx.fillText(t, bx, by); ctx.restore(); return; }
+  if (g) { const [bx, by] = toScr(g.B); ctx.save(); ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.font = `${hi ? 700 : 500} ${(hi ? 15 : 12) * DS()}px system-ui,sans-serif`; ctx.fillStyle = hi ? '#c75b00' : '#333'; const t = '⌒ ' + r1(g.len).toFixed(1) + "'"; const w = ctx.measureText(t).width; ctx.fillStyle = 'rgba(255,255,255,.85)'; ctx.fillRect(bx - w / 2 - 3, by - 9, w + 6, 18); ctx.fillStyle = hi ? '#c75b00' : '#333'; ctx.fillText(t, bx, by); ctx.restore(); return; }
   let nx = -(Y2 - Y1) / px, ny = (X2 - X1) / px; // left normal; push the text outside the area
   const mx = (X1 + X2) / 2, my = (Y1 + Y2) / 2;
-  if (a.closed && a.pts.length > 2) { const tp = toFt(mx + nx * 6, my + ny * 6); if (inPoly(tp, shape(a))) { nx = -nx; ny = -ny; } }
+  if (a.closed && a.pts.length > 2) { const tp = toFt(mx + nx * 6, my + ny * 6); if (inPoly(tp, shape(a))) { nx = -nx; ny = -ny; } if ([10, 18, 26].some(k => inNeighbour(a, toFt(mx + nx * k, my + ny * k)))) { nx = -nx; ny = -ny; } }
   let ang = Math.atan2(Y2 - Y1, X2 - X1); if (ang > Math.PI / 2 || ang < -Math.PI / 2) ang += Math.PI;
   ctx.save(); ctx.translate(mx + nx * 12, my + ny * 12); ctx.rotate(ang); ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-  ctx.font = `${hi ? 700 : 500} ${hi ? 15 : 12}px system-ui,sans-serif`; ctx.fillStyle = hi ? '#c75b00' : '#333'; ctx.fillText(r1(L).toFixed(1) + "'", 0, 0); ctx.restore();
+  ctx.font = `${hi ? 700 : 500} ${(hi ? 15 : 12) * DS()}px system-ui,sans-serif`; ctx.fillStyle = hi ? '#c75b00' : '#333'; ctx.fillText(r1(L).toFixed(1) + "'", 0, 0); ctx.restore();
 }
 
 /* ---------- hit testing ---------- */
@@ -2002,17 +2121,32 @@ function setWallLength(a, i, L) {
   for (let j = i + 1; j < n; j++) a.pts[j] = [r3(a.pts[j][0] + dx), r3(a.pts[j][1] + dy)];
   markDirty(); draw(); renderPanel();
 }
-function rotateArea(a, deg) { pushUndo(); a.pts = rotatePts(a.pts, deg, centroid(shape(a))); SK.sk.labels.filter(l => l.level === a.level && a.closed && inPoly([l.x, l.y], a.pts)).forEach(() => {}); markDirty(); draw(); }
-function rotateAll(deg) {
+function rotateArea(a, deg) { pushUndo(); const c0 = centroid(shape(a)); a.pts = rotatePts(a.pts, deg, c0); if (a.nameAt && typeof a.nameAt === 'object') { const [q] = rotatePts([[a.nameAt.x, a.nameAt.y]], deg, c0); a.nameAt = { x: r3(q[0]), y: r3(q[1]) }; } SK.sk.labels.filter(l => l.level === a.level && a.closed && inPoly([l.x, l.y], a.pts)).forEach(() => {}); markDirty(); draw(); }
+/* tap-to-rotate: ↺ / ↻ turn the selection by the step (remembered; default 30° so 6 taps = upside down) */
+const ROT_STEPS = [90, 45, 30, 15, 5, 1]; const rotStep = () => SK.lib.rotStep || 30;
+function rotBar(key) { if (SK.rotKey !== key) { SK.rotKey = key; SK.rotTurned = 0; }
+  const t = SK.rotTurned || 0; const shown = ((t % 360) + 360) % 360;
+  return `<span class="rotbar"><button class="btn rotb" data-rot="1" title="Turn left">↺</button><button class="btn rotb" data-rot="-1" title="Turn right">↻</button>
+    <select id="rotStep" class="txt">${ROT_STEPS.map(v => `<option value="${v}" ${v === rotStep() ? 'selected' : ''}>${v}° per tap</option>`).join('')}</select>
+    <span class="help">${!t ? 'tap to turn' : shown === 0 ? 'back where it started' : shown === 180 ? 'turned 180° (upside down)' : `turned ${shown > 180 ? (360 - shown) + '° right' : shown + '° left'}`}</span><button class="btn sm" id="rotExact">Exact…</button></span>`; }
+function rotateSel(deg) { const sel = SK.sel; if (!sel) return;
+  if (sel.type === 'area') rotateArea(SK.sk.areas.find(x => x.id === sel.id), deg);
+  else if (sel.type === 'symbol') { const y = SK.sk.symbols.find(x => x.id === sel.id); pushUndo(); y.rot = norm360((y.rot || 0) + deg); markDirty(); draw(); }
+  else if (sel.type === 'all') rotateAll(deg, true);
+  SK.rotTurned = (SK.rotTurned || 0) + deg; renderPanel(); }
+function rotateAll(deg, quiet) {
   if (!SK.sk.areas.length) return; pushUndo(); const pts = SK.sk.areas.flatMap(a => a.pts).concat(SK.sk.labels.map(l => [l.x, l.y]));
-  const c = [(Math.min(...pts.map(p => p[0])) + Math.max(...pts.map(p => p[0]))) / 2, (Math.min(...pts.map(p => p[1])) + Math.max(...pts.map(p => p[1]))) / 2];
+  const c = quiet && SK.rotC ? SK.rotC : [(Math.min(...pts.map(p => p[0])) + Math.max(...pts.map(p => p[0]))) / 2, (Math.min(...pts.map(p => p[1])) + Math.max(...pts.map(p => p[1]))) / 2]; if (quiet) SK.rotC = c;
   SK.sk.areas.forEach(a => a.pts = rotatePts(a.pts, deg, c)); SK.sk.labels.forEach(l => { const [p] = rotatePts([[l.x, l.y]], deg, c); l.x = p[0]; l.y = p[1]; });
-  snapshotVersion('rotate'); markDirty(); fitView(); draw();
+  (SK.sk.symbols || []).forEach(y => { const [p] = rotatePts([[y.x, y.y]], deg, c); y.x = r3(p[0]); y.y = r3(p[1]); y.rot = norm360((y.rot || 0) + deg); });
+  SK.sk.areas.forEach(a => { if (a.nameAt && typeof a.nameAt === 'object') { const [p] = rotatePts([[a.nameAt.x, a.nameAt.y]], deg, c); a.nameAt = { x: r3(p[0]), y: r3(p[1]) }; } });
+  if (!quiet) { snapshotVersion('rotate'); fitView(); } markDirty(); draw();
 }
 function deleteSel() {
   if (!SK.sel) return; pushUndo();
   if (SK.sel.type === 'area' || SK.sel.type === 'wall') SK.sk.areas = SK.sk.areas.filter(a => a.id !== SK.sel.id);
   if (SK.sel.type === 'label') SK.sk.labels = SK.sk.labels.filter(l => l.id !== SK.sel.id);
+  if (SK.sel.type === 'symbol') SK.sk.symbols = (SK.sk.symbols || []).filter(l => l.id !== SK.sel.id);
   SK.sel = null; snapshotVersion('delete'); markDirty(); draw(); renderPanel();
 }
 
@@ -2035,7 +2169,9 @@ function onDown(e) {
       g.hold = setTimeout(() => { if (gest === g && !g.moved) { gest = { type: 'startdrag', at: g.corner, x: g.x, y: g.y, moved: false, held: true }; longPressStart(g.corner); } }, 450); gest = g; return; } }
   let drag = null;
   if (SK.mode === 'select' && SK.sel) {
-    if (SK.sel.type === 'area') { const a = SK.sk.areas.find(x => x.id === SK.sel.id); if (a && a.closed && inPoly(ft, shape(a))) drag = { kind: 'area', a, start: ft, orig: a.pts.map(p => [...p]) }; }
+    if (SK.sel.type === 'area') { const a = SK.sk.areas.find(x => x.id === SK.sel.id); if (a && a.closed && hitName(ft) === a) drag = { kind: 'name', a, start: ft, orig: namePt(a, computeAreas(), SK.view.s, NAME_PX()) };
+      else if (a && a.closed && inPoly(ft, shape(a))) drag = { kind: 'area', a, start: ft, orig: a.pts.map(p => [...p]), nameOrig: a.nameAt && typeof a.nameAt === 'object' ? [a.nameAt.x, a.nameAt.y] : null }; }
+    if (SK.sel.type === 'symbol') { const y = (SK.sk.symbols || []).find(x => x.id === SK.sel.id); if (y && hitSymbol(ft) === y) drag = { kind: 'label', l: y, start: ft, orig: [y.x, y.y] }; }
     if (SK.sel.type === 'label') { const l = SK.sk.labels.find(x => x.id === SK.sel.id); if (l && hitLabel(ft) === l) drag = { kind: 'label', l, start: ft, orig: [l.x, l.y] }; }
   }
   gest = { type: 'tap', x: e.offsetX, y: e.offsetY, t: Date.now(), moved: false, v: { ...SK.view }, drag, undoPushed: false };
@@ -2054,7 +2190,8 @@ function onMove(e) {
   const dx = e.offsetX - gest.x, dy = e.offsetY - gest.y; if (!gest.moved && Math.hypot(dx, dy) < 8) return; gest.moved = true; if (gest.hold) clearTimeout(gest.hold);
   if (gest.drag) { const ft = toFt(e.offsetX, e.offsetY); const ddx = Math.round((ft[0] - gest.drag.start[0]) * 10) / 10, ddy = Math.round((ft[1] - gest.drag.start[1]) * 10) / 10;
     if (!gest.undoPushed) { pushUndo(); gest.undoPushed = true; }
-    if (gest.drag.kind === 'area') gest.drag.a.pts = gest.drag.orig.map(([x, y]) => [r3(x + ddx), r3(y + ddy)]); else { gest.drag.l.x = r3(gest.drag.orig[0] + ddx); gest.drag.l.y = r3(gest.drag.orig[1] + ddy); }
+    if (gest.drag.kind === 'area') { gest.drag.a.pts = gest.drag.orig.map(([x, y]) => [r3(x + ddx), r3(y + ddy)]); if (gest.drag.nameOrig) gest.drag.a.nameAt = { x: r3(gest.drag.nameOrig[0] + ddx), y: r3(gest.drag.nameOrig[1] + ddy) }; }
+    else if (gest.drag.kind === 'name') gest.drag.a.nameAt = { x: r3(gest.drag.orig[0] + ddx), y: r3(gest.drag.orig[1] + ddy) }; else { gest.drag.l.x = r3(gest.drag.orig[0] + ddx); gest.drag.l.y = r3(gest.drag.orig[1] + ddy); }
     draw(); return; }
   SK.view = { ...gest.v, ox: gest.v.ox + dx, oy: gest.v.oy + dy }; draw();
 }
@@ -2073,7 +2210,7 @@ function onUp(e) {
 function snapAfterDrag(dr) { // a moved area snaps its corners onto a nearby corner of another area
   if (dr.kind !== 'area') return; const tol = 14 / SK.view.s; let best = null;
   SK.sk.areas.filter(o => o !== dr.a && o.level === dr.a.level).forEach(o => o.pts.forEach(q => dr.a.pts.forEach(p => { const d = Math.hypot(p[0] - q[0], p[1] - q[1]); if (d < tol && (!best || d < best.d)) best = { d, dx: q[0] - p[0], dy: q[1] - p[1] }; })));
-  if (best) dr.a.pts = dr.a.pts.map(([x, y]) => [r3(x + best.dx), r3(y + best.dy)]);
+  if (best) { dr.a.pts = dr.a.pts.map(([x, y]) => [r3(x + best.dx), r3(y + best.dy)]); if (dr.a.nameAt && typeof dr.a.nameAt === 'object') dr.a.nameAt = { x: r3(dr.a.nameAt.x + best.dx), y: r3(dr.a.nameAt.y + best.dy) }; }
 }
 let viewTimer = null; function saveViewSoon() { clearTimeout(viewTimer); viewTimer = setTimeout(() => { SK.sk.view = SK.view; DB.put('sketches', JSON.parse(JSON.stringify(SK.sk))).catch(() => {}); }, 800); }
 function longPressStart(corner) { // hold a corner: new area of the last type starts there; drag to draw the first wall
@@ -2083,9 +2220,12 @@ function longPressStart(corner) { // hold a corner: new area of the last type st
 function tapAt(ft) {
   if (SK.mode === 'start') { setCursor(snapPoint(ft)); draw(); renderPanel(); return; }
   if (SK.mode === 'label') { placeLabel(SK.pendingLabel.text, SK.pendingLabel.room, ft); return; }
+  if (SK.mode === 'symbol') { placeSymbol(SK.pendingSym, ft); return; }
   if (SK.mode === 'draw') return; // while drawing, taps do nothing (walls come from the keypad)
   SK.curve = null;
   const l = hitLabel(ft); if (l) { SK.sel = { type: 'label', id: l.id }; draw(); renderPanel(); return; }
+  const sy = hitSymbol(ft); if (sy) { SK.sel = { type: 'symbol', id: sy.id }; SK.cursor = null; draw(); renderPanel(); return; }
+  const an = hitName(ft); if (an) { SK.sel = { type: 'area', id: an.id }; SK.cursor = null; draw(); renderPanel(); return; }
   const w = hitWall(ft); if (w) { SK.sel = { type: 'wall', id: w.id, i: w.i }; draw(); renderPanel(); return; }
   const a = hitArea(ft); SK.sel = a ? { type: 'area', id: a.id } : null; if (a) SK.cursor = null; else setCursor(ft); draw(); renderPanel();
 }
@@ -2195,16 +2335,24 @@ function renderPanel() {
   if (SK.curve) ctxHtml = curveCtx();
   if (ctxHtml) {} else if (SK.mode === 'start') ctxHtml = `<div class="ctx"><b>Starting corner for the ${esc(defOf(SK.pendingDef).name)}:</b> ${SK.cursor ? 'cursor dropped –' : 'tap to drop the cursor, or press on a corner and drag to draw the first wall.'}
       ${SK.cursor ? `<button class="btn sm" id="skJump">⤓ Jump to nearest corner</button><button class="btn primary sm" id="skStartHere">Start here</button>` : ''}<button class="btn sm" id="skCancelStart">Cancel</button></div>`;
+  else if (SK.mode === 'symbol') ctxHtml = `<div class="ctx"><b>Tap where the ${esc(SYMBOLS[SK.pendingSym].n.toLowerCase())} goes.</b> <button class="btn sm" id="skCancelLabel">Cancel</button></div>`;
   else if (SK.mode === 'label') ctxHtml = `<div class="ctx"><b>Tap where “${esc(SK.pendingLabel.text)}” goes.</b> <button class="btn sm" id="skCancelLabel">Cancel</button></div>`;
   else if (a) ctxHtml = `<div class="ctx"><b>Drawing: ${esc(a.name || defOf(a.def).name)}</b> · ${a.pts.length - 1} wall${a.pts.length === 2 ? '' : 's'} · type a length + arrow, drag from the orange point, or tap a blue dot to line up with another corner. Tap the green start to close.${a.pts.length >= 2 ? ' <button class="btn sm" id="skCurveLast">⌒ Curve last wall</button>' : ''}</div>`;
   else if (sel && sel.type === 'wall') { const ar = SK.sk.areas.find(x => x.id === sel.id); const ws = walls(ar).find(w => w[0] === sel.i); const L = ws ? r1(wallLen(ws[1], ws[2])) : 0; const closing = ar.closed && sel.i === ar.pts.length - 1;
     ctxHtml = `<div class="ctx"><b>Wall: ${L.toFixed(1)} ft</b>${closing ? ' · closing wall (adjusts by itself)' : ''} of ${esc(ar.name || defOf(ar.def).name)}
       ${closing ? '' : `<label class="inl">New length <input id="skWallLen" class="txt num" inputmode="decimal" value="${L.toFixed(1)}"></label><button class="btn primary sm" id="skWallSet">Apply</button>`}
       <button class="btn sm" id="skCurve">⌒ ${ar.arcs && ar.arcs[sel.i] ? 'Edit curve' : 'Curve this wall'}</button><button class="btn sm" id="skWallArea">Select the area</button></div>`; }
+  else if (sel && sel.type === 'all') ctxHtml = `<div class="ctx"><b>Turn the whole sketch</b> (all levels, labels and symbols) <div class="nmpos">${rotBar('all')}<button class="btn primary sm" id="rotDone">Done</button></div></div>`;
   else if (sel && sel.type === 'area') { const ar = SK.sk.areas.find(x => x.id === sel.id); const C = computeAreas(); const d = defOf(ar.def);
     ctxHtml = `<div class="ctx"><b>${esc(ar.name || d.name)}</b> · ${Math.round(C.net.get(ar.id) || 0).toLocaleString()} sf${C.net.get(ar.id) !== C.gross.get(ar.id) ? ` net (${Math.round(C.gross.get(ar.id)).toLocaleString()} gross)` : ''} · ${esc(BUCKETS[d.bucket].l)}
-      <button class="btn sm" id="skAreaProps">Properties</button><button class="btn sm" id="skRot90">↻ 90°</button><button class="btn sm" id="skRotX">Rotate…</button><button class="btn sm" id="skReopen">Edit walls</button><button class="btn sm danger" id="skDel">Delete</button>
-      <span class="help">Drag it to move it.</span></div>`; }
+      <button class="btn sm" id="skAreaProps">Properties</button><button class="btn sm" id="skReopen">Edit walls</button><button class="btn sm danger" id="skDel">Delete</button>
+      <div class="nmpos"><b>Turn</b> ${rotBar('a' + ar.id)}</div>
+      <div class="nmpos"><b>Name</b> ${[['', 'Inside'], ['above', '↑ Above'], ['below', '↓ Below'], ['left', '← Left'], ['right', 'Right →']].map(([v, t]) => `<button class="btn sm ${(ar.nameAt || '') === v ? 'on' : ''}" data-np="${v}">${t}</button>`).join('')}${ar.nameAt && typeof ar.nameAt === 'object' ? '<span class="help">(moved by hand)</span>' : ''}</div>
+      <span class="help">Drag the area to move it · drag its name to put the name anywhere.</span></div>`; }
+  else if (sel && sel.type === 'symbol') { const y = (SK.sk.symbols || []).find(x => x.id === sel.id);
+    ctxHtml = `<div class="ctx"><b>${esc(SYMBOLS[y.type].n)}</b> · width <button class="btn sm" data-sz="w:-0.5">−</button><input class="txt num sz" id="syW" inputmode="decimal" value="${y.w.toFixed(1)}"><button class="btn sm" data-sz="w:0.5">+</button>
+      ${y.type === 'spiral' ? '' : `length <button class="btn sm" data-sz="h:-0.5">−</button><input class="txt num sz" id="syH" inputmode="decimal" value="${y.h.toFixed(1)}"><button class="btn sm" data-sz="h:0.5">+</button>`} ft
+      <button class="btn sm danger" id="skDel">Delete</button><div class="nmpos"><b>Turn</b> ${rotBar('s' + y.id)}</div><span class="help">Drag it to move it.</span></div>`; }
   else if (sel && sel.type === 'label') { const l = SK.sk.labels.find(x => x.id === sel.id);
     const lk = l.room && l.room.id && ((SK.ins.lists || {})[l.room.list] || []).find(x => x.id === l.room.id);
     ctxHtml = `<div class="ctx"><b>${esc(l.text)}</b> · ${l.room ? (l.room.gone ? 'room was removed on the Interior tab' : lk ? 'linked to ' + esc(itemName(l.room.list, lk)) + ' on the Interior tab' : esc(roomWord(l.room)) + ' – added to the Interior tab when saved') : 'label only'} <button class="btn sm" id="skLblEdit">Change</button><button class="btn sm danger" id="skDel">Delete</button><span class="help">Drag it to move it.</span></div>`; }
@@ -2229,7 +2377,7 @@ function renderPanel() {
       <button class="btn primary big" id="skNew">+ New area</button>
       <button class="btn big" id="skClose" ${a ? '' : 'disabled'}>Close area</button>
       <button class="btn big" id="skDone" ${a ? '' : 'disabled'}>Stop (leave open)</button>
-      <button class="btn big" id="skLabel">Aa Label</button>
+      <div class="two"><button class="btn big" id="skLabel">Aa Label</button><button class="btn big" id="skSym">◫ Symbol</button></div>
       <div class="two"><button class="btn big" id="skCenter">◎ Center</button><button class="btn big" id="skFit">Fit all</button></div>
     </div>
   </div>`;
@@ -2245,11 +2393,19 @@ function renderPanel() {
   on('skWallSet', () => { const v = parseFloat(document.getElementById('skWallLen').value); const ar = SK.sk.areas.find(x => x.id === sel.id); setWallLength(ar, sel.i, Math.round(v * 10) / 10); });
   on('skWallArea', () => { SK.sel = { type: 'area', id: sel.id }; draw(); renderPanel(); });
   on('skAreaProps', () => openAreaProps(SK.sk.areas.find(x => x.id === sel.id)));
-  on('skRot90', () => { rotateArea(SK.sk.areas.find(x => x.id === sel.id), -90); renderPanel(); });
-  on('skRotX', () => askNumber('Rotate this area', 'Degrees (counter-clockwise; use a minus sign for clockwise)', '', v => { rotateArea(SK.sk.areas.find(x => x.id === sel.id), v); renderPanel(); }));
+  el.querySelectorAll('[data-np]').forEach(b => b.onclick = () => { const a = SK.sk.areas.find(x => x.id === sel.id); pushUndo(); if (b.dataset.np) a.nameAt = b.dataset.np; else delete a.nameAt; markDirty(); draw(); renderPanel(); });
+  el.querySelectorAll('[data-rot]').forEach(b => b.onclick = () => rotateSel(+b.dataset.rot * rotStep()));
+  const rs = el.querySelector('#rotStep'); if (rs) rs.onchange = () => { SK.lib.rotStep = +rs.value; saveLib(); renderPanel(); };
+  on('rotExact', () => askNumber('Turn by how many degrees?', 'Positive turns left (counter-clockwise), negative turns right', '', v => rotateSel(v)));
+  on('rotDone', () => { SK.sel = null; SK.rotC = null; snapshotVersion('rotate'); fitView(); draw(); renderPanel(); });
   on('skReopen', () => { const ar = SK.sk.areas.find(x => x.id === sel.id); pushUndo(); ar.closed = false; SK.drawId = ar.id; SK.mode = 'draw'; SK.sel = null; toast('Press ⌫ to remove walls, or add walls with the keypad'); markDirty(); draw(); renderPanel(); });
-  on('skDel', () => { if (confirm('Delete this ' + (sel.type === 'label' ? 'label' : 'area') + '?')) deleteSel(); });
+  on('skDel', () => { if (sel.type === 'label' || sel.type === 'symbol') { deleteSel(); toast((sel.type === 'label' ? 'Label' : 'Symbol') + ' deleted – Undo brings it back'); } else if (confirm('Delete this area?')) deleteSel(); });
   on('skLblEdit', () => openLabels(SK.sk.labels.find(x => x.id === sel.id)));
+  on('skSym', () => openSymbols(SK.cursor ? [...SK.cursor] : null));
+  if (sel && sel.type === 'symbol') { const y = SK.sk.symbols.find(x => x.id === sel.id); const setSz = (k, v) => { if (!(v > 0.4)) return; pushUndo(); y[k] = Math.round(v * 10) / 10; if (y.type === 'spiral') y.h = y.w; markDirty(); draw(); renderPanel(); };
+    el.querySelectorAll('[data-sz]').forEach(b => b.onclick = () => { const [k, d] = b.dataset.sz.split(':'); setSz(k, y[k] + +d); });
+    const iw = el.querySelector('#syW'); if (iw) iw.onchange = () => setSz('w', parseFloat(iw.value)); const ih = el.querySelector('#syH'); if (ih) ih.onchange = () => setSz('h', parseFloat(ih.value));
+    }
   on('skCurve', () => startCurve(SK.sk.areas.find(x => x.id === sel.id), sel.i));
   on('skCurveLast', () => { const ca = curArea(); startCurve(ca, ca.pts.length - 2); });
   if (SK.dial) wireDial(el); if (SK.curve) wireCurve(el);
@@ -2337,8 +2493,8 @@ function unplacedItems() { // rooms already in the inspection that are not on th
   return out;
 }
 function openLabels(editing, at) {
-  openSheet(`<h3>${editing ? 'Change label' : 'Add a label or room'}</h3><input class="txt" id="lbQ" placeholder="Search, or type a new name" autocomplete="off">
-    <div id="lbList" class="scrolly tall"></div><div class="row"><button class="btn primary" id="lbUse">Use what I typed…</button>${editing ? '<button class="btn" id="lbPlain">Make this a label only</button>' : ''}<button class="btn" data-close>Cancel</button></div>`, sh => {
+  openSheet(`<h3>${editing ? 'Change label' : 'Add a label or room'}</h3><div class="row"><input class="txt" id="lbQ" placeholder="Search" autocomplete="off" style="flex:1"><button class="btn primary" id="lbNew">＋ New label or room</button></div>
+    <div id="lbList" class="scrolly tall"></div><div class="row"><button class="btn" id="lbUse">Use what I typed…</button>${editing ? '<button class="btn" id="lbPlain">Make this a label only</button>' : ''}<button class="btn" data-close>Cancel</button></div>`, sh => {
       const q = sh.querySelector('#lbQ');
       const lvName = l => { const e = Object.entries(LEVEL_UAD).find(([, u]) => u === l); return e ? LEVEL_NAME(e[0]) : ''; };
       const list = () => { const t = q.value.trim().toLowerCase(); const m = x => !t || x.toLowerCase().includes(t);
@@ -2356,14 +2512,23 @@ function openLabels(editing, at) {
         SK.pendingLabel = { text, room }; SK.mode = 'label'; SK.sel = null; renderPanel(); };
       q.oninput = list; list();
       const pl = sh.querySelector('#lbPlain'); if (pl) pl.onclick = () => { closeSheet(); pushUndo(); editing.room = null; markDirty(); draw(); renderPanel(); };
-      sh.querySelector('#lbUse').onclick = () => { const t = q.value.trim(); if (!t) return toast('Type the name first');
-        openSheet(`<h3>“${esc(t)}”</h3><p class="help">Is this a room (it will be added to the Interior tab) or just a label on the drawing? The app remembers your answer.</p>
-          <div class="grid-btns col"><button class="btn room" id="ntRoom">A room – add it to the Interior tab</button><button class="btn" id="ntBed">A bedroom</button><button class="btn" id="ntLabel">Just a label</button></div><div class="row"><button class="btn" data-close>Cancel</button></div>`, sh2 => {
-            const save = kind => { if (!allLabels().includes(t)) SK.lib.labels.push(t); SK.lib.labelKinds = SK.lib.labelKinds || {}; SK.lib.labelKinds[t] = kind || 'label'; if (kind && kind.type === 'Other') { SK.lib.customRooms = SK.lib.customRooms || []; if (!SK.lib.customRooms.includes(t)) SK.lib.customRooms.push(t); } saveLib(); };
-            sh2.querySelector('#ntRoom').onclick = () => { const k = { list: 'rooms', type: 'Other', name: t }; save(k); use(t, { ...k }); };
-            sh2.querySelector('#ntBed').onclick = () => { const k = { list: 'bedrooms' }; save(k); use(t, { ...k }); };
-            sh2.querySelector('#ntLabel').onclick = () => { save(null); use(t, null); }; }); };
+      const newOne = pre => { const t0 = (pre || '').trim();
+        openSheet(`<h3>New label or room</h3><label>Name <input class="txt" id="ntName" value="${esc(t0)}" placeholder="e.g. Scullery, Gift Wrap Room, Wine Grotto" autocomplete="off"></label><p class="help">What is it? Rooms are added to the Interior tab. The app remembers your answer for next time.</p>
+          <div class="grid-btns col"><button class="btn room" id="ntRoom">A room – add it to the Interior tab</button><button class="btn room" id="ntBed">A bedroom</button><button class="btn room" id="ntFull">A full bath</button><button class="btn room" id="ntHalf">A half bath</button><button class="btn" id="ntLabel">Just a label on the drawing</button></div><div class="row"><button class="btn" data-close>Cancel</button></div>`, sh2 => {
+            const nameOf = () => sh2.querySelector('#ntName').value.trim(); setTimeout(() => sh2.querySelector('#ntName').focus(), 50);
+            const save = kind => { const t = nameOf(); if (!allLabels().includes(t)) SK.lib.labels.push(t); SK.lib.labelKinds = SK.lib.labelKinds || {}; SK.lib.labelKinds[t] = kind || 'label'; if (kind && kind.type === 'Other') { SK.lib.customRooms = SK.lib.customRooms || []; if (!SK.lib.customRooms.includes(t)) SK.lib.customRooms.push(t); } saveLib(); };
+            const go = k => { const t = nameOf(); if (!t) return toast('Type the name first'); save(k); use(t, k ? { ...k } : null); };
+            sh2.querySelector('#ntRoom').onclick = () => go({ list: 'rooms', type: 'Other', name: nameOf() });
+            sh2.querySelector('#ntBed').onclick = () => go({ list: 'bedrooms' }); sh2.querySelector('#ntFull').onclick = () => go({ list: 'baths', kind: 'FullBathroom' }); sh2.querySelector('#ntHalf').onclick = () => go({ list: 'baths', kind: 'HalfBathroom' });
+            sh2.querySelector('#ntLabel').onclick = () => go(null); }); };
+      sh.querySelector('#lbNew').onclick = () => newOne(q.value); sh.querySelector('#lbUse').onclick = () => newOne(q.value);
     });
+}
+function placeSymbol(type, pt) { const d = SYMBOLS[type]; pushUndo(); const y = { id: uid(), type, x: r3(pt[0]), y: r3(pt[1]), w: d.w, h: d.h, rot: 0, level: SK.level }; SK.sk.symbols = SK.sk.symbols || []; SK.sk.symbols.push(y); SK.mode = 'select'; SK.cursor = null; SK.sel = { type: 'symbol', id: y.id }; markDirty(); draw(); renderPanel(); }
+function openSymbols(at) {
+  openSheet(`<h3>Add a symbol</h3><p class="help">Tap one, then tap where it goes. You can resize and rotate it afterwards.</p><div class="grid-btns">${Object.entries(SYMBOLS).map(([k, d]) => `<button class="btn symb" data-sym="${k}"><canvas width="64" height="48" data-prev="${k}"></canvas>${esc(d.n)}</button>`).join('')}</div><div class="row"><button class="btn" data-close>Cancel</button></div>`, sh => {
+    sh.querySelectorAll('[data-prev]').forEach(c => { const d = SYMBOLS[c.dataset.prev]; const k = Math.min(56 / d.w, 40 / d.h); drawSymbol(c.getContext('2d'), { type: c.dataset.prev, x: 0, y: 0, w: d.w, h: d.h, rot: 0 }, () => [32, 24], k, false); });
+    sh.querySelectorAll('[data-sym]').forEach(b => b.onclick = () => { closeSheet(); if (at) return placeSymbol(b.dataset.sym, at); SK.pendingSym = b.dataset.sym; SK.mode = 'symbol'; SK.sel = null; renderPanel(); }); });
 }
 function placeLabel(text, room, pt) { pushUndo(); const l = { id: uid(), text, room: room || null, x: r3(pt[0]), y: r3(pt[1]), level: SK.level }; SK.sk.labels.push(l); SK.mode = 'select'; SK.cursor = null; SK.sel = { type: 'label', id: l.id }; draw(); renderPanel(); if (room) saveSketch(); else markDirty(); }
 /* keep the inspection's rooms and levels in step with the sketch (called on every save) */
@@ -2397,6 +2562,7 @@ function openTotals() {
     <h4>By level</h4><table class="tot"><thead><tr><th>Level</th><th class="n">Finished</th><th class="n">Nonstd.</th><th class="n">Unfinished</th></tr></thead><tbody>
     ${lv.map(([l, v]) => `<tr><td>${LEVEL_NAME(l)}${below(l) ? ' (below grade)' : ''}</td><td class="n">${f(v.fin)}</td><td class="n">${f(v.non)}</td><td class="n">${f(v.unf)}</td></tr>`).join('') || '<tr><td colspan="4">No living areas yet</td></tr>'}</tbody></table>
     ${[['Garage / carport', T.gar], ['Outdoor living', T.out], ['Outbuildings', T.ob], ['ADUs', T.adu], ['Amenities', T.amen]].filter(([, a]) => a.length).map(([h, a]) => `<h4>${h}</h4><table class="tot"><tbody>${a.map(x => row(x.name, x.sf)).join('')}</tbody></table>`).join('')}
+    <details><summary><b>Show the calculations</b> (as printed on the sketch image)</summary>${calcAll().map(x => `<p class="calc"><b>${esc(x.code)} ${esc(x.name)} · ${esc(LEVEL_NAME(x.level))}</b><br>${x.lines.map(l => `${esc(l.t)} = ${l.a.toFixed(1)}`).join('<br>')}${x.less.map(k => `<br>less ${esc(k.name)} = −${k.a.toFixed(1)}`).join('')}<br><b>= ${x.net.toLocaleString()} sf</b></p>`).join('')}</details>
     <h4>Rooms on the sketch</h4><p>${(() => { const r = SK.sk.labels.filter(l => l.room && !l.room.gone); const c = k => r.filter(k).length; return `${c(l => l.room.list === 'bedrooms')} bedrooms · ${c(l => l.room.list === 'baths' && l.room.kind === 'FullBathroom')} full baths · ${c(l => l.room.list === 'baths' && l.room.kind === 'HalfBathroom')} half baths · ${c(l => l.room.list === 'kitchens')} kitchen(s) · ${c(l => l.room.list === 'rooms')} other rooms`; })()}</p>
     <p class="help">Areas drawn inside another area on the same level (for example a garage inside the house outline) are subtracted from it. Totals go to the inspection when you press Back or Save to inspection.</p>
     <div class="row"><button class="btn primary" id="tSend">Save totals + sketch image to inspection</button><button class="btn" data-close>Close</button></div>`, sh => sh.querySelector('#tSend').onclick = async () => { closeSheet(); toast('Saving to the inspection…'); await pushToInspection(true); toast('Sketch image and totals saved to the inspection'); });
@@ -2404,14 +2570,20 @@ function openTotals() {
 function openMenu() {
   openSheet(`<h3>More</h3><div class="grid-btns col">
     <button class="btn" id="mSend">Save totals + sketch image to inspection</button>
-    <button class="btn" id="mRotAll">Rotate the whole sketch…</button>
+    <div class="lrow"><span><b>Text size</b> (area names, labels) ${Math.round(TS() * 100)}%</span><span><button class="btn sm" data-ts="-0.1">A−</button> <button class="btn sm" data-ts="0.1">A+</button></span></div>
+    <div class="lrow"><span><b>Dimension size</b> (wall lengths) ${Math.round(DS() * 100)}%</span><span><button class="btn sm" data-ds="-0.1">A−</button> <button class="btn sm" data-ds="0.1">A+</button></span></div>
+    <div class="lrow"><span><b>Area colors</b> (on screen and printed) – ${SK.lib.fills === false ? 'off' : 'on'}</span><button class="btn sm" id="mFills">${SK.lib.fills === false ? 'Turn on' : 'Turn off'}</button></div>
+    <button class="btn" id="mRotAll">Turn the whole sketch</button>
     <button class="btn" id="mVers">Saved versions (restore)</button>
     <button class="btn" id="mTypes">My area types and labels</button>
     <button class="btn" id="mExport">Export my area types and labels</button>
     <label class="btn">Import area types and labels<input type="file" id="mImport" accept=".json,application/json" hidden></label>
     </div><div class="row"><button class="btn" data-close>Close</button></div>`, sh => {
       sh.querySelector('#mSend').onclick = async () => { closeSheet(); toast('Saving to the inspection…'); await pushToInspection(true); toast('Sketch image and totals saved to the inspection'); };
-      sh.querySelector('#mRotAll').onclick = () => askNumber('Rotate the whole sketch', 'Degrees counter-clockwise (e.g. 90, -90, 15)', '90', v => rotateAll(v));
+      const sc = (k, d) => { SK.lib[k] = Math.max(0.6, Math.min(2.5, Math.round(((SK.lib[k] || 1) + d) * 10) / 10)); saveLib(); draw(); openMenu(); };
+      sh.querySelectorAll('[data-ts]').forEach(b => b.onclick = () => sc('textScale', +b.dataset.ts)); sh.querySelectorAll('[data-ds]').forEach(b => b.onclick = () => sc('dimScale', +b.dataset.ds));
+      sh.querySelector('#mFills').onclick = () => { SK.lib.fills = SK.lib.fills === false; saveLib(); draw(); openMenu(); };
+      sh.querySelector('#mRotAll').onclick = () => { closeSheet(); if (!SK.sk.areas.length) return toast('Nothing drawn yet'); SK.rotC = null; SK.sel = { type: 'all' }; SK.cursor = null; renderPanel(); };
       sh.querySelector('#mVers').onclick = openVersions;
       sh.querySelector('#mTypes').onclick = openMyTypes;
       sh.querySelector('#mExport').onclick = () => { const b = new Blob([JSON.stringify({ kind: 'sketch-library', defs: SK.lib.defs, labels: SK.lib.labels, hidden: SK.lib.hidden }, null, 1)], { type: 'application/json' }); const u = URL.createObjectURL(b); const a = document.createElement('a'); a.href = u; a.download = 'sketch-area-types-and-labels.json'; a.click(); setTimeout(() => URL.revokeObjectURL(u), 4000); };
@@ -2422,7 +2594,7 @@ function openVersions() {
   const v = (SK.sk.versions || []).slice().reverse();
   openSheet(`<h3>Saved versions</h3><p class="help">A version is kept each time you close an area, delete, or rotate (and about once a minute while you work). Restoring keeps your current drawing as a version too.</p>
     <div class="grid-btns col">${v.map((x, i) => `<button class="btn" data-ver="${v.length - 1 - i}">${new Date(x.ts).toLocaleString()} · ${x.areas.length} area${x.areas.length === 1 ? '' : 's'} · ${esc(x.why)}</button>`).join('') || '<p class="help">No versions yet.</p>'}</div>
-    <div class="row"><button class="btn" data-close>Close</button></div>`, sh => sh.querySelectorAll('[data-ver]').forEach(b => b.onclick = () => { const x = SK.sk.versions[+b.dataset.ver]; snapshotVersion('before restore'); pushUndo(); SK.sk.areas = JSON.parse(JSON.stringify(x.areas)); SK.sk.labels = JSON.parse(JSON.stringify(x.labels)); SK.sel = null; closeSheet(); markDirty(); renderLevels(); fitView(); draw(); renderPanel(); toast('Version restored'); }));
+    <div class="row"><button class="btn" data-close>Close</button></div>`, sh => sh.querySelectorAll('[data-ver]').forEach(b => b.onclick = () => { const x = SK.sk.versions[+b.dataset.ver]; snapshotVersion('before restore'); pushUndo(); SK.sk.areas = JSON.parse(JSON.stringify(x.areas)); SK.sk.labels = JSON.parse(JSON.stringify(x.labels)); SK.sk.symbols = JSON.parse(JSON.stringify(x.symbols || [])); SK.sel = null; closeSheet(); markDirty(); renderLevels(); fitView(); draw(); renderPanel(); toast('Version restored'); }));
 }
 function openMyTypes() {
   openSheet(`<h3>My area types and labels</h3><h4>Area types I added</h4>
@@ -2435,32 +2607,102 @@ function openMyTypes() {
 }
 
 /* ---------- sketch image (all levels side by side + area table) ---------- */
-async function sketchImageBlob() {
-  const used = [...new Set(SK.sk.areas.filter(a => a.pts.length > 1).map(a => a.level))].sort((a, b) => LEVELS.indexOf(a) - LEVELS.indexOf(b)); if (!used.length) return null;
-  const bb = lv => { const p = SK.sk.areas.filter(a => a.level === lv).flatMap(a => shape(a)).concat(SK.sk.labels.filter(l => l.level === lv).map(l => [l.x, l.y])); const xs = p.map(q => q[0]), ys = p.map(q => q[1]); return { x0: Math.min(...xs), y0: Math.min(...ys), w: Math.max(1, Math.max(...xs) - Math.min(...xs)), h: Math.max(1, Math.max(...ys) - Math.min(...ys)) }; };
-  const boxes = used.map(bb); const gap = 14; const totalW = boxes.reduce((t, b) => t + b.w, 0) + gap * (used.length - 1); const maxH = Math.max(...boxes.map(b => b.h));
-  const W = 2400, tableW = 620, pad = 90; const s = Math.min((W - tableW - pad * 2) / totalW, 1500 / maxH, 40); const Hh = Math.max(900, maxH * s + pad * 2 + 60);
-  const c = document.createElement('canvas'); c.width = W; c.height = Math.round(Hh); const g = c.getContext('2d'); g.fillStyle = '#fff'; g.fillRect(0, 0, W, c.height);
-  const C = computeAreas(); let xoff = pad;
-  used.forEach((lv, k) => { const b = boxes[k]; const T = ([x, y]) => [xoff + (x - b.x0) * s, pad + 60 + (y - b.y0) * s];
-    g.fillStyle = '#111'; g.font = '700 30px system-ui,sans-serif'; g.textAlign = 'left'; g.fillText(LEVEL_NAME(lv) + (below(lv) ? ' (below grade)' : ''), xoff, pad + 20);
-    SK.sk.areas.filter(a => a.level === lv && a.closed).sort((a, b2) => polyArea(shape(b2)) - polyArea(shape(a))).forEach(a => { g.fillStyle = BUCKETS[defOf(a.def).bucket].fill; g.beginPath(); shape(a).forEach((p, i) => i ? g.lineTo(...T(p)) : g.moveTo(...T(p))); g.closePath(); g.fill(); });
-    SK.sk.areas.filter(a => a.level === lv).forEach(a => { g.strokeStyle = '#111'; g.lineWidth = 3; g.beginPath(); shape(a).forEach((p, i) => i ? g.lineTo(...T(p)) : g.moveTo(...T(p))); if (a.closed) g.closePath(); g.stroke();
-      walls(a).forEach(([wi, p, q]) => { const L = wallLen(p, q); if (L * s < 40) return; const arg = arcOf(a, wi) && arcGeom(p, q, a.arcs[wi].h, a.arcs[wi].side); if (arg) { const [bx, by] = T(arg.B); g.save(); g.textAlign = 'center'; g.textBaseline = 'middle'; g.font = '22px system-ui,sans-serif'; g.fillStyle = '#222'; g.fillText('⌒ ' + r1(arg.len).toFixed(1) + "'", bx, by); g.restore(); return; } const [X1, Y1] = T(p), [X2, Y2] = T(q); const px = Math.hypot(X2 - X1, Y2 - Y1); let nx = -(Y2 - Y1) / px, ny = (X2 - X1) / px; const mx = (X1 + X2) / 2, my = (Y1 + Y2) / 2;
-        if (a.closed) { const tp = [b.x0 + (mx + nx * 8 - xoff) / s, b.y0 + (my + ny * 8 - pad - 60) / s]; if (inPoly(tp, shape(a))) { nx = -nx; ny = -ny; } }
-        let ang = Math.atan2(Y2 - Y1, X2 - X1); if (ang > Math.PI / 2 || ang < -Math.PI / 2) ang += Math.PI; g.save(); g.translate(mx + nx * 18, my + ny * 18); g.rotate(ang); g.textAlign = 'center'; g.textBaseline = 'middle'; g.font = '22px system-ui,sans-serif'; g.fillStyle = '#222'; g.fillText(r1(L).toFixed(1) + "'", 0, 0); g.restore(); });
-      if (a.closed) { const [cx, cy] = T(labelPoint(a, C)); g.textAlign = 'center'; g.fillStyle = '#111'; g.font = '700 24px system-ui,sans-serif'; g.fillText(a.name || defOf(a.def).name, cx, cy - 4); g.font = '22px system-ui,sans-serif'; g.fillText(Math.round(C.net.get(a.id)).toLocaleString() + ' sf', cx, cy + 24); } });
-    SK.sk.labels.filter(l => l.level === lv).forEach(l => { const [X, Y] = T([l.x, l.y]); g.textAlign = 'center'; g.font = '600 22px system-ui,sans-serif'; g.fillStyle = '#1a3a8a'; g.fillText(l.text, X, Y + 6); });
-    xoff += b.w * s + gap * s; });
-  // area table (Apex style)
-  const T = totals(); let y = pad + 20; const x0 = W - tableW - 30; g.textAlign = 'left'; g.fillStyle = '#111'; g.font = '700 30px system-ui,sans-serif'; g.fillText('Area calculations', x0, y); y += 44;
-  const line = (l, v, b) => { g.font = `${b ? 700 : 400} 24px system-ui,sans-serif`; g.textAlign = 'left'; g.fillText(l, x0, y); g.textAlign = 'right'; g.fillText((v || 0).toLocaleString() + ' sf', x0 + tableW - 20, y); y += 34; };
-  Object.entries(T.levels).sort((a, b) => LEVELS.indexOf(a[0]) - LEVELS.indexOf(b[0])).forEach(([l, v]) => { if (v.fin) line(`${LEVEL_NAME(l)} finished`, v.fin); if (v.non) line(`${LEVEL_NAME(l)} nonstandard`, v.non); if (v.unf) line(`${LEVEL_NAME(l)} unfinished`, v.unf); });
-  y += 6; line('Finished above grade', T.agFin, true); if (T.agNon) line('Finished above grade – nonstd.', T.agNon, true); if (T.bgFin) line('Finished below grade', T.bgFin, true); if (T.bgNon) line('Finished below grade – nonstd.', T.bgNon, true); if (T.agUnf) line('Unfinished above grade', T.agUnf, true); if (T.bgUnf) line('Unfinished below grade', T.bgUnf, true);
-  y += 10; [...T.gar, ...T.out, ...T.ob, ...T.adu, ...T.amen].forEach(x => line(x.name, x.sf));
-  g.font = '18px system-ui,sans-serif'; g.textAlign = 'left'; g.fillStyle = '#555'; g.fillText('Measured per ANSI Z765-2021 · sketch not to exact scale', x0, c.height - 30);
-  return await new Promise(res => c.toBlob(res, 'image/jpeg', 0.9));
+/* ---------- sketch pages (Apex-style, letter size, as many pages as needed) ---------- */
+const PG = { W: 1700, H: 2200, M: 70 };   // 8.5 x 11 in at 200 dpi
+const perim = a => walls(a).reduce((t, [i, p, q]) => { const ar = arcOf(a, i); const g = ar && arcGeom(p, q, ar.h, ar.side); return t + (g ? g.len : wallLen(p, q)); }, 0);
+function summaryRows() { // Apex "Area Calculations Summary": living by level, then every other area
+  const C = computeAreas(); const rows = []; const lvls = [...new Set(C.list.map(a => a.level))].sort((a, b) => LEVELS.indexOf(a) - LEVELS.indexOf(b));
+  const lvCode = lv => lv.replace('L', '');
+  [['LIV', 'FIN', 'finished'], ['LIVN', 'NST', 'finished – nonstandard'], ['UNF', 'UNF', 'unfinished']].forEach(([bk, code, word]) => lvls.forEach(lv => {
+    const A = C.list.filter(a => a.level === lv && defOf(a.def).bucket === bk); if (!A.length) return;
+    const net = A.reduce((t, a) => t + C.net.get(a.id), 0); rows.push({ code: code + lvCode(lv), desc: `${LEVEL_NAME(lv)} ${word}${below(lv) ? ' (below grade)' : ''}`, size: net, per: A.reduce((t, a) => t + perim(a), 0), bk, lv }); }));
+  C.list.filter(a => !['LIV', 'LIVN', 'UNF'].includes(defOf(a.def).bucket)).forEach(a => rows.push({ code: defOf(a.def).code, desc: (a.name || defOf(a.def).name) + (a.level !== 'L1' ? ' · ' + LEVEL_NAME(a.level) : ''), size: C.net.get(a.id), per: perim(a), bk: defOf(a.def).bucket }));
+  return rows;
 }
+function breakdownRows() { // Apex "Area Calculations Breakdown": finished above grade first (adds to the total), then other areas
+  const rowsFor = x => { const out = []; let first = true; const nm = () => { const t = first ? `${x.name} · ${LEVEL_NAME(x.level)}` : ''; first = false; return t; };
+    calcBreakdown(SK.sk.areas.find(a => a.id === x.id)).forEach(l => { let m;
+      if ((m = l.t.match(/^½ × \((\S+) \+ (\S+)\) × (\S+)$/))) out.push([nm(), '0.5', m[3], f1(+m[1] + +m[2]), l.a]);
+      else if ((m = l.t.match(/^½ × (\S+) × (\S+)$/))) out.push([nm(), '0.5', m[2], m[1], l.a]);
+      else if ((m = l.t.match(/^(\S+) × (\S+)$/))) out.push([nm(), '', m[2], m[1], l.a]);
+      else out.push([nm(), '', l.t.replace(/^(less )?curve: /, '$1curve ').replace(', radius', ' · r'), '', l.a]); });
+    x.less.forEach(k => out.push([nm(), '', `less ${k.name}`, '', -k.a])); return out; };
+  const all = calcAll(); const main = all.filter(x => x.bucket === 'LIV' && !below(x.level)), rest = all.filter(x => !(x.bucket === 'LIV' && !below(x.level)));
+  const rows = main.flatMap(rowsFor); rows.mainCount = rows.length;
+  if (rest.length) { rows.push(['— Other areas (not in the total) —', '', '', '', null]); rest.forEach(x => rows.push(...rowsFor(x))); }
+  return rows;
+}
+function drawLevelBlock(g, lv, X0, Y0, s, bb, C) { // one level's drawing at scale s with its top-left at X0,Y0
+  const T = ([x, y]) => [X0 + (x - bb.x0) * s, Y0 + (y - bb.y0) * s]; const fs = n => Math.round(n * TS()) + 'px system-ui,sans-serif', fd = n => Math.round(n * DS()) + 'px system-ui,sans-serif';
+  SK.sk.areas.filter(a => a.level === lv && a.closed).sort((a, b) => polyArea(shape(b)) - polyArea(shape(a))).forEach(a => { const f = FILL(a); if (!f) return; g.fillStyle = f; g.beginPath(); shape(a).forEach((p, i) => i ? g.lineTo(...T(p)) : g.moveTo(...T(p))); g.closePath(); g.fill(); });
+  SK.sk.areas.filter(a => a.level === lv).forEach(a => { g.strokeStyle = '#000'; g.lineWidth = 2.5; g.beginPath(); shape(a).forEach((p, i) => i ? g.lineTo(...T(p)) : g.moveTo(...T(p))); if (a.closed) g.closePath(); g.stroke();
+    walls(a).forEach(([wi, p, q]) => { const L = wallLen(p, q); if (L * s < 34) return; const ar = arcOf(a, wi), ag = ar && arcGeom(p, q, ar.h, ar.side);
+      g.save(); g.textAlign = 'center'; g.textBaseline = 'middle'; g.font = '600 ' + fd(15); g.fillStyle = '#000';
+      if (ag) { const [bx, by] = T(ag.B); g.fillText('⌒ ' + f1(ag.len) + "'", bx, by); g.restore(); return; }
+      const [X1, Y1] = T(p), [X2, Y2] = T(q); const px = Math.hypot(X2 - X1, Y2 - Y1); let nx = -(Y2 - Y1) / px, ny = (X2 - X1) / px; const mx = (X1 + X2) / 2, my = (Y1 + Y2) / 2;
+      if (a.closed) { const ft = k => [bb.x0 + (mx + nx * k - X0) / s, bb.y0 + (my + ny * k - Y0) / s]; if (inPoly(ft(6), shape(a))) { nx = -nx; ny = -ny; } if ([10, 18, 26].some(k => inNeighbour(a, ft(k)))) { nx = -nx; ny = -ny; } }
+      let ang = Math.atan2(Y2 - Y1, X2 - X1); if (ang > Math.PI / 2 || ang < -Math.PI / 2) ang += Math.PI; g.translate(mx + nx * 13, my + ny * 13); g.rotate(ang); g.fillText(f1(L) + "'", 0, 0); g.restore(); });
+    if (a.closed && defOf(a.def).bucket !== 'LIV') { const [cx, cy] = T(namePt(a, C, s, 16 * TS())); g.textAlign = 'center'; g.fillStyle = '#000'; g.font = '600 ' + fs(16); g.fillText(a.name || defOf(a.def).name, cx, cy - 2); g.font = fs(15); g.fillText(f1(C.net.get(a.id)) + ' sf', cx, cy + 18); } });
+  (SK.sk.symbols || []).filter(x => x.level === lv).forEach(x => drawSymbol(g, x, T, s, false));
+  SK.sk.labels.filter(l => l.level === lv).forEach(l => { const [X, Y] = T([l.x, l.y]); g.textAlign = 'center'; g.font = (l.room ? '600 ' : 'italic ') + fs(15); g.fillStyle = '#000'; g.fillText(l.text, X, Y + 5); });
+}
+async function sketchPages() {
+  const C = computeAreas(); const P = PG; const used = [...new Set(SK.sk.areas.filter(a => a.pts.length > 1).map(a => a.level))].sort((a, b) => LEVELS.indexOf(b) - LEVELS.indexOf(a) || 0);
+  // top floor first, basement last (like Apex)
+  used.sort((a, b) => { const r = l => below(l) ? -LEVELS.indexOf(l) : LEVELS.indexOf(l); return r(b) - r(a); });
+  if (!used.length) return [];
+  const bbOf = (lv, sc) => { const p = SK.sk.areas.filter(a => a.level === lv).flatMap(a => shape(a)).concat(sc ? nameBoxes(lv, sc) : [], SK.sk.labels.filter(l => l.level === lv).map(l => [l.x, l.y]), (SK.sk.symbols || []).filter(x => x.level === lv).flatMap(x => [[x.x - x.w / 2, x.y - x.h / 2], [x.x + x.w / 2, x.y + x.h / 2]])); const xs = p.map(q => q[0]), ys = p.map(q => q[1]); return { x0: Math.min(...xs), y0: Math.min(...ys), w: Math.max(1, Math.max(...xs) - Math.min(...xs)), h: Math.max(1, Math.max(...ys) - Math.min(...ys)) }; };
+  const nameBoxes = (lv, sc) => SK.sk.areas.filter(a => a.level === lv && a.closed && a.pts.length > 2 && a.nameAt && defOf(a.def).bucket !== 'LIV').flatMap(a => { const [x, y] = namePt(a, C, sc, 16 * TS()); const w = Math.max(String(a.name || defOf(a.def).name).length, 10) * 16 * TS() * 0.32 / sc, h = 26 * TS() / sc; return [[x - w, y - h], [x + w, y + h]]; });
+  const drawW = P.W - P.M * 2 - 330, maxBlockH = P.H - P.M * 2 - 160; const fitS = bx => Math.min(drawW / Math.max(...bx.map(b => b.w)), maxBlockH / Math.max(...bx.map(b => b.h)), 30);
+  let boxes = used.map(lv => bbOf(lv)); boxes = used.map(lv => bbOf(lv, fitS(boxes)));
+  const sMax = Math.min(drawW / Math.max(...boxes.map(b => b.w)), maxBlockH / Math.max(...boxes.map(b => b.h)), 30); // one scale for every level
+  const tableH = 100 + 27 * (Math.max(summaryRows().length, breakdownRows().length) + 2);
+  const pagesAt = sc => { let n = 1, yy = P.M + 20; boxes.forEach(b => { const h = b.h * sc + 70; if (yy + h > P.H - P.M - 40 && yy > P.M + 40) { n++; yy = P.M + 20; } yy += h + 30; }); if (P.H - P.M - yy < Math.min(tableH, 420)) n++; return n; };
+  // shrink a little (never below about 60% or 6 px per foot) when it saves a page
+  let s = sMax, best = pagesAt(sMax); for (let k = 0.95; k >= 0.6; k -= 0.05) { const sc = sMax * k; if (sc < 6) break; const n = pagesAt(sc); if (n < best) { best = n; s = sc; } }
+  boxes = used.map(lv => bbOf(lv, s)); s = Math.min(s, fitS(boxes)); // names placed outside a building at the final scale
+  const pages = []; let g, y;
+  const newPage = () => { const c = document.createElement('canvas'); c.width = P.W; c.height = P.H; g = c.getContext('2d'); g.fillStyle = '#fff'; g.fillRect(0, 0, P.W, P.H); pages.push(c); y = P.M + 20; };
+  newPage();
+  used.forEach((lv, k) => { const b = boxes[k]; const h = b.h * s + 70; if (y + h > P.H - P.M - 40 && y > P.M + 40) newPage();
+    const X0 = P.M + 30 + (drawW - b.w * s) / 2; drawLevelBlock(g, lv, X0, y + 30, s, b, C);
+    const A = C.list.filter(a => a.level === lv && defOf(a.def).bucket === 'LIV'); const fin = A.reduce((t, a) => t + C.net.get(a.id), 0);
+    g.textAlign = 'left'; g.fillStyle = '#000'; g.font = '700 20px system-ui,sans-serif'; const lx = P.W - P.M - 235, ly = y + 30 + b.h * s / 2;
+    g.fillText(LEVEL_NAME(lv) + (below(lv) ? ' (below grade)' : ''), lx, ly); if (fin) { g.font = '18px system-ui,sans-serif'; g.fillText(f1(fin) + ' sf finished', lx, ly + 26); }
+    y += h + 30; });
+  // the two calculation boxes (summary | breakdown), continued on more pages if long
+  const SR = summaryRows(), BR = breakdownRows(), Tt = totals(); const rowH = 27, half = (P.W - P.M * 2) / 2;
+  const footer = 2; let si = 0, bi = 0;
+  while (si < SR.length || bi < BR.length || !pages._tables) {
+    const need = 120 + rowH * (Math.min(Math.max(SR.length - si, BR.length - bi), 40) + footer);
+    if (P.H - P.M - y < Math.min(need, 420)) newPage();
+    const top = Math.max(y, P.M + 20), avail = Math.floor((P.H - P.M - top - 110) / rowH) - footer; const box = { x: P.M, y: top, w: P.W - P.M * 2 };
+    const nS = Math.max(0, Math.min(SR.length - si, avail)), nB = Math.max(0, Math.min(BR.length - bi, avail)); const rows = Math.max(nS, nB) + footer;
+    const H = 100 + rows * rowH; g.strokeStyle = '#000'; g.lineWidth = 2; g.strokeRect(box.x, box.y, box.w, H); g.beginPath(); g.moveTo(box.x + half, box.y); g.lineTo(box.x + half, box.y + H); g.stroke();
+    g.fillStyle = '#e6e6e6'; g.fillRect(box.x + 1, box.y + 1, box.w - 2, 36); g.fillStyle = '#000'; g.font = '700 21px system-ui,sans-serif'; g.textAlign = 'center';
+    g.fillText('AREA CALCULATIONS SUMMARY' + (si ? ' (cont.)' : ''), box.x + half / 2, box.y + 26); g.fillText('AREA CALCULATIONS BREAKDOWN' + (bi ? ' (cont.)' : ''), box.x + half * 1.5, box.y + 26);
+    const cols1 = [[8, 'Code', 'left'], [95, 'Description', 'left'], [420, 'Factor', 'right'], [535, 'Net Size', 'right'], [650, 'Perimeter', 'right'], [half - 10, 'Net Totals', 'right']];
+    const cols2 = [[8, 'Name', 'left'], [400, 'Base x', 'right'], [520, 'Height x', 'right'], [640, 'Width =', 'right'], [half - 10, 'Area', 'right']];
+    g.font = '700 18px system-ui,sans-serif'; cols1.forEach(([x, t, al]) => { g.textAlign = al; g.fillText(t, box.x + x, box.y + 62); }); cols2.forEach(([x, t, al]) => { g.textAlign = al; g.fillText(t, box.x + half + x, box.y + 62); });
+    g.font = '17px system-ui,sans-serif'; let ry = box.y + 62 + rowH;
+    for (let i = 0; i < nS; i++, si++) { const r = SR[si]; const v = [r.code, r.desc.length > 30 ? r.desc.slice(0, 29) + '…' : r.desc, '1.0', f1(r.size), f1(r.per), f1(r.size)]; cols1.forEach(([x, , al], j) => { g.textAlign = al; g.fillText(v[j], box.x + x, ry); }); ry += rowH; }
+    ry = box.y + 62 + rowH;
+    for (let i = 0; i < nB; i++, bi++) { const r = BR[bi]; const nm = r[0].length > 34 ? r[0].slice(0, 33) + '…' : r[0]; if (r[4] === null) { g.font = 'italic 17px system-ui,sans-serif'; g.textAlign = 'left'; g.fillText(r[0], box.x + half + 8, ry); g.font = '17px system-ui,sans-serif'; ry += rowH; continue; }
+      const v = [nm, r[1] ? r[1] + ' x' : '', r[2] ? r[2] + (r[3] ? ' x' : '') : '', r[3] ? r[3] + ' =' : '', (r[4] < 0 ? '−' : '') + Math.abs(r[4]).toFixed(1)];
+      cols2.forEach(([x, , al], j) => { g.textAlign = al; g.fillText(v[j], box.x + half + x, ry); }); ry += rowH; }
+    if (si >= SR.length && bi >= BR.length) { // footers: UAD totals, rounded
+      const fy = box.y + H - 22 - rowH; g.font = '700 18px system-ui,sans-serif';
+      const livRows = SR.filter(r => r.bk === 'LIV' && !below(r.lv)).length;
+      g.textAlign = 'left'; g.fillText('Finished Above Grade', box.x + 110, fy); g.textAlign = 'right'; g.fillText('cnt  ' + livRows, box.x + 480, fy); g.fillText('(rounded)', box.x + 700, fy); g.fillText(Tt.agFin.toLocaleString(), box.x + half - 10, fy);
+      if (Tt.bgFin || Tt.agNon || Tt.bgNon) { g.font = '17px system-ui,sans-serif'; g.textAlign = 'left'; g.fillText([Tt.agNon ? `Nonstd. above ${Tt.agNon.toLocaleString()}` : '', Tt.bgFin ? `Finished below grade ${Tt.bgFin.toLocaleString()}` : '', Tt.bgNon ? `Nonstd. below ${Tt.bgNon.toLocaleString()}` : ''].filter(Boolean).join(' · '), box.x + 110, fy + rowH); }
+      g.font = '700 18px system-ui,sans-serif'; g.textAlign = 'left'; g.fillText((BR.mainCount ?? BR.length) + ' total items', box.x + half + 8, fy); g.textAlign = 'right'; g.fillText('(rounded)', box.x + half + 640, fy); g.fillText(Tt.agFin.toLocaleString(), box.x + box.w - 10, fy); }
+    y = box.y + H + 20; pages._tables = true; if (si >= SR.length && bi >= BR.length) break; newPage(); }
+  // page footer
+  const p = SK.ins.data && SK.ins.data.property || {};
+  pages.forEach((c, i) => { const x = c.getContext('2d'); x.fillStyle = '#555'; x.font = '16px system-ui,sans-serif'; x.textAlign = 'left'; x.fillText([p.fileName, [p.addr, p.unit].filter(Boolean).join(' ')].filter(Boolean).join(' · ') + ' · measured per ANSI Z765-2021', P.M, P.H - 30); x.textAlign = 'right'; x.fillText(`Sketch page ${i + 1} of ${pages.length}`, P.W - P.M, P.H - 30); });
+  return Promise.all(pages.map(c => new Promise(res => c.toBlob(b => res({ blob: b, w: c.width, h: c.height }), 'image/jpeg', 0.92))));
+}
+async function sketchImageBlob() { const p = await sketchPages(); return p.length ? p[0].blob : null; }
 async function blobThumb(blob) { const u = URL.createObjectURL(blob); try { const img = await new Promise((res, rej) => { const i = new Image(); i.onload = () => res(i); i.onerror = rej; i.src = u; }); const k = 360 / Math.max(img.width, img.height); const c = document.createElement('canvas'); c.width = Math.round(img.width * k); c.height = Math.round(img.height * k); c.getContext('2d').drawImage(img, 0, 0, c.width, c.height); return c.toDataURL('image/jpeg', 0.72); } finally { URL.revokeObjectURL(u); } }
 
 /* ---------- leaving ---------- */
@@ -2482,7 +2724,7 @@ const skWatch = setTimeout(() => { if (!document.getElementById('skCanvas')) skF
   SK.step = 'reading the inspection'; SK.ins = await DB.get('inspections', id); if (!SK.ins) return skFatal('That inspection was not found on this iPad.');
   SK.step = 'reading your labels'; SK.lib = (await DB.get('sketches', '_library')) || { id: '_library', defs: [], labels: [], hidden: [] };
   SK.step = 'reading the sketch'; SK.sk = (await DB.get('sketches', id)) || { id, insId: id, created: Date.now(), areas: [], labels: [], versions: [] };
-  SK.sk.areas = (SK.sk.areas || []).filter(a => a && Array.isArray(a.pts)); SK.sk.labels = SK.sk.labels || [];
+  SK.sk.areas = (SK.sk.areas || []).filter(a => a && Array.isArray(a.pts)); SK.sk.labels = SK.sk.labels || []; SK.sk.symbols = SK.sk.symbols || [];
   SK.level = SK.sk.level || 'L1'; try { SK.showDots = localStorage.getItem('skDots') !== '0'; } catch (e) {}
   document.title = 'Sketch – ' + ((SK.ins.data && SK.ins.data.property && SK.ins.data.property.fileName) || 'Inspection');
   try { if (navigator.storage && navigator.storage.persist) navigator.storage.persist().catch(() => {}); } catch (e) {}
