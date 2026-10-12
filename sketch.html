@@ -326,7 +326,7 @@ body { background: #fff; color: #000; font-family: 'Atkinson Hyperlegible', syst
 .ctx.muted { color: #333; } .ctx .help { font-size: 14px; color: #444; } .ctx .inl { display: inline-flex; align-items: center; gap: 6px; font-weight: 700; }
 .ctx input.txt { width: 110px; }
 .pad { display: grid; grid-template-columns: minmax(240px, 1.1fr) minmax(200px, 1fr) minmax(170px, .8fr); gap: 10px; }
-.keys { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+.keys { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; align-content: start; }
 .entry { grid-column: 1 / -1; border: 3px solid #000; border-radius: 8px; background: #fff; font-size: 26px; font-weight: 700; padding: 6px 12px; text-align: right; min-height: 46px; color: #000; }
 .key { border: 2px solid #000; border-radius: 8px; background: #fff; font-size: 24px; font-weight: 700; min-height: 52px; color: #000; }
 .key:active { background: var(--cyan, #ffb25c); } .key.bs { background: #ffe0e0; }
@@ -349,6 +349,11 @@ body { background: #fff; color: #000; font-family: 'Atkinson Hyperlegible', syst
 /* test copy marker */
 html.testcopy .skbar, html.testcopy .bar { border-bottom-color: #7b2cbf; }
 .testflag { background: #7b2cbf; color: #fff; font-weight: 700; text-align: center; padding: 4px; font-size: 14px; }
+.dialbox { display: grid; justify-items: center; gap: 6px; }
+.dlread { font-size: 22px; display: flex; gap: 10px; align-items: baseline; } .dlread span { font-size: 16px; color: #444; }
+.dlrow { display: flex; flex-wrap: wrap; gap: 5px; justify-content: center; align-items: center; } .dlrow .btn.sm { min-height: 40px; padding: 4px 9px; }
+.ctx.curve input.txt { width: 80px; text-align: center; }
+.dialbox { gap: 4px; } .dlread { font-size: 20px; } .dlrow.turns .help { width: 92px; text-align: right; font-weight: 700; white-space: nowrap; }
 
 </style></head><body>
 <div id="app"><p style="font:700 22px system-ui,sans-serif;padding:32px">Opening the sketch…</p></div>
@@ -1676,28 +1681,48 @@ const onEdge = (pt, poly) => poly.some((a, i) => segDist(pt, a, poly[(i + 1) % p
 const insideOrOn = (pt, poly) => inPoly(pt, poly) || onEdge(pt, poly);
 const walls = a => { const n = a.pts.length, out = []; for (let i = 0; i < n - 1; i++) out.push([i, a.pts[i], a.pts[i + 1]]); if (a.closed && n > 2) out.push([n - 1, a.pts[n - 1], a.pts[0]]); return out; };
 const wallLen = (p, q) => Math.hypot(q[0] - p[0], q[1] - p[1]);
+/* curved walls: a wall i can carry a bow {h: depth in ft at the middle, side: 'L'|'R'} */
+const arcOf = (a, i) => a.arcs && a.arcs[i] && a.arcs[i].h > 0.04 ? a.arcs[i] : null;
+function arcGeom(p, q, h, side) {
+  const dx = q[0] - p[0], dy = q[1] - p[1], c = Math.hypot(dx, dy); if (c < 1e-6 || !(h > 0)) return null;
+  const n = side === 'L' ? [dy / c, -dx / c] : [-dy / c, dx / c];
+  const R = (c * c / 4 + h * h) / (2 * h), M = [(p[0] + q[0]) / 2, (p[1] + q[1]) / 2];
+  const C = [M[0] - n[0] * (R - h), M[1] - n[1] * (R - h)], B = [M[0] + n[0] * h, M[1] + n[1] * h];
+  const A = v => Math.atan2(v[1] - C[1], v[0] - C[0]); const TWO = Math.PI * 2; const nrm = x => ((x % TWO) + TWO) % TWO;
+  const a0 = A(p), s1 = nrm(A(q) - a0), sb = nrm(A(B) - a0); const sweep = sb < s1 ? s1 : -(TWO - s1);
+  const N = Math.max(8, Math.min(48, Math.ceil(Math.abs(sweep) * 12)));
+  const mids = []; for (let k = 1; k < N; k++) { const t = a0 + sweep * k / N; mids.push([C[0] + R * Math.cos(t), C[1] + R * Math.sin(t)]); }
+  return { mids, R, B, len: R * Math.abs(sweep), chord: c, h };
+}
+function shape(a) { // the outline with curved walls turned into many short pieces
+  if (!a.arcs || !Object.keys(a.arcs).length) return a.pts;
+  const out = [a.pts[0]]; walls(a).forEach(([i, p, q]) => { const ar = arcOf(a, i); if (ar) { const g = arcGeom(p, q, ar.h, ar.side); if (g) out.push(...g.mids); } if (!(a.closed && i === a.pts.length - 1)) out.push(q); });
+  return out;
+}
+const wallPath = (a, i, p, q) => { const ar = arcOf(a, i); const g = ar && arcGeom(p, q, ar.h, ar.side); return g ? [p, ...g.mids, q] : [p, q]; };
+const pathDist = (pt, path) => Math.min(...path.slice(1).map((q, k) => segDist(pt, path[k], q)));
 function rotatePts(pts, deg, c) { const t = -deg * Math.PI / 180, cs = Math.cos(t), sn = Math.sin(t); return pts.map(([x, y]) => { const dx = x - c[0], dy = y - c[1]; return [r3(c[0] + dx * cs - dy * sn), r3(c[1] + dx * sn + dy * cs)]; }); }
 const r3 = n => Math.round(n * 1000) / 1000;
 
 /* where to print an area's name: the roomiest spot inside it that is not inside an area drawn within it */
 function labelPoint(a, C) {
   const kids = [...C.parent.entries()].filter(([, pid]) => pid === a.id).map(([cid]) => SK.sk.areas.find(x => x.id === cid)).filter(Boolean);
-  const c0 = centroid(a.pts); if (!kids.length && inPoly(c0, a.pts)) return c0;
-  const xs = a.pts.map(p => p[0]), ys = a.pts.map(p => p[1]); const x0 = Math.min(...xs), x1 = Math.max(...xs), y0 = Math.min(...ys), y1 = Math.max(...ys);
+  const sh = shape(a); const c0 = centroid(sh); if (!kids.length && inPoly(c0, sh)) return c0;
+  const xs = sh.map(p => p[0]), ys = sh.map(p => p[1]); const x0 = Math.min(...xs), x1 = Math.max(...xs), y0 = Math.min(...ys), y1 = Math.max(...ys);
   const segs = [...walls(a), ...kids.flatMap(walls)]; let best = c0, bd = -1;
   for (let i = 1; i < 16; i++) for (let j = 1; j < 16; j++) { const pt = [x0 + (x1 - x0) * i / 16, y0 + (y1 - y0) * j / 16];
-    if (!inPoly(pt, a.pts) || kids.some(k => inPoly(pt, k.pts))) continue; const d = Math.min(...segs.map(([, p, q]) => segDist(pt, p, q))); if (d > bd) { bd = d; best = pt; } }
+    if (!inPoly(pt, sh) || kids.some(k => inPoly(pt, shape(k)))) continue; const d = Math.min(...segs.map(([, p, q]) => segDist(pt, p, q))); if (d > bd) { bd = d; best = pt; } }
   return best;
 }
 /* ---------- areas: net of areas drawn inside them ---------- */
 function computeAreas() {
   const A = SK.sk.areas.filter(a => a.closed && a.pts.length > 2);
-  const gross = new Map(A.map(a => [a.id, polyArea(a.pts)]));
+  const SH = new Map(A.map(a => [a.id, shape(a)])); const gross = new Map(A.map(a => [a.id, polyArea(SH.get(a.id))]));
   const parent = new Map();
   A.forEach(c => {
     let best = null;
     A.forEach(p => { if (p === c || p.level !== c.level) return; if (gross.get(p.id) <= gross.get(c.id)) return;
-      if (c.pts.every(v => insideOrOn(v, p.pts)) && inPoly(centroid(c.pts), p.pts)) { if (!best || gross.get(p.id) < gross.get(best.id)) best = p; } });
+      if (SH.get(c.id).every(v => insideOrOn(v, SH.get(p.id))) && inPoly(centroid(SH.get(c.id)), SH.get(p.id))) { if (!best || gross.get(p.id) < gross.get(best.id)) best = p; } });
     if (best) parent.set(c.id, best.id);
   });
   const net = new Map(gross);
@@ -1793,19 +1818,22 @@ function draw() {
   SK.sk.areas.filter(a => a.level !== SK.level && a.pts.length > 1).forEach(a => { ctx.setLineDash([6, 6]); ctx.strokeStyle = 'rgba(120,120,160,.35)'; ctx.lineWidth = 1.5; pathOf(a); ctx.stroke(); ctx.setLineDash([]); });
   const mine = SK.sk.areas.filter(a => a.level === SK.level);
   // fills (largest first so inner areas show on top)
-  [...mine].filter(a => a.closed).sort((a, b) => polyArea(b.pts) - polyArea(a.pts)).forEach(a => { ctx.fillStyle = BUCKETS[defOf(a.def).bucket].fill; pathOf(a); ctx.fill(); });
+  [...mine].filter(a => a.closed).sort((a, b) => polyArea(shape(b)) - polyArea(shape(a))).forEach(a => { ctx.fillStyle = BUCKETS[defOf(a.def).bucket].fill; pathOf(a); ctx.fill(); });
   mine.forEach(a => {
     const selA = SK.sel && SK.sel.type === 'area' && SK.sel.id === a.id, drawing = SK.drawId === a.id;
     ctx.strokeStyle = selA ? '#ff7a00' : '#111'; ctx.lineWidth = selA ? 4 : drawing ? 3 : 2.2; pathOf(a); ctx.stroke();
     walls(a).forEach(([i, p, q]) => { const selW = SK.sel && SK.sel.type === 'wall' && SK.sel.id === a.id && SK.sel.i === i;
-      if (selW) { ctx.strokeStyle = '#ff7a00'; ctx.lineWidth = 6; ctx.beginPath(); ctx.moveTo(...toScr(p)); ctx.lineTo(...toScr(q)); ctx.stroke(); }
-      dimText(a, p, q, selW); });
+      if (selW) { ctx.strokeStyle = '#ff7a00'; ctx.lineWidth = 6; ctx.beginPath(); wallPath(a, i, p, q).forEach((v, k) => k ? ctx.lineTo(...toScr(v)) : ctx.moveTo(...toScr(v))); ctx.stroke(); }
+      dimText(a, p, q, selW, i); });
     if (a.closed && a.pts.length > 2) { const [cx, cy] = toScr(labelPoint(a, C)); const d = defOf(a.def); const sf = Math.round(C.net.get(a.id) || 0);
       ctx.fillStyle = '#111'; ctx.textAlign = 'center'; ctx.font = `700 ${Math.max(11, Math.min(17, s * 0.9))}px system-ui,sans-serif`; ctx.fillText(a.name || d.name, cx, cy - 4);
       ctx.font = `${Math.max(10, Math.min(15, s * 0.8))}px system-ui,sans-serif`; ctx.fillText(sf.toLocaleString() + ' sf' + (C.net.get(a.id) !== C.gross.get(a.id) ? ' net' : ''), cx, cy + 14); }
     if (drawing) { a.pts.forEach((p, i) => { const [X, Y] = toScr(p); ctx.fillStyle = i === 0 ? '#0fa84a' : '#111'; ctx.beginPath(); ctx.arc(X, Y, i === 0 ? 7 : 4, 0, 7); ctx.fill(); });
       const last = a.pts[a.pts.length - 1]; if (last) { const [X, Y] = toScr(last); ctx.strokeStyle = '#ff7a00'; ctx.lineWidth = 3; ctx.beginPath(); ctx.arc(X, Y, 11, 0, 7); ctx.stroke(); } }
   });
+  if (SK.dial && curArea() && curArea().pts.length) { const last = curArea().pts[curArea().pts.length - 1]; const L = parseFloat(SK.entry) || 6; const t = SK.dial.ang * Math.PI / 180;
+    const [X1, Y1] = toScr(last), [X2, Y2] = toScr([last[0] + Math.cos(t) * L, last[1] - Math.sin(t) * L]); ctx.setLineDash([10, 6]); ctx.strokeStyle = '#ff7a00'; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(X1, Y1); ctx.lineTo(X2, Y2); ctx.stroke(); ctx.setLineDash([]);
+    ctx.fillStyle = '#c75b00'; ctx.font = '700 14px system-ui'; ctx.textAlign = 'left'; ctx.fillText((parseFloat(SK.entry) ? L.toFixed(1) + "' @ " : '') + SK.dial.ang.toFixed(1) + '°', X2 + 8, Y2 - 8); }
   // labels
   SK.sk.labels.filter(l => l.level === SK.level).forEach(l => { const [X, Y] = toScr([l.x, l.y]); const sel = SK.sel && SK.sel.type === 'label' && SK.sel.id === l.id;
     ctx.font = `600 ${Math.max(11, Math.min(16, s * 0.85))}px system-ui,sans-serif`; ctx.textAlign = 'center'; const w = ctx.measureText(l.text).width;
@@ -1814,12 +1842,14 @@ function draw() {
   // north arrow + scale
   ctx.fillStyle = '#111'; ctx.font = '700 13px system-ui'; ctx.textAlign = 'left'; ctx.fillText(`Grid ${step} ft · ${LEVEL_NAME(SK.level)}`, 12, H - 12);
 }
-function pathOf(a) { ctx.beginPath(); a.pts.forEach((p, i) => { const [X, Y] = toScr(p); i ? ctx.lineTo(X, Y) : ctx.moveTo(X, Y); }); if (a.closed) ctx.closePath(); }
-function dimText(a, p, q, hi) {
+function pathOf(a) { ctx.beginPath(); shape(a).forEach((p, i) => { const [X, Y] = toScr(p); i ? ctx.lineTo(X, Y) : ctx.moveTo(X, Y); }); if (a.closed) ctx.closePath(); }
+function dimText(a, p, q, hi, i) {
   const L = wallLen(p, q); if (L < 0.05) return; const [X1, Y1] = toScr(p), [X2, Y2] = toScr(q); const px = Math.hypot(X2 - X1, Y2 - Y1); if (px < 28 && !hi) return;
+  const ar = i !== undefined && arcOf(a, i), g = ar && arcGeom(p, q, ar.h, ar.side);
+  if (g) { const [bx, by] = toScr(g.B); ctx.save(); ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.font = `${hi ? 700 : 500} ${hi ? 15 : 12}px system-ui,sans-serif`; ctx.fillStyle = hi ? '#c75b00' : '#333'; const t = '⌒ ' + r1(g.len).toFixed(1) + "'"; const w = ctx.measureText(t).width; ctx.fillStyle = 'rgba(255,255,255,.85)'; ctx.fillRect(bx - w / 2 - 3, by - 9, w + 6, 18); ctx.fillStyle = hi ? '#c75b00' : '#333'; ctx.fillText(t, bx, by); ctx.restore(); return; }
   let nx = -(Y2 - Y1) / px, ny = (X2 - X1) / px; // left normal; push the text outside the area
   const mx = (X1 + X2) / 2, my = (Y1 + Y2) / 2;
-  if (a.closed && a.pts.length > 2) { const tp = toFt(mx + nx * 6, my + ny * 6); if (inPoly(tp, a.pts)) { nx = -nx; ny = -ny; } }
+  if (a.closed && a.pts.length > 2) { const tp = toFt(mx + nx * 6, my + ny * 6); if (inPoly(tp, shape(a))) { nx = -nx; ny = -ny; } }
   let ang = Math.atan2(Y2 - Y1, X2 - X1); if (ang > Math.PI / 2 || ang < -Math.PI / 2) ang += Math.PI;
   ctx.save(); ctx.translate(mx + nx * 12, my + ny * 12); ctx.rotate(ang); ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
   ctx.font = `${hi ? 700 : 500} ${hi ? 15 : 12}px system-ui,sans-serif`; ctx.fillStyle = hi ? '#c75b00' : '#333'; ctx.fillText(r1(L).toFixed(1) + "'", 0, 0); ctx.restore();
@@ -1827,8 +1857,8 @@ function dimText(a, p, q, hi) {
 
 /* ---------- hit testing ---------- */
 function hitWall(ft) { const tol = 16 / SK.view.s; let best = null;
-  SK.sk.areas.filter(a => a.level === SK.level).forEach(a => walls(a).forEach(([i, p, q]) => { const d = segDist(ft, p, q); if (d < tol && (!best || d < best.d)) best = { d, id: a.id, i }; })); return best; }
-function hitArea(ft) { const cand = SK.sk.areas.filter(a => a.level === SK.level && a.closed && a.pts.length > 2 && inPoly(ft, a.pts)); cand.sort((a, b) => polyArea(a.pts) - polyArea(b.pts)); return cand[0] || null; }
+  SK.sk.areas.filter(a => a.level === SK.level).forEach(a => walls(a).forEach(([i, p, q]) => { const d = pathDist(ft, wallPath(a, i, p, q)); if (d < tol && (!best || d < best.d)) best = { d, id: a.id, i }; })); return best; }
+function hitArea(ft) { const cand = SK.sk.areas.filter(a => a.level === SK.level && a.closed && a.pts.length > 2 && inPoly(ft, shape(a))); cand.sort((a, b) => polyArea(shape(a)) - polyArea(shape(b))); return cand[0] || null; }
 function hitLabel(ft) { const tol = 22 / SK.view.s; return SK.sk.labels.find(l => l.level === SK.level && Math.abs(l.x - ft[0]) < tol * 2 && Math.abs(l.y - ft[1]) < tol) || null; }
 function snapPoint(ft) { // existing corners first, then the 0.5 ft grid
   const tol = 18 / SK.view.s; let best = null;
@@ -1854,8 +1884,8 @@ function closeArea() { const a = curArea(); if (!a) return; if (a.pts.length < 3
 function finishArea(closed) {
   const a = curArea(); if (!a) return; a.closed = closed && a.pts.length >= 3;
   if (a.pts.length < 2) SK.sk.areas = SK.sk.areas.filter(x => x !== a);
-  const sf = a.closed ? Math.round(computeAreas().net.get(a.id) || polyArea(a.pts)) : 0;
-  SK.drawId = null; SK.mode = 'select'; SK.sel = a.closed ? { type: 'area', id: a.id } : null; SK.entry = '';
+  const sf = a.closed ? Math.round(computeAreas().net.get(a.id) || polyArea(shape(a))) : 0;
+  SK.drawId = null; SK.mode = 'select'; SK.sel = a.closed ? { type: 'area', id: a.id } : null; SK.entry = ''; SK.dial = null; SK.curve = null;
   if (a.closed) { toast(`${a.name || defOf(a.def).name} closed: ${sf.toLocaleString()} sf`); snapshotVersion('area'); }
   markDirty(); draw(); renderPanel();
 }
@@ -1865,7 +1895,7 @@ function backspace() {
   if (!a && SK.sel && SK.sel.type === 'area') { a = SK.sk.areas.find(x => x.id === SK.sel.id); if (a) { pushUndo(); a.closed = false; SK.drawId = a.id; SK.mode = 'draw'; SK.sel = null; toast('Area reopened – keep pressing ⌫ to remove walls'); markDirty(); draw(); renderPanel(); return; } }
   if (!a) return toast('Nothing to remove');
   pushUndo();
-  if (a.closed) a.closed = false; else if (a.pts.length > 1) a.pts.pop(); else { SK.sk.areas = SK.sk.areas.filter(x => x !== a); SK.drawId = null; SK.mode = 'select'; toast('Area removed'); }
+  if (a.closed) a.closed = false; else if (a.pts.length > 1) { a.pts.pop(); if (a.arcs) { delete a.arcs[a.pts.length - 1]; delete a.arcs[a.pts.length]; } } else { SK.sk.areas = SK.sk.areas.filter(x => x !== a); SK.drawId = null; SK.mode = 'select'; toast('Area removed'); }
   markDirty(); draw(); renderPanel();
 }
 function setWallLength(a, i, L) {
@@ -1875,7 +1905,7 @@ function setWallLength(a, i, L) {
   for (let j = i + 1; j < n; j++) a.pts[j] = [r3(a.pts[j][0] + dx), r3(a.pts[j][1] + dy)];
   markDirty(); draw(); renderPanel();
 }
-function rotateArea(a, deg) { pushUndo(); a.pts = rotatePts(a.pts, deg, centroid(a.pts)); SK.sk.labels.filter(l => l.level === a.level && a.closed && inPoly([l.x, l.y], a.pts)).forEach(() => {}); markDirty(); draw(); }
+function rotateArea(a, deg) { pushUndo(); a.pts = rotatePts(a.pts, deg, centroid(shape(a))); SK.sk.labels.filter(l => l.level === a.level && a.closed && inPoly([l.x, l.y], a.pts)).forEach(() => {}); markDirty(); draw(); }
 function rotateAll(deg) {
   if (!SK.sk.areas.length) return; pushUndo(); const pts = SK.sk.areas.flatMap(a => a.pts).concat(SK.sk.labels.map(l => [l.x, l.y]));
   const c = [(Math.min(...pts.map(p => p[0])) + Math.max(...pts.map(p => p[0]))) / 2, (Math.min(...pts.map(p => p[1])) + Math.max(...pts.map(p => p[1]))) / 2];
@@ -1897,7 +1927,7 @@ function onDown(e) {
   const ft = toFt(e.offsetX, e.offsetY);
   let drag = null;
   if (SK.mode === 'select' && SK.sel) {
-    if (SK.sel.type === 'area') { const a = SK.sk.areas.find(x => x.id === SK.sel.id); if (a && a.closed && inPoly(ft, a.pts)) drag = { kind: 'area', a, start: ft, orig: a.pts.map(p => [...p]) }; }
+    if (SK.sel.type === 'area') { const a = SK.sk.areas.find(x => x.id === SK.sel.id); if (a && a.closed && inPoly(ft, shape(a))) drag = { kind: 'area', a, start: ft, orig: a.pts.map(p => [...p]) }; }
     if (SK.sel.type === 'label') { const l = SK.sk.labels.find(x => x.id === SK.sel.id); if (l && hitLabel(ft) === l) drag = { kind: 'label', l, start: ft, orig: [l.x, l.y] }; }
   }
   gest = { type: 'tap', x: e.offsetX, y: e.offsetY, t: Date.now(), moved: false, v: { ...SK.view }, drag, undoPushed: false };
@@ -1932,9 +1962,66 @@ function tapAt(ft) {
   if (SK.mode === 'start') return placeStart(ft);
   if (SK.mode === 'label') { pushUndo(); const l = { id: uid(), text: SK.pendingLabel, x: r3(ft[0]), y: r3(ft[1]), level: SK.level }; SK.sk.labels.push(l); SK.mode = 'select'; SK.sel = { type: 'label', id: l.id }; markDirty(); draw(); renderPanel(); return; }
   if (SK.mode === 'draw') return; // while drawing, taps do nothing (walls come from the keypad)
+  SK.curve = null;
   const l = hitLabel(ft); if (l) { SK.sel = { type: 'label', id: l.id }; draw(); renderPanel(); return; }
   const w = hitWall(ft); if (w) { SK.sel = { type: 'wall', id: w.id, i: w.i }; draw(); renderPanel(); return; }
   const a = hitArea(ft); SK.sel = a ? { type: 'area', id: a.id } : null; draw(); renderPanel();
+}
+
+/* ---------- angle dial ---------- */
+const norm360 = d => ((d % 360) + 360) % 360, norm180 = d => { d = norm360(d); return d > 180 ? d - 360 : d; };
+function lastDir() { const a = curArea(); if (!a || a.pts.length < 2) return null; const p = a.pts[a.pts.length - 2], q = a.pts[a.pts.length - 1]; return norm360(Math.atan2(-(q[1] - p[1]), q[0] - p[0]) * 180 / Math.PI); }
+function dialSvg() {
+  const R = 92, c = 105; let t = '';
+  for (let d = 0; d < 360; d += 15) { const r0 = d % 45 === 0 ? R - 16 : R - 9, a = d * Math.PI / 180; t += `<line x1="${c + r0 * Math.cos(a)}" y1="${c - r0 * Math.sin(a)}" x2="${c + R * Math.cos(a)}" y2="${c - R * Math.sin(a)}" stroke="#000" stroke-width="${d % 90 === 0 ? 3 : d % 45 === 0 ? 2 : 1}"/>`; }
+  const lab = [[0, '→'], [90, '↑'], [180, '←'], [270, '↓'], [45, '45'], [135, '135'], [225, '225'], [315, '315']].map(([d, l]) => { const a = d * Math.PI / 180, r = R - 30; return `<text x="${c + r * Math.cos(a)}" y="${c - r * Math.sin(a) + 6}" text-anchor="middle" font-size="${l.length > 1 ? 13 : 18}" font-weight="700">${l}</text>`; }).join('');
+  return `<svg id="skDial" viewBox="0 0 210 210" width="180" height="180" style="touch-action:none"><circle cx="${c}" cy="${c}" r="${R}" fill="#fff" stroke="#000" stroke-width="3"/>${t}${lab}
+    <line id="dlLast" x1="${c}" y1="${c}" x2="${c}" y2="${c}" stroke="#888" stroke-width="3" stroke-dasharray="6 5"/>
+    <line id="dlNeedle" x1="${c}" y1="${c}" x2="${c}" y2="${c}" stroke="#ff7a00" stroke-width="5" stroke-linecap="round"/><circle id="dlKnob" r="13" fill="#ff7a00" stroke="#000" stroke-width="2"/><circle cx="${c}" cy="${c}" r="5" fill="#000"/></svg>`;
+}
+function dialUpdate() {
+  const d = SK.dial; if (!d) return; const c = 105, R = 92, a = d.ang * Math.PI / 180; const n = document.getElementById('dlNeedle'), k = document.getElementById('dlKnob'), l = document.getElementById('dlLast'), o = document.getElementById('dlRead');
+  if (n) { n.setAttribute('x2', c + (R - 8) * Math.cos(a)); n.setAttribute('y2', c - (R - 8) * Math.sin(a)); k.setAttribute('cx', c + (R - 8) * Math.cos(a)); k.setAttribute('cy', c - (R - 8) * Math.sin(a)); }
+  const ld = lastDir(); if (l) { if (ld === null) { l.setAttribute('x2', c); l.setAttribute('y2', c); } else { const b = ld * Math.PI / 180; l.setAttribute('x2', c + 60 * Math.cos(b)); l.setAttribute('y2', c - 60 * Math.sin(b)); } }
+  if (o) { const rel = ld === null ? null : norm180(d.ang - ld); o.innerHTML = `<b>${(Math.round(d.ang * 10) / 10).toFixed(1)}°</b>${rel === null ? '' : `<span>${Math.abs(rel) < 0.05 ? 'straight on' : `turn ${Math.abs(Math.round(rel * 10) / 10)}° ${rel > 0 ? 'left' : 'right'}`}</span>`}`; }
+  draw();
+}
+function dialSet(ang) { SK.dial.ang = Math.round(norm360(ang) * 2) / 2; SK.lastAngle = SK.dial.ang; dialUpdate(); }
+function wireDial(root) {
+  const svg = root.querySelector('#skDial'); if (!svg) return; let down = false;
+  const at = e => { const r = svg.getBoundingClientRect(); const x = (e.clientX - r.left) / r.width * 210 - 105, y = (e.clientY - r.top) / r.height * 210 - 105; let d = norm360(Math.atan2(-y, x) * 180 / Math.PI); const m = Math.round(d / 45) * 45; if (Math.abs(d - m) < 1.5) d = m; dialSet(d); };
+  svg.addEventListener('pointerdown', e => { down = true; svg.setPointerCapture(e.pointerId); at(e); }); svg.addEventListener('pointermove', e => { if (down) at(e); }); svg.addEventListener('pointerup', () => { down = false; }); svg.addEventListener('pointercancel', () => { down = false; });
+  root.querySelectorAll('[data-dstep]').forEach(b => b.onclick = () => dialSet(SK.dial.ang + +b.dataset.dstep));
+  root.querySelectorAll('[data-dturn]').forEach(b => b.onclick = () => { const ld = lastDir(); if (ld === null) return toast('Draw one wall first – turns are measured from the last wall'); dialSet(ld + +b.dataset.dturn); });
+  const go = root.querySelector('#dlDraw'); if (go) go.onclick = () => { const t = SK.dial.ang * Math.PI / 180; addWall(Math.cos(t), -Math.sin(t)); };
+  const cl = root.querySelector('#dlClose'); if (cl) cl.onclick = () => { SK.dial = null; renderPanel(); draw(); };
+  dialUpdate();
+}
+/* ---------- curved wall editing (live, on the panel) ---------- */
+function startCurve(a, i) {
+  const n = a.pts.length; const q = i === n - 1 ? a.pts[0] : a.pts[i + 1]; if (!q) return;
+  pushUndo(); a.arcs = a.arcs || {};
+  if (!a.arcs[i]) { const p = a.pts[i], c = wallLen(p, q); const h = Math.round(Math.min(c / 4, 4) * 10) / 10 || 1;
+    let side = 'L'; if (a.pts.length >= 3) { const g = arcGeom(p, q, h, 'L'); if (g && inPoly(g.B, a.pts)) side = 'R'; } a.arcs[i] = { h, side }; }
+  SK.curve = { id: a.id, i }; SK.sel = { type: 'wall', id: a.id, i }; markDirty(); renderPanel(); draw();
+}
+function curveCtx() {
+  const a = SK.sk.areas.find(x => x.id === SK.curve.id); const i = SK.curve.i; const ar = a && a.arcs && a.arcs[i]; if (!ar) { SK.curve = null; return ''; }
+  const p = a.pts[i], q = i === a.pts.length - 1 ? a.pts[0] : a.pts[i + 1]; const g = arcGeom(p, q, ar.h, ar.side);
+  return `<div class="ctx curve"><b>Curved wall</b> · straight distance end to end ${r1(wallLen(p, q)).toFixed(1)}' · bow depth at the middle
+    <button class="btn sm" data-cstep="-0.5">−0.5</button><button class="btn sm" data-cstep="-0.1">−0.1</button><input id="cvH" class="txt num" inputmode="decimal" value="${ar.h.toFixed(1)}"><button class="btn sm" data-cstep="0.1">+0.1</button><button class="btn sm" data-cstep="0.5">+0.5</button> ft
+    <button class="btn sm" id="cvFlip">⇄ Bulge other way</button><button class="btn sm" id="cvHalf">Half circle</button><button class="btn sm" id="cvStraight">Make straight</button><button class="btn primary sm" id="cvDone">Done</button>
+    <span class="help">Arc length ${g ? r1(g.len).toFixed(1) : '–'}' · radius ${g ? r1(g.R).toFixed(1) : '–'}'</span></div>`;
+}
+function wireCurve(root) {
+  const a = SK.sk.areas.find(x => x.id === SK.curve.id); if (!a) return; const i = SK.curve.i; const ar = a.arcs[i];
+  const p = a.pts[i], q = i === a.pts.length - 1 ? a.pts[0] : a.pts[i + 1]; const set = h => { ar.h = Math.max(0.1, Math.round(h * 10) / 10); markDirty(); renderPanel(); draw(); };
+  root.querySelectorAll('[data-cstep]').forEach(b => b.onclick = () => set(ar.h + +b.dataset.cstep));
+  const inp = root.querySelector('#cvH'); inp.onchange = () => { const v = parseFloat(inp.value); if (v > 0) set(v); };
+  root.querySelector('#cvFlip').onclick = () => { ar.side = ar.side === 'L' ? 'R' : 'L'; markDirty(); renderPanel(); draw(); };
+  root.querySelector('#cvHalf').onclick = () => set(wallLen(p, q) / 2);
+  root.querySelector('#cvStraight').onclick = () => { delete a.arcs[i]; SK.curve = null; markDirty(); renderPanel(); draw(); };
+  root.querySelector('#cvDone').onclick = () => { SK.curve = null; renderPanel(); draw(); };
 }
 
 /* ---------- UI ---------- */
@@ -1982,13 +2069,14 @@ function renderPanel() {
   const el = document.getElementById('skPanel'); if (!el) return;
   const a = curArea(); const sel = SK.sel;
   let ctxHtml = '';
-  if (SK.mode === 'start') ctxHtml = `<div class="ctx"><b>Tap the starting corner</b> of the ${esc(defOf(SK.pendingDef).name)} on the grid (it snaps to existing corners). <button class="btn sm" id="skCancelStart">Cancel</button></div>`;
+  if (SK.curve) ctxHtml = curveCtx();
+  if (ctxHtml) {} else if (SK.mode === 'start') ctxHtml = `<div class="ctx"><b>Tap the starting corner</b> of the ${esc(defOf(SK.pendingDef).name)} on the grid (it snaps to existing corners). <button class="btn sm" id="skCancelStart">Cancel</button></div>`;
   else if (SK.mode === 'label') ctxHtml = `<div class="ctx"><b>Tap where “${esc(SK.pendingLabel)}” goes.</b> <button class="btn sm" id="skCancelLabel">Cancel</button></div>`;
-  else if (a) ctxHtml = `<div class="ctx"><b>Drawing: ${esc(a.name || defOf(a.def).name)}</b> · ${a.pts.length - 1} wall${a.pts.length === 2 ? '' : 's'} · type a length, then an arrow. It closes by itself when you get back to the green start.</div>`;
+  else if (a) ctxHtml = `<div class="ctx"><b>Drawing: ${esc(a.name || defOf(a.def).name)}</b> · ${a.pts.length - 1} wall${a.pts.length === 2 ? '' : 's'} · type a length, then an arrow. It closes by itself when you get back to the green start.${a.pts.length >= 2 ? ' <button class="btn sm" id="skCurveLast">⌒ Curve last wall</button>' : ''}</div>`;
   else if (sel && sel.type === 'wall') { const ar = SK.sk.areas.find(x => x.id === sel.id); const ws = walls(ar).find(w => w[0] === sel.i); const L = ws ? r1(wallLen(ws[1], ws[2])) : 0; const closing = ar.closed && sel.i === ar.pts.length - 1;
     ctxHtml = `<div class="ctx"><b>Wall: ${L.toFixed(1)} ft</b>${closing ? ' · closing wall (adjusts by itself)' : ''} of ${esc(ar.name || defOf(ar.def).name)}
       ${closing ? '' : `<label class="inl">New length <input id="skWallLen" class="txt num" inputmode="decimal" value="${L.toFixed(1)}"></label><button class="btn primary sm" id="skWallSet">Apply</button>`}
-      <button class="btn sm" id="skWallArea">Select the area</button></div>`; }
+      <button class="btn sm" id="skCurve">⌒ ${ar.arcs && ar.arcs[sel.i] ? 'Edit curve' : 'Curve this wall'}</button><button class="btn sm" id="skWallArea">Select the area</button></div>`; }
   else if (sel && sel.type === 'area') { const ar = SK.sk.areas.find(x => x.id === sel.id); const C = computeAreas(); const d = defOf(ar.def);
     ctxHtml = `<div class="ctx"><b>${esc(ar.name || d.name)}</b> · ${Math.round(C.net.get(ar.id) || 0).toLocaleString()} sf${C.net.get(ar.id) !== C.gross.get(ar.id) ? ` net (${Math.round(C.gross.get(ar.id)).toLocaleString()} gross)` : ''} · ${esc(BUCKETS[d.bucket].l)}
       <button class="btn sm" id="skAreaProps">Properties</button><button class="btn sm" id="skRot90">↻ 90°</button><button class="btn sm" id="skRotX">Rotate…</button><button class="btn sm" id="skReopen">Edit walls</button><button class="btn sm danger" id="skDel">Delete</button>
@@ -2003,9 +2091,13 @@ function renderPanel() {
       <div class="entry" id="skEntry">${ent ? esc(ent) + ' ft' : 'length'}</div>
       ${['7','8','9','4','5','6','1','2','3','.','0'].map(k => `<button class="key" data-k="${k}">${k}</button>`).join('')}<button class="key bs" id="skBs" title="Backspace: digit, then last wall">⌫</button>
     </div>
-    <div class="arrows">
+    ${SK.dial ? `<div class="dialbox">${dialSvg()}<div class="dlread" id="dlRead"></div>
+      <div class="dlrow"><button class="btn primary" id="dlDraw">Draw wall</button><button class="btn" id="dlClose">Arrows</button></div>
+      <div class="dlrow"><button class="btn sm" data-dstep="-1">−1°</button><button class="btn sm" data-dstep="-0.5">−½°</button><button class="btn sm" data-dstep="0.5">+½°</button><button class="btn sm" data-dstep="1">+1°</button></div>
+      <div class="dlrow turns"><span class="help">Turn left</span><button class="btn sm" data-dturn="22.5">22.5</button><button class="btn sm" data-dturn="45">45</button><button class="btn sm" data-dturn="90">90</button></div>
+      <div class="dlrow turns"><span class="help">Turn right</span><button class="btn sm" data-dturn="-22.5">22.5</button><button class="btn sm" data-dturn="-45">45</button><button class="btn sm" data-dturn="-90">90</button></div></div>` : `<div class="arrows">
       ${[['↖', -1, -1], ['↑', 0, -1], ['↗', 1, -1], ['←', -1, 0], ['ang'], ['→', 1, 0], ['↙', -1, 1], ['↓', 0, 1], ['↘', 1, 1]].map(x => x[0] === 'ang' ? `<button class="key arr angle" id="skAngle">∠ Angle</button>` : `<button class="key arr" data-dx="${x[1]}" data-dy="${x[2]}">${x[0]}</button>`).join('')}
-    </div>
+    </div>`}
     <div class="acts">
       <button class="btn primary big" id="skNew">+ New area</button>
       <button class="btn big" id="skClose" ${a ? '' : 'disabled'}>Close area</button>
@@ -2018,8 +2110,7 @@ function renderPanel() {
   el.querySelectorAll('[data-k]').forEach(b => b.onclick = () => { const k = b.dataset.k; if (k === '.' && SK.entry.includes('.')) return; if (SK.entry.includes('.') && SK.entry.split('.')[1].length >= 1) return toast('Lengths are to 0.1 ft'); SK.entry += k; renderPanel(); });
   el.querySelectorAll('[data-dx]').forEach(b => b.onclick = () => addWall(+b.dataset.dx, +b.dataset.dy));
   on('skBs', backspace);
-  on('skAngle', () => { if (!curArea()) return toast('Start an area first'); if (!(parseFloat(SK.entry) > 0)) return toast('Type the wall length first, then ∠ Angle');
-    askNumber('Wall angle', '0° = right →, 90° = up ↑, 180° = left ←, 270° = down ↓ (any angle, e.g. 22.5 or 135).', SK.lastAngle ?? '', v => { SK.angle = v; SK.lastAngle = v; angleWall(); }); });
+  on('skAngle', () => { if (!curArea()) return toast('Start an area first'); const ld = lastDir(); SK.dial = { ang: SK.lastAngle ?? (ld ?? 0) }; renderPanel(); });
   on('skNew', openDefs); on('skClose', closeArea); on('skDone', () => finishArea(false)); on('skLabel', () => openLabels()); on('skFit', () => { fitView(); draw(); });
   on('skCancelStart', () => { SK.mode = 'select'; renderPanel(); }); on('skCancelLabel', () => { SK.mode = 'select'; renderPanel(); });
   on('skWallSet', () => { const v = parseFloat(document.getElementById('skWallLen').value); const ar = SK.sk.areas.find(x => x.id === sel.id); setWallLength(ar, sel.i, Math.round(v * 10) / 10); });
@@ -2030,6 +2121,9 @@ function renderPanel() {
   on('skReopen', () => { const ar = SK.sk.areas.find(x => x.id === sel.id); pushUndo(); ar.closed = false; SK.drawId = ar.id; SK.mode = 'draw'; SK.sel = null; toast('Press ⌫ to remove walls, or add walls with the keypad'); markDirty(); draw(); renderPanel(); });
   on('skDel', () => { if (confirm('Delete this ' + (sel.type === 'label' ? 'label' : 'area') + '?')) deleteSel(); });
   on('skLblEdit', () => openLabels(SK.sk.labels.find(x => x.id === sel.id)));
+  on('skCurve', () => startCurve(SK.sk.areas.find(x => x.id === sel.id), sel.i));
+  on('skCurveLast', () => { const ca = curArea(); startCurve(ca, ca.pts.length - 2); });
+  if (SK.dial) wireDial(el); if (SK.curve) wireCurve(el);
   renderLevels();
 }
 
@@ -2140,17 +2234,17 @@ function openMyTypes() {
 /* ---------- sketch image (all levels side by side + area table) ---------- */
 async function sketchImageBlob() {
   const used = [...new Set(SK.sk.areas.filter(a => a.pts.length > 1).map(a => a.level))].sort((a, b) => LEVELS.indexOf(a) - LEVELS.indexOf(b)); if (!used.length) return null;
-  const bb = lv => { const p = SK.sk.areas.filter(a => a.level === lv).flatMap(a => a.pts).concat(SK.sk.labels.filter(l => l.level === lv).map(l => [l.x, l.y])); const xs = p.map(q => q[0]), ys = p.map(q => q[1]); return { x0: Math.min(...xs), y0: Math.min(...ys), w: Math.max(1, Math.max(...xs) - Math.min(...xs)), h: Math.max(1, Math.max(...ys) - Math.min(...ys)) }; };
+  const bb = lv => { const p = SK.sk.areas.filter(a => a.level === lv).flatMap(a => shape(a)).concat(SK.sk.labels.filter(l => l.level === lv).map(l => [l.x, l.y])); const xs = p.map(q => q[0]), ys = p.map(q => q[1]); return { x0: Math.min(...xs), y0: Math.min(...ys), w: Math.max(1, Math.max(...xs) - Math.min(...xs)), h: Math.max(1, Math.max(...ys) - Math.min(...ys)) }; };
   const boxes = used.map(bb); const gap = 14; const totalW = boxes.reduce((t, b) => t + b.w, 0) + gap * (used.length - 1); const maxH = Math.max(...boxes.map(b => b.h));
   const W = 2400, tableW = 620, pad = 90; const s = Math.min((W - tableW - pad * 2) / totalW, 1500 / maxH, 40); const Hh = Math.max(900, maxH * s + pad * 2 + 60);
   const c = document.createElement('canvas'); c.width = W; c.height = Math.round(Hh); const g = c.getContext('2d'); g.fillStyle = '#fff'; g.fillRect(0, 0, W, c.height);
   const C = computeAreas(); let xoff = pad;
   used.forEach((lv, k) => { const b = boxes[k]; const T = ([x, y]) => [xoff + (x - b.x0) * s, pad + 60 + (y - b.y0) * s];
     g.fillStyle = '#111'; g.font = '700 30px system-ui,sans-serif'; g.textAlign = 'left'; g.fillText(LEVEL_NAME(lv) + (below(lv) ? ' (below grade)' : ''), xoff, pad + 20);
-    SK.sk.areas.filter(a => a.level === lv && a.closed).sort((a, b2) => polyArea(b2.pts) - polyArea(a.pts)).forEach(a => { g.fillStyle = BUCKETS[defOf(a.def).bucket].fill; g.beginPath(); a.pts.forEach((p, i) => i ? g.lineTo(...T(p)) : g.moveTo(...T(p))); g.closePath(); g.fill(); });
-    SK.sk.areas.filter(a => a.level === lv).forEach(a => { g.strokeStyle = '#111'; g.lineWidth = 3; g.beginPath(); a.pts.forEach((p, i) => i ? g.lineTo(...T(p)) : g.moveTo(...T(p))); if (a.closed) g.closePath(); g.stroke();
-      walls(a).forEach(([, p, q]) => { const L = wallLen(p, q); if (L * s < 40) return; const [X1, Y1] = T(p), [X2, Y2] = T(q); const px = Math.hypot(X2 - X1, Y2 - Y1); let nx = -(Y2 - Y1) / px, ny = (X2 - X1) / px; const mx = (X1 + X2) / 2, my = (Y1 + Y2) / 2;
-        if (a.closed) { const tp = [b.x0 + (mx + nx * 8 - xoff) / s, b.y0 + (my + ny * 8 - pad - 60) / s]; if (inPoly(tp, a.pts)) { nx = -nx; ny = -ny; } }
+    SK.sk.areas.filter(a => a.level === lv && a.closed).sort((a, b2) => polyArea(shape(b2)) - polyArea(shape(a))).forEach(a => { g.fillStyle = BUCKETS[defOf(a.def).bucket].fill; g.beginPath(); shape(a).forEach((p, i) => i ? g.lineTo(...T(p)) : g.moveTo(...T(p))); g.closePath(); g.fill(); });
+    SK.sk.areas.filter(a => a.level === lv).forEach(a => { g.strokeStyle = '#111'; g.lineWidth = 3; g.beginPath(); shape(a).forEach((p, i) => i ? g.lineTo(...T(p)) : g.moveTo(...T(p))); if (a.closed) g.closePath(); g.stroke();
+      walls(a).forEach(([wi, p, q]) => { const L = wallLen(p, q); if (L * s < 40) return; const arg = arcOf(a, wi) && arcGeom(p, q, a.arcs[wi].h, a.arcs[wi].side); if (arg) { const [bx, by] = T(arg.B); g.save(); g.textAlign = 'center'; g.textBaseline = 'middle'; g.font = '22px system-ui,sans-serif'; g.fillStyle = '#222'; g.fillText('⌒ ' + r1(arg.len).toFixed(1) + "'", bx, by); g.restore(); return; } const [X1, Y1] = T(p), [X2, Y2] = T(q); const px = Math.hypot(X2 - X1, Y2 - Y1); let nx = -(Y2 - Y1) / px, ny = (X2 - X1) / px; const mx = (X1 + X2) / 2, my = (Y1 + Y2) / 2;
+        if (a.closed) { const tp = [b.x0 + (mx + nx * 8 - xoff) / s, b.y0 + (my + ny * 8 - pad - 60) / s]; if (inPoly(tp, shape(a))) { nx = -nx; ny = -ny; } }
         let ang = Math.atan2(Y2 - Y1, X2 - X1); if (ang > Math.PI / 2 || ang < -Math.PI / 2) ang += Math.PI; g.save(); g.translate(mx + nx * 18, my + ny * 18); g.rotate(ang); g.textAlign = 'center'; g.textBaseline = 'middle'; g.font = '22px system-ui,sans-serif'; g.fillStyle = '#222'; g.fillText(r1(L).toFixed(1) + "'", 0, 0); g.restore(); });
       if (a.closed) { const [cx, cy] = T(labelPoint(a, C)); g.textAlign = 'center'; g.fillStyle = '#111'; g.font = '700 24px system-ui,sans-serif'; g.fillText(a.name || defOf(a.def).name, cx, cy - 4); g.font = '22px system-ui,sans-serif'; g.fillText(Math.round(C.net.get(a.id)).toLocaleString() + ' sf', cx, cy + 24); } });
     SK.sk.labels.filter(l => l.level === lv).forEach(l => { const [X, Y] = T([l.x, l.y]); g.textAlign = 'center'; g.font = '600 22px system-ui,sans-serif'; g.fillStyle = '#1a3a8a'; g.fillText(l.text, X, Y + 6); });
