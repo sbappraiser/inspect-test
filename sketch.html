@@ -354,10 +354,14 @@ html.testcopy .skbar, html.testcopy .bar { border-bottom-color: #7b2cbf; }
 .dlrow { display: flex; flex-wrap: wrap; gap: 5px; justify-content: center; align-items: center; } .dlrow .btn.sm { min-height: 40px; padding: 4px 9px; }
 .ctx.curve input.txt { width: 80px; text-align: center; }
 .dialbox { gap: 4px; } .dlread { font-size: 20px; } .dlrow.turns .help { width: 92px; text-align: right; font-weight: 700; white-space: nowrap; }
+.acts .two { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.scrolly.tall { max-height: 52vh; } .btn.room { background: #eef4ff; } .btn small { font-weight: 400; color: #555; margin-left: 4px; }
+.ver { font-size: 12px; color: #666; }
 
 </style></head><body>
 <div id="app"><p style="font:700 22px system-ui,sans-serif;padding:32px">Opening the sketch…</p></div>
 <script>
+const BUILD='1e-1012-0245';
 const UAD={"RoomType":[["Bedroom","Bedroom"],["BreakfastRoom","Breakfast Room"],["Den","Den"],["DiningRoom","Dining Room"],["FamilyRoom","Family Room"],["FullBathroom","Bath - Full"],["HalfBathroom","Bath - Half"],["Kitchen","Kitchen"],["LaundryRoom","Laundry Room"],["LivingRoom","Living Room"],["Loft","Loft"],["MediaRoom","Media Room"],["Mudroom","Mudroom"],["RecreationRoom","Recreation Room"],["Sunroom","Sunroom"],["UtilityRoom","Utility Room"],["WalkInPantry","Walk-In Pantry"],["Workshop","Workshop"],["Other","Other"]],"AmenityType":[["Airstrip","Airstrip"],["Beach","Beach"],["BoatRamp","Boat Ramp"],["BoatSlip","Boat Slip"],["BuildingMaintenance","Building Maintenance"],["BuiltInPool","Built-in Pool"],["BusinessCenter","Business Center"],["CaregiverServices","Caregiver Services"],["Clubhouse","Clubhouse"],["ClubMembership","Club Membership"],["CommunityPier","Community Pier"],["ConciergeServiceCoordination","Concierge Service Coordination"],["Cooling","Cooling"],["Deck","Deck"],["DoorAttendant","Door Attendant"],["ElectricVehicleChargingStation","EV Station"],["Elevator","Elevator"],["FitnessArea","Fitness Area"],["GatedCommunity","Gated Community"],["GroundsMaintenance","Grounds Maintenance"],["Heating","Heating"],["IngroundPool","Inground Pool"],["IngroundSpa","Inground Spa"],["Lobby","Lobby"],["None","None"],["OngoingCleaningServices","Ongoing Cleaning Services"],["OutdoorRidingRing","Outdoor Riding Ring"],["OutdoorShower","Outdoor Shower"],["Patio","Patio"],["Playground","Playground"],["RecreationArea","Recreation Area"],["RegistrationServices","Registration Services"],["Sauna","Sauna"],["SharedLaundryFacilities","Shared Laundry Facilities"],["ShortTermRentalServices","Short Term Rental Services"],["SportsCourt","Sports Court"],["TelevisionOrInternetServices","Television or Internet Services"],["TrashRemoval","Trash Removal"],["UnitStorage","Unit Storage"],["WaterAccess","Water Access"],["WaterFrontage","Water Frontage"],["Other","Other"],["Fence","Fence"],["IrrigationSystem","Irrigation System"],["OutdoorFireplace","Outdoor Fireplace"],["OutdoorKitchen","Outdoor Kitchen"],["Balcony","Balcony"],["Gazebo","Gazebo"],["Porch","Porch"],["Portico","Portico"],["FireSuppressionSystem","Fire Suppression System"],["IndoorFireplace","Indoor Fireplace"],["MultipleZoneHeatingVentilationAndAirConditioning","Multi-Zone HVAC"],["SmartHomeSystem","Smart Home System"],["WholeHouseVentilation","Whole House Ventilation"],["WoodStove","Wood Stove"]],"FlooringType":[["Carpet","Carpet"],["CeramicTile","Ceramic Tile"],["EngineeredWood","Engineered Wood"],["FinishedConcrete","Finished Concrete"],["Hardwood","Hardwood"],["Laminate","Laminate"],["Marble","Marble"],["SubflooringOnly","Subflooring Only"],["Vinyl","Vinyl"],["Other","Other"]],"ViewType":[["Bay","Bay"],["Canal","Canal"],["CityStreet","City Street"],["Commercial","Commercial"],["Cove","Cove"],["Creek","Creek"],["GolfCourse","Golf Course"],["Gulf","Gulf"],["HighDensityResidential","High Density Residential"],["Highway","Highway"],["Industrial","Industrial"],["Lake","Lake"],["Marsh","Marsh"],["Mountain","Mountain"],["Ocean","Ocean"],["Park","Park"],["ParkingLot","Parking Lot"],["Pastoral","Pastoral"],["Pond","Pond"],["Reservoir","Reservoir"],["Residential","Residential"],["River","River"],["School","School"],["Skyline","Skyline"],["Sound","Sound"],["TrafficWallBarriers","Traffic Wall Barriers"],["Valley","Valley"],["Woods","Woods"],["Other","Other"]],"SiteInfluenceType":[["Agricultural","Agricultural"],["Airport","Airport"],["BusyRoadway","Busy Roadway"],["CommercialArea","Commercial Area"],["GolfCourse","Golf Course"],["GreenSpace","Green Space"],["HighDensityResidential","High Density Residential"],["HighPressureGasLine","High Pressure Gas Line"],["HistoricDistrict","Historic District"],["IndustrialArea","Industrial Area"],["LocalDistributionLine","Local Distribution Line"],["OilOrGasWell","Oil or Gas Well"],["OverheadElectricPowerTransmissionLine","Overhead Electric Power Transmission Line"],["Park","Park"],["PublicTransportationHub","Public Transportation Hub"],["RailLine","Rail Line"],["Residential","Residential"],["School","School"],["StormwaterRetention","Stormwater Retention"],["BodyOfWater","Body Of Water"],["Other","Other"]],"SiteFeatureType":[["None","None"],["CoastalBarrierResourcesSystem","Coastal Barrier Resources System"],["Drainage","Drainage"],["ExcessLand","Excess Land"],["Landlocked","Landlocked"],["Landscaping","Landscaping"],["RoadFrontage","Road Frontage"],["Shape","Shape"],["SoilSuitability","Soil Suitability"],["SurplusLand","Surplus Land"],["Topography","Topography"],["Wetlands","Wetlands"],["ZeroLotLine","Zero Lot Line"],["Other","Other"]],"TopographyType":[["Flat","Flat"],["Rocky","Rocky"],["Rolling","Rolling"],["Sloping","Sloping"],["Other","Other"]],"ArchitecturalDesignCategoryType":[["AFrame","A-Frame"],["Barn","Barn"],["BiLevel","Bi-Level"],["Bungalow","Bungalow"],["CapeCod","Cape Cod"],["Chalet","Chalet"],["Colonial","Colonial"],["Contemporary","Contemporary"],["Cottage","Cottage"],["Craftsman","Craftsman"],["EarthBerm","Earth / Berm"],["Farmhouse","Farmhouse"],["GeodesicDome","Geodesic Dome"],["Georgian","Georgian"],["Log","Log"],["Mediterranean","Mediterranean"],["Modern","Modern"],["NeoEclectic","Neo-Eclectic"],["RaisedRanch","Raised Ranch"],["Rambler","Rambler"],["Ranch","Ranch"],["Southwest","Southwest"],["Spanish","Spanish"],["SplitFoyerOrEntry","Split Foyer or Entry"],["SplitLevel","Split Level"],["Stilt","Stilt"],["Traditional","Traditional"],["Tudor","Tudor"],["Victorian","Victorian"],["Other","Other"]],"WallMaterialType":[["Adobe","Adobe"],["Aluminum","Aluminum"],["Asbestos","Asbestos"],["Brick","Brick"],["CementBoard","Cement Board"],["ConcreteBlock","Concrete Block"],["EngineeredWood","Engineered Wood"],["Glass","Glass"],["Log","Log"],["PouredConcrete","Poured Concrete"],["Steel","Steel"],["Stone","Stone"],["Stucco","Stucco"],["SyntheticStone","Synthetic Stone"],["SyntheticStucco","Synthetic Stucco"],["Vinyl","Vinyl"],["Wood","Wood"],["Other","Other"]],"RoofMaterialType":[["Asbestos","Asbestos"],["Asphalt","Asphalt"],["CeramicTile","Ceramic Tile"],["Clay","Clay"],["Composition","Composition"],["Concrete","Concrete"],["Copper","Copper"],["Metal","Metal"],["Rubber","Rubber"],["Slate","Slate"],["SolarShingles","Solar Shingles"],["Synthetic","Synthetic"],["TarAndGravel","Tar / Gravel"],["Wood","Wood"],["Other","Other"]],"FoundationType":[["Basement","Basement"],["CrawlSpace","Crawl Space"],["PostAndPier","Post and Pier"],["Runner","Runner"],["Slab","Slab"],["Other","Other"]],"FoundationMaterialType":[["Brick","Brick"],["ConcreteBlock","Concrete Block"],["Metal","Metal"],["PouredConcrete","Poured Concrete"],["Stone","Stone"],["Wood","Wood"],["Other","Other"]],"HeatingSystemType":[["Baseboard","Baseboard"],["Fireplace","Fireplace"],["ForcedWarmAir","Forced Warm Air"],["GravityAir","Gravity Air"],["MiniSplit","Mini Split"],["None","None"],["PassiveSolar","Passive Solar"],["Radiant","Radiant"],["Radiators","Radiators"],["Stove","Stove"],["Other","Other"]],"HeatingFuelType":[["Coal","Coal"],["Electric","Electric"],["Geothermal","Geothermal"],["NaturalGas","Natural Gas"],["Oil","Oil"],["Propane","Propane"],["Solar","Solar"],["Wood","Wood"],["Other","Other"]],"CoolingSystemType":[["Centralized","Centralized"],["Individual","Individual"],["Other","Other"]],"MechanicalSystemType":[["RadonMitigation","Radon Mitigation"],["SumpPump","Sump Pump"],["WaterHeater","Water Heater"],["WholeHouseWaterTreatment","Whole House Water Treatment"],["Other","Other"]],"CarStorageType":[["Carport","Carport"],["CommonCarport","Common Carport"],["Driveway","Driveway"],["Garage","Garage"],["OpenLot","Open Lot"],["ParkingGarage","Parking Garage"],["SharedDriveway","Shared Driveway"],["None","None"],["Other","Other"]],"CarStorageAttachmentType":[["Attached","Attached"],["BuiltIn","Built-in"],["Detached","Detached"]],"ImprovedSurfaceMaterialType":[["Asphalt","Asphalt"],["Brick","Brick"],["Cobblestone","Cobblestone"],["Concrete","Concrete"],["Dirt","Dirt"],["Gravel","Gravel"],["Other","Other"]],"OutbuildingType":[["Barn","Barn"],["Boathouse","Boathouse"],["Bunkhouse","Bunkhouse"],["EnclosedKennel","Enclosed Kennel"],["Greenhouse","Greenhouse"],["GuestHouse","Guest House"],["IndoorRidingArena","Indoor Riding Arena"],["ManufacturedHome","Manufactured Home"],["Office","Office"],["PoolHouse","Pool House"],["Shed","Shed"],["Silo","Silo"],["Stable","Stable"],["StandaloneADU","Standalone ADU"],["Studio","Studio"],["Workshop","Workshop"],["Other","Other"]],"FunctionalIssueType":[["CeilingHeight","Ceiling Height"],["FloorPlan","Floor Plan"],["NonConformity","Nonconformity"],["None","None"],["Overimprovement","Overimprovement"],["Underimprovement","Underimprovement"],["Other","Other"]],"DisasterMitigationFeatureType":[["EnclosedSoffits","Enclosed Soffits"],["FireResistantDecking","Fire Resistant Decking"],["FireResistantExteriorWalls","Fire Resistant Exterior Walls"],["FloodVents","Flood Vents"],["FortifiedRoof","Fortified Roof"],["FramingAnchorageOrBracing","Framing Anchorage or Bracing"],["ImpactResistantGlass","Impact Resistant Glass"],["ImpactResistantShingles","Impact Resistant Shingles"],["NoncombustiblePerimeter","Noncombustible Perimeter"],["None","None"],["StormShelter","Storm Shelter"],["StormShutters","Storm Shutters"],["WaterHeaterStrapping","Water Heater Strapping"],["Other","Other"]],"RenewableEnergyComponentType":[["Geothermal","Geothermal"],["Solar","Solar"],["WindTurbine","Wind Turbine"],["Other","Other"]],"RenewableEnergyComponentOwnershipType":[["Leased","Leased"],["Owned","Owned"],["PowerPurchaseAgreement","Power Purchase Agreement"],["Other","Other"]],"CeilingStyleType":[["Barrel","Barrel"],["Beams","Beams"],["Cathedral","Cathedral"],["Coffered","Coffered"],["Drop","Drop"],["Flat","Flat"],["Tray","Tray"],["Vaulted","Vaulted"],["Other","Other"]],"ApproximateCeilingHeightType":[["EightFeet","8 Ft."],["LessThanSevenFeet","Less than 7 feet"],["NineFeet","9 Ft."],["SevenFeet","7 Ft."],["TenFeetAndAbove","10 or more feet"],["TwoOrMoreStories","2 or more stories"]],"RoomUpdateStatusType":[["FullyUpdated","Fully Updated"],["NotUpdated","Not Updated"],["PartiallyUpdated","Partially Updated"]],"RoomUpdatedTimeframeType":[["FiveToTenYears","5-10 years"],["LessThanOneYear","Less than 1 year"],["OneToFiveYears","1-5 years"],["TenOrMoreYears","10 or more years"]],"RoomConditionStatusType":[["DamagedAndFunctional","Damaged and Functional"],["DamagedAndNonfunctional","Damaged and Nonfunctional"],["NewOrLikeNew","New or Like New"],["TypicalWearAndTear","Typical Wear and Tear"]],"DefectComponentLabelType":[["ExteriorWallsAndTrim","Exterior Walls and Trim"],["Foundation","Foundation"],["MechanicalSystem","Mechanical System"],["Roof","Roof"],["Windows","Windows"],["Other","Other"],["Flooring","Flooring"],["WallsAndCeiling","Walls and Ceiling"]],"DefectItemRecommendedActionType":[["Completion","Completion"],["Inspection","Inspection"],["None","None"],["Repair","Repair"]],"LevelType":[["BelowGradeFive","Level B5"],["BelowGradeFour","Level B4"],["BelowGradeOne","Level B1"],["BelowGradeThree","Level B3"],["BelowGradeTwo","Level B2"],["LevelEight","Level 8"],["LevelFive","Level 5"],["LevelFour","Level 4"],["LevelNine","Level 9"],["LevelOne","Level 1"],["LevelSeven","Level 7"],["LevelSix","Level 6"],["LevelTen","Level 10"],["LevelThree","Level 3"],["LevelTwo","Level 2"]],"GradeLevelType":[["AboveGrade","Above Grade"],["FullyBelowGrade","Below Grade"],["PartiallyBelowGrade","Partially Below Grade"]],"AccessType":[["ExteriorAccessOnly","Exterior Access Only"],["InteriorAccessOnly","Interior Access Only"],["InteriorAndExteriorAccess","Interior and Exterior Access"]],"UnitOccupancyType":[["OwnerOccupied","Owner"],["Tenant","Tenant"],["Vacant","Vacant"]],"AmenityMaterialType":[["Asphalt","Asphalt"],["Brick","Brick"],["Composite","Composite"],["Concrete","Concrete"],["Fiberglass","Fiberglass"],["Metal","Metal"],["NaturalStone","Natural Stone"],["Pavers","Pavers"],["Vinyl","Vinyl"],["Wood","Wood"],["Other","Other"]],"HazardZoneType":[["FEMASpecialFloodHazardArea","FEMA Special Flood Hazard Area"],["None","No Hazard Zone Noted"],["USGSLavaFlowZone","USGS Lava Flow Zone"],["Other","Other"]],"AccessibilityFeatureType":[["Appliances","Appliances"],["Auditory","Auditory"],["Bathtub","Bathtub"],["Cabinets","Cabinets"],["Counters","Counters"],["Doorways","Doorways"],["ElectricalSwitches","Electrical Switches"],["GrabBars","Grab Bars"],["Handrails","Handrails"],["Hardware","Hardware"],["Lighting","Lighting"],["None","None"],["Ramps","Ramps"],["Shower","Shower"],["Sink","Sink"],["Toilet","Toilet"],["Other","Other"]],"ValueMarketabilityImpactType":[["Adverse","Adverse"],["Beneficial","Beneficial"],["Neutral","Neutral"]],"ViewRangeType":[["Full","Full"],["Partial","Partial"],["Seasonal","Seasonal"],["Other","Other"]],"SiteInfluenceProximityType":[["Bordering","Bordering"],["Offsite","Offsite"],["Onsite","Onsite"]],"StreetAccessType":[["Alley","Alley"],["Arterial","Arterial Street"],["Collector","Collector Street"],["CulDeSac","Cul-de-sac"],["DeadEnd","Dead End"],["Local","Local Road"],["Rural","Rural Road"],["Other","Other"]],"PropertyPrimaryEntryExitMethodType":[["PedestrianOnlyAccess","Pedestrian Only Access"],["PrivateAirstrip","Private Airstrip"],["PrivateStreet","Private Street"],["PublicStreet","Public Street"],["Waterway","Waterway"],["Other","Other"]],"ConstructionMethodType":[["Container","Container"],["Manufactured","Manufactured"],["Modular","Modular"],["OnFrameModular","On-Frame Modular"],["SiteBuilt","Site Built"],["ThreeDimensionalPrintingTechnology","3D Technology"],["Other","Other"]],"AttachmentType":[["Attached","Attached"],["Detached","Detached"]],"FrontDoorApproximateElevationRangeType":[["EightToNineFeet","8-9 Ft."],["FiveToSixFeet","5-6 Ft."],["FourToFiveFeet","4-5 Ft."],["GroundLevel","Ground Level"],["NineToTenFeet","9-10 Ft."],["OneToTwoFeet","1-2 Ft."],["SevenToEightFeet","7-8 Ft."],["SixToSevenFeet","6-7 Ft."],["TenOrMoreFeet","10 or more feet"],["ThreeToFourFeet","3-4 Ft."],["TwoToThreeFeet","2-3 Ft."],["UpToOneFoot","Up to 1 foot"]],"ImprovementComponentConditionStatusType":[["DamagedAndFunctional","Damaged and Functional"],["DamagedAndNonfunctional","Damaged and Nonfunctional"],["NewOrLikeNew","New or Like New"],["NoFinish","No Finish"],["TypicalWearAndTear","Typical Wear and Tear"]],"OverallBathroomsUpdateStatusType":[["FullyUpdated","Fully Updated"],["ModeratelyUpdated","Moderately Updated"],["NotUpdated","Not Updated"],["SignificantlyUpdated","Significantly Updated"]],"OverallFlooringUpdateStatusType":[["FullyUpdated","Fully Updated"],["ModeratelyUpdated","Moderately Updated"],["NotUpdated","Not Updated"],["SignificantlyUpdated","Significantly Updated"]],"BelowGradeExteriorAccessType":[["CellarDoor","Cellar Door"],["WalkOut","Walk Out"],["WalkUp","Walk Up"],["Other","Other"]],"EnvironmentalConditionType":[["HazardousAboveGroundStorageTank","Hazardous Above Ground Storage Tank"],["HazardousSubstances","Hazardous Substances"],["Landfill","Landfill"],["None","None"],["Radon","Radon"],["SlushPit","Slush Pit"],["SoilContamination","Soil Contamination"],["SuperfundSite","Superfund Site"],["UndergroundStorageTank","Underground Storage Tank"],["WaterContamination","Water Contamination"],["Other","Other"]],"ConvertedAreaOriginalUseType":[["Garage","Garage"],["Patio","Patio"],["Porch","Porch"],["Other","Other"]],"ConvertedAreaFinishComparisonType":[["Inferior","Inferior"],["Similar","Similar"],["Superior","Superior"]],"RoofEstimatedAgeRangeType":[["LessThanOneYear","Less than 1 year"],["OneToTenYears","1-10 years"],["TenToTwentyYears","10-20 years"],["TwentyOrMoreYears","20 or more years"]],"SewerSystemType":[["Cesspool","Cesspool"],["Septic","Septic"],["Other","Other"]],"WaterSourceType":[["Cistern","Cistern"],["HauledWaterHoldingTank","Hauled Water Holding Tank"],["LakeOrSpring","Lake or Spring"],["Well","Well"],["Other","Other"]],"WaterWellType":[["Artesian","Artesian"],["Drilled","Drilled"],["Dug","Dug"],["Other","Other"]],"BodyOfWaterType":[["Bay","Bay"],["Canal","Canal"],["Cove","Cove"],["Creek","Creek"],["Gulf","Gulf"],["Lake","Lake"],["Marsh","Marsh"],["Ocean","Ocean"],["Pond","Pond"],["Reservoir","Reservoir"],["River","River"],["Sound","Sound"],["Other","Other"]],"WaterfrontFeatureType":[["Beach","Beach"],["BoatLift","Boat Lift"],["BoatRamp","Boat Ramp"],["BoatSlip","Boat Slip"],["Dock","Dock"],["None","None"],["Pier","Pier"],["Riprap","Riprap"],["SeawallOrBulkhead","Seawall or Bulkhead"],["Other","Other"]],"WaterAccessRightType":[["Deeded","Deeded Access"],["Permitted","By Permit"],["PrivatelyOwned","Privately Owned"],["Other","Other"]],"WaterAccessDepthType":[["DeepWater","Deep Water"],["NonNavigable","Non-Navigable"],["ShallowWater","Shallow Water"],["Other","Other"]],"BodyOfWaterProximityType":[["Bordering","Bordering"],["Offsite","Offsite"],["Onsite","Onsite"]],"UnitBelowGradeFinishComparisonType":[["Inferior","Inferior"],["Similar","Similar"],["Superior","Superior"]],"EncroachmentType":[["Building","Building"],["Driveway","Driveway"],["Fence","Fence"],["Overhang","Overhang"],["Other","Other"]],"EasementType":[["Conservation","Conservation"],["Drainage","Drainage"],["IngressOrEgress","Ingress / Egress"],["Utility","Utility"],["Other","Other"]],"RestrictionType":[["Age","Age"],["HistoricPreservation","Historic Preservation"],["Income","Income"],["LandUse","Land Use"],["Rental","Rental"],["SalePrice","Sale Price"],["Other","Other"]],"SiteZoningComplianceType":[["Illegal","Illegal"],["Legal","Legal"],["LegalNonConforming","Legal Nonconforming"],["NoZoning","No Zoning"]],"PropertyEstateType":[["FeeSimple","Fee Simple"],["Leasehold","Leasehold"],["Other","Other"]],"StructuralDesignType":[["Highrise","High-rise"],["Lowrise","Low-rise"],["Midrise","Mid-rise"],["RowhouseTownhouse","Rowhouse / Townhouse"],["SemiDetached","Semi-Detached"],["Other","Other"]],"SwimmingPoolFeatureType":[["Caged","Caged"],["Heated","Heated"],["Indoor","Indoor"],["Other","Other"]],"SiteDrainageReasonType":[["EvidenceOfErosion","Evidence of Erosion"],["ImproperGrading","Improper Grading"],["StandingWater","Standing Water"],["Other","Other"]]};
 
 /* ============================================================
@@ -423,7 +427,7 @@ const APPLIANCES = [
 ];
 const CITIES = opts('Santa Barbara','Goleta','Carpinteria','Summerland','Other');
 const ZIPS = ['93101','93103','93105','93108','93109','93110','93111','93117','93013','93067','Other'];
-const LEVELS_ALL = opts(['LevelOne','Level 1'],['LevelTwo','Level 2'],['LevelThree','Level 3'],['LevelFour','Level 4'],['LevelFive','Level 5'],['BelowGradeOne','Level B1'],['BelowGradeTwo','Level B2'],['BelowGradeThree','Level B3']);
+const LEVELS_ALL = opts(['LevelOne','Level 1'],['LevelTwo','Level 2'],['LevelThree','Level 3'],['LevelFour','Level 4'],['LevelFive','Level 5'],['LevelSix','Level 6'],['LevelSeven','Level 7'],['LevelEight','Level 8'],['LevelNine','Level 9'],['LevelTen','Level 10'],['BelowGradeOne','Level B1'],['BelowGradeTwo','Level B2'],['BelowGradeThree','Level B3'],['BelowGradeFour','Level B4'],['BelowGradeFive','Level B5']);
 const ROOM_TYPES = ['Entry','Foyer','Living Room','Great Room','Family Room','Dining Room','Dining Area','Breakfast Room','Nook','Sitting Room / Area','Den','Office','Study','Library',
   'Recreation Room','Game Room','Media Room','Theater','Music Room / Studio','Art Studio','Butler\'s Pantry','Walk-In Pantry','China Room','Flower Room','Wrapping Room','Laundry Room','Mudroom',
   'Dog Grooming Room','Stylist / Glam Room','Massage Room','Spa Room','Gym','Sunroom','Loft','Bonus Room','Wine Cellar','Wine Room','Workshop','Storage','Mechanical','Utility Room','Hall','Other'];
@@ -790,6 +794,7 @@ function sketchItems(ins) {
   if (T.bgFin || T.bgNon || T.bgUnf) out.push({ label: 'Below grade (finished / nonstd. / unfinished)', value: [T.bgFin, T.bgNon, T.bgUnf].map(n => (n || 0).toLocaleString()).join(' / ') + ' sf' });
   [...(T.gar || []), ...(T.out || []), ...(T.ob || []), ...(T.adu || []), ...(T.amen || [])].forEach(x => out.push({ label: x.name, value: f(x.sf) }));
   out.push({ label: 'Sketch updated', value: new Date(S.updated).toLocaleString() });
+  out.push({ label: 'Sketch image', value: !S.imageAt ? 'Not made yet – open the sketch and tap Back to inspection' : S.imageAt + 5000 < S.updated ? 'Older than the drawing – open the sketch and tap Back to refresh it' : 'Up to date' });
   return out;
 }
 function countItems(ins) {
@@ -1754,7 +1759,15 @@ function markDirty() { SK.dirty = true; clearTimeout(saveTimer); saveTimer = set
 async function saveSketch() {
   clearTimeout(saveTimer); if (!SK.sk) return;
   SK.sk.updated = Date.now(); SK.sk.view = SK.view; SK.sk.level = SK.level;
-  try { await DB.put('sketches', JSON.parse(JSON.stringify(SK.sk))); SK.dirty = false; setSaved(true); } catch (e) { setSaved(false); }
+  try { await DB.put('sketches', JSON.parse(JSON.stringify(SK.sk))); SK.dirty = false; setSaved(true); } catch (e) { setSaved(false); return; }
+  try { await pushTotals(); } catch (e) {}
+}
+async function pushTotals() { // keep the inspection's area totals current after every change
+  const ins = await DB.get('inspections', SK.ins.id); if (!ins) return;
+  const linked = syncRooms(ins);
+  ins.sketch = Object.assign({}, ins.sketch || {}, { updated: Date.now(), totals: totals(), areaCount: SK.sk.areas.filter(a => a.closed).length, labelIds: SK.sk.labels.map(l => l.id) });
+  ins.updated = Date.now(); await DB.put('inspections', ins); SK.ins = ins;
+  if (linked) { await DB.put('sketches', JSON.parse(JSON.stringify(SK.sk))); draw(); renderPanel(); }
 }
 function snapshotVersion(why) {
   const v = SK.sk.versions = SK.sk.versions || [];
@@ -1768,8 +1781,8 @@ async function saveLib() { try { await DB.put('sketches', SK.lib); } catch (e) {
 async function pushToInspection(withImage) {
   await saveSketch();
   const ins = await DB.get('inspections', SK.ins.id); if (!ins) return;
-  const T = totals();
-  ins.sketch = { updated: Date.now(), totals: T, areaCount: SK.sk.areas.filter(a => a.closed).length };
+  const T = totals(); syncRooms(ins);
+  ins.sketch = Object.assign({}, ins.sketch || {}, { labelIds: SK.sk.labels.map(l => l.id), updated: Date.now(), totals: T, areaCount: SK.sk.areas.filter(a => a.closed).length });
   if (withImage) {
     const blob = await sketchImageBlob(); if (blob) {
       const thumb = await blobThumb(blob);
@@ -1784,7 +1797,7 @@ async function pushToInspection(withImage) {
   ins.updated = Date.now();
   await DB.put('inspections', ins); SK.ins = ins;
 }
-function setSaved(ok) { const s = document.getElementById('skSaved'); if (s) { s.textContent = ok ? 'Saved ✓' : 'Not saved!'; s.classList.toggle('bad', !ok); } }
+function setSaved(ok) { const s = document.getElementById('skSaved'); if (s) { s.textContent = !DB.persistent ? 'NOT SAVED – storage closed' : ok ? 'Saved ✓ ' + new Date().toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }) : 'Not saved!'; s.classList.toggle('bad', !ok || !DB.persistent); } }
 
 /* ---------- undo ---------- */
 function pushUndo() { SK.undo.push(JSON.stringify({ a: SK.sk.areas, l: SK.sk.labels })); if (SK.undo.length > 60) SK.undo.shift(); SK.redo = []; }
@@ -1834,11 +1847,15 @@ function draw() {
   if (SK.dial && curArea() && curArea().pts.length) { const last = curArea().pts[curArea().pts.length - 1]; const L = parseFloat(SK.entry) || 6; const t = SK.dial.ang * Math.PI / 180;
     const [X1, Y1] = toScr(last), [X2, Y2] = toScr([last[0] + Math.cos(t) * L, last[1] - Math.sin(t) * L]); ctx.setLineDash([10, 6]); ctx.strokeStyle = '#ff7a00'; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(X1, Y1); ctx.lineTo(X2, Y2); ctx.stroke(); ctx.setLineDash([]);
     ctx.fillStyle = '#c75b00'; ctx.font = '700 14px system-ui'; ctx.textAlign = 'left'; ctx.fillText((parseFloat(SK.entry) ? L.toFixed(1) + "' @ " : '') + SK.dial.ang.toFixed(1) + '°', X2 + 8, Y2 - 8); }
+  if (SK.dragPrev) { const d = SK.dragPrev; const [X1, Y1] = toScr(d.from), [X2, Y2] = toScr(d.pt); ctx.strokeStyle = '#ff7a00'; ctx.lineWidth = 4; ctx.beginPath(); ctx.moveTo(X1, Y1); ctx.lineTo(X2, Y2); ctx.stroke();
+    const L = wallLen(d.from, d.pt); ctx.font = '700 20px system-ui'; ctx.textAlign = 'left'; const t = `${r1(L).toFixed(1)}'${d.snap === 'corner' ? ' → corner' : d.snap === '45' ? ' · ' + Math.round(d.ang) + '°' : ''}`; const w = ctx.measureText(t).width;
+    ctx.fillStyle = 'rgba(255,255,255,.9)'; ctx.fillRect(X2 + 12, Y2 - 34, w + 12, 28); ctx.fillStyle = '#c75b00'; ctx.fillText(t, X2 + 18, Y2 - 13); }
+  if (SK.cursor) { const [X, Y] = toScr(SK.cursor); ctx.strokeStyle = '#d00'; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(X - 16, Y); ctx.lineTo(X + 16, Y); ctx.moveTo(X, Y - 16); ctx.lineTo(X, Y + 16); ctx.stroke(); ctx.beginPath(); ctx.arc(X, Y, 8, 0, 7); ctx.stroke(); }
   // labels
   SK.sk.labels.filter(l => l.level === SK.level).forEach(l => { const [X, Y] = toScr([l.x, l.y]); const sel = SK.sel && SK.sel.type === 'label' && SK.sel.id === l.id;
     ctx.font = `600 ${Math.max(11, Math.min(16, s * 0.85))}px system-ui,sans-serif`; ctx.textAlign = 'center'; const w = ctx.measureText(l.text).width;
     if (sel) { ctx.fillStyle = 'rgba(255,122,0,.18)'; ctx.fillRect(X - w / 2 - 6, Y - 14, w + 12, 22); }
-    ctx.fillStyle = '#1a3a8a'; ctx.fillText(l.text, X, Y + 2); });
+    ctx.fillStyle = l.room ? (l.room.gone ? '#999' : '#1a3a8a') : '#555'; if (!l.room) ctx.font = `italic 500 ${Math.max(11, Math.min(15, s * 0.8))}px system-ui,sans-serif`; ctx.fillText(l.text + (l.room && l.room.gone ? ' (removed)' : ''), X, Y + 2); });
   // north arrow + scale
   ctx.fillStyle = '#111'; ctx.font = '700 13px system-ui'; ctx.textAlign = 'left'; ctx.fillText(`Grid ${step} ft · ${LEVEL_NAME(SK.level)}`, 12, H - 12);
 }
@@ -1867,10 +1884,42 @@ function snapPoint(ft) { // existing corners first, then the 0.5 ft grid
   return [Math.round(ft[0] * 2) / 2, Math.round(ft[1] * 2) / 2];
 }
 
+/* ---------- corners, cursor and centring ---------- */
+const cornersHere = () => SK.sk.areas.filter(a => a.level === SK.level).flatMap(a => a.pts);
+function nearCorner(ft, px) { const tol = px / SK.view.s; let best = null; cornersHere().forEach(p => { const d = Math.hypot(p[0] - ft[0], p[1] - ft[1]); if (d < tol && (!best || d < best.d)) best = { d, p }; }); return best && best.p; }
+function jumpCorner() { // nearest corner to the cursor; press again for the next nearest
+  if (!SK.cursor) return toast('Tap the sketch to drop the cursor first');
+  const from = SK.cursorOrig || SK.cursor; const list = [...new Map(cornersHere().map(p => [p[0] + ',' + p[1], p])).values()].sort((a, b) => Math.hypot(a[0] - from[0], a[1] - from[1]) - Math.hypot(b[0] - from[0], b[1] - from[1]));
+  if (!list.length) return toast('No corners on this level yet');
+  SK.cursorOrig = from; SK.jumpIdx = SK.cursorJumped ? (SK.jumpIdx + 1) % Math.min(list.length, 6) : 0; SK.cursorJumped = true;
+  SK.cursor = [...list[SK.jumpIdx]]; ensureVisible(SK.cursor); draw(); renderPanel();
+}
+function setCursor(ft) { SK.cursor = [Math.round(ft[0] * 10) / 10, Math.round(ft[1] * 10) / 10]; SK.cursorOrig = null; SK.cursorJumped = false; SK.jumpIdx = 0; }
+function ensureVisible(pt) { const [X, Y] = toScr(pt); const W = cv.clientWidth, H = cv.clientHeight; if (X < 40 || Y < 40 || X > W - 40 || Y > H - 40) centreOn(pt); }
+function centreOn(pt) { SK.view = { ...SK.view, ox: cv.clientWidth / 2 - pt[0] * SK.view.s, oy: cv.clientHeight / 2 - pt[1] * SK.view.s }; saveViewSoon(); draw(); }
+function centreNow() {
+  const a = curArea(); if (a && a.pts.length) return centreOn(a.pts[a.pts.length - 1]);
+  if (SK.cursor) return centreOn(SK.cursor);
+  if (SK.sel && (SK.sel.type === 'area' || SK.sel.type === 'wall')) { const ar = SK.sk.areas.find(x => x.id === SK.sel.id); if (ar) return centreOn(centroid(shape(ar))); }
+  if (SK.sel && SK.sel.type === 'label') { const l = SK.sk.labels.find(x => x.id === SK.sel.id); if (l) return centreOn([l.x, l.y]); }
+  fitView(); draw();
+}
+function dragEnd(from, ft) { // where a dragged wall ends: corners first, then 45° directions, lengths to 0.1 ft
+  const c = nearCorner(ft, 16); if (c && (c[0] !== from[0] || c[1] !== from[1])) return { pt: [...c], snap: 'corner' };
+  const dx = ft[0] - from[0], dy = ft[1] - from[1]; let L = Math.round(Math.hypot(dx, dy) * 10) / 10; let ang = Math.atan2(-dy, dx) * 180 / Math.PI;
+  const m = Math.round(ang / 45) * 45; let snap = ''; if (Math.abs(ang - m) < 4) { ang = m; snap = '45'; }
+  const t = ang * Math.PI / 180; return { pt: [from[0] + Math.cos(t) * L, from[1] - Math.sin(t) * L], L, ang: norm360(ang), snap };
+}
+
 /* ---------- actions ---------- */
 const curArea = () => SK.sk.areas.find(a => a.id === SK.drawId);
-function startArea(defId) { SK.mode = 'start'; SK.pendingDef = defId; SK.sel = null; renderPanel(); toast('Tap the starting corner'); }
-function placeStart(ft) { pushUndo(); const p = snapPoint(ft); const a = { id: uid(), def: SK.pendingDef, level: SK.level, pts: [p], closed: false }; SK.sk.areas.push(a); SK.drawId = a.id; SK.mode = 'draw'; markDirty(); draw(); renderPanel(); }
+function startArea(defId) { SK.mode = 'start'; SK.pendingDef = defId; SK.sel = null; SK.cursor = null; renderPanel(); draw(); }
+function placeStart(ft, exact) { pushUndo(); const p = exact ? [r3(ft[0]), r3(ft[1])] : snapPoint(ft); SK.lastDef = SK.pendingDef; SK.cursor = null; const a = { id: uid(), def: SK.pendingDef, level: SK.level, pts: [p], closed: false }; SK.sk.areas.push(a); SK.drawId = a.id; SK.mode = 'draw'; markDirty(); draw(); renderPanel(); }
+function addWallTo(pt) {
+  const a = curArea(); if (!a) return; pushUndo(); a.pts.push([r3(pt[0]), r3(pt[1])]); SK.entry = '';
+  if (a.pts.length >= 4 && Math.hypot(a.pts[a.pts.length - 1][0] - a.pts[0][0], a.pts[a.pts.length - 1][1] - a.pts[0][1]) < 0.06) { a.pts.pop(); finishArea(true); return; }
+  markDirty(); draw(); renderPanel();
+}
 function addWall(dx, dy) {
   const a = curArea(); if (!a) return toast('Tap “New area” first');
   const L = parseFloat(SK.entry); if (!(L > 0)) return toast('Type the wall length first');
@@ -1925,6 +1974,14 @@ function onDown(e) {
   cv.setPointerCapture(e.pointerId); ptrs.set(e.pointerId, [e.offsetX, e.offsetY]);
   if (ptrs.size === 2) { const [a, b] = [...ptrs.values()]; gest = { type: 'pinch', d: Math.hypot(a[0] - b[0], a[1] - b[1]), c: [(a[0] + b[0]) / 2, (a[1] + b[1]) / 2], v: { ...SK.view } }; return; }
   const ft = toFt(e.offsetX, e.offsetY);
+  const pen = e.pointerType === 'pen';
+  // drawing: press on the orange pen point (or anywhere with the Pencil) and drag to draw a wall
+  const cur = curArea();
+  if (SK.mode === 'draw' && cur) { const last = cur.pts[cur.pts.length - 1]; const [LX, LY] = toScr(last);
+    if (pen || Math.hypot(e.offsetX - LX, e.offsetY - LY) < 34) { gest = { type: 'drawdrag', from: last, x: e.offsetX, y: e.offsetY, moved: false }; return; } }
+  if (SK.mode === 'start') { const c = nearCorner(ft, 22); if (c || pen) { gest = { type: 'startdrag', at: c ? [...c] : snapPoint(ft), x: e.offsetX, y: e.offsetY, moved: false }; return; } }
+  if (SK.mode === 'select') { const c = nearCorner(ft, 18); if (c) { const g = { type: 'tap', x: e.offsetX, y: e.offsetY, t: Date.now(), moved: false, v: { ...SK.view }, drag: null, corner: [...c] };
+      g.hold = setTimeout(() => { if (gest === g && !g.moved) { gest = { type: 'startdrag', at: g.corner, x: g.x, y: g.y, moved: false, held: true }; longPressStart(g.corner); } }, 450); gest = g; return; } }
   let drag = null;
   if (SK.mode === 'select' && SK.sel) {
     if (SK.sel.type === 'area') { const a = SK.sk.areas.find(x => x.id === SK.sel.id); if (a && a.closed && inPoly(ft, shape(a))) drag = { kind: 'area', a, start: ft, orig: a.pts.map(p => [...p]) }; }
@@ -1937,8 +1994,12 @@ function onMove(e) {
   if (gest && gest.type === 'pinch' && ptrs.size >= 2) { const [a, b] = [...ptrs.values()]; const d = Math.hypot(a[0] - b[0], a[1] - b[1]); const c = [(a[0] + b[0]) / 2, (a[1] + b[1]) / 2];
     const s = Math.max(1.5, Math.min(120, gest.v.s * d / gest.d)); const k = s / gest.v.s;
     SK.view = { s, ox: c[0] - (gest.c[0] - gest.v.ox) * k, oy: c[1] - (gest.c[1] - gest.v.oy) * k }; draw(); return; }
+  if (gest && (gest.type === 'drawdrag' || gest.type === 'startdrag')) {
+    if (!gest.moved && Math.hypot(e.offsetX - gest.x, e.offsetY - gest.y) < 6) return;
+    if (gest.type === 'startdrag' && !gest.started) { if (!SK.pendingDef) return; placeStart(gest.at, true); gest.started = true; gest.from = gest.at; }
+    gest.moved = true; const r = dragEnd(gest.from, toFt(e.offsetX, e.offsetY)); SK.dragPrev = { from: gest.from, ...r }; draw(); return; }
   if (!gest || gest.type !== 'tap') return;
-  const dx = e.offsetX - gest.x, dy = e.offsetY - gest.y; if (!gest.moved && Math.hypot(dx, dy) < 8) return; gest.moved = true;
+  const dx = e.offsetX - gest.x, dy = e.offsetY - gest.y; if (!gest.moved && Math.hypot(dx, dy) < 8) return; gest.moved = true; if (gest.hold) clearTimeout(gest.hold);
   if (gest.drag) { const ft = toFt(e.offsetX, e.offsetY); const ddx = Math.round((ft[0] - gest.drag.start[0]) * 10) / 10, ddy = Math.round((ft[1] - gest.drag.start[1]) * 10) / 10;
     if (!gest.undoPushed) { pushUndo(); gest.undoPushed = true; }
     if (gest.drag.kind === 'area') gest.drag.a.pts = gest.drag.orig.map(([x, y]) => [r3(x + ddx), r3(y + ddy)]); else { gest.drag.l.x = r3(gest.drag.orig[0] + ddx); gest.drag.l.y = r3(gest.drag.orig[1] + ddy); }
@@ -1948,7 +2009,11 @@ function onMove(e) {
 function onUp(e) {
   ptrs.delete(e.pointerId);
   if (gest && gest.type === 'pinch') { if (!ptrs.size) gest = null; saveViewSoon(); return; }
-  if (!gest || gest.type !== 'tap') return; const g = gest; gest = null;
+  if (gest && (gest.type === 'drawdrag' || gest.type === 'startdrag')) { const g = gest; gest = null; const pv = SK.dragPrev; SK.dragPrev = null;
+    if (g.moved && pv && Math.hypot(pv.pt[0] - g.from[0], pv.pt[1] - g.from[1]) >= 0.3) { addWallTo(pv.pt); return; }
+    if (g.type === 'startdrag' && !g.started && !g.held) { setCursor(g.at); SK.cursor = [...g.at]; draw(); renderPanel(); return; } // tap on a corner in start mode = cursor on that corner
+    draw(); return; }
+  if (!gest || gest.type !== 'tap') return; const g = gest; gest = null; if (g.hold) clearTimeout(g.hold);
   if (g.moved) { if (g.drag) { snapAfterDrag(g.drag); markDirty(); } else saveViewSoon(); draw(); return; }
   tapAt(toFt(g.x, g.y));
 }
@@ -1958,14 +2023,18 @@ function snapAfterDrag(dr) { // a moved area snaps its corners onto a nearby cor
   if (best) dr.a.pts = dr.a.pts.map(([x, y]) => [r3(x + best.dx), r3(y + best.dy)]);
 }
 let viewTimer = null; function saveViewSoon() { clearTimeout(viewTimer); viewTimer = setTimeout(() => { SK.sk.view = SK.view; DB.put('sketches', JSON.parse(JSON.stringify(SK.sk))).catch(() => {}); }, 800); }
+function longPressStart(corner) { // hold a corner: new area of the last type starts there; drag to draw the first wall
+  if (SK.lastDef) { SK.pendingDef = SK.lastDef; SK.mode = 'start'; SK.sel = null; toast(`New ${defOf(SK.lastDef).name} from this corner – drag to draw`); renderPanel(); }
+  else { gest = null; setCursor(corner); SK.cursor = [...corner]; openDefs(true); }
+}
 function tapAt(ft) {
-  if (SK.mode === 'start') return placeStart(ft);
-  if (SK.mode === 'label') { pushUndo(); const l = { id: uid(), text: SK.pendingLabel, x: r3(ft[0]), y: r3(ft[1]), level: SK.level }; SK.sk.labels.push(l); SK.mode = 'select'; SK.sel = { type: 'label', id: l.id }; markDirty(); draw(); renderPanel(); return; }
+  if (SK.mode === 'start') { setCursor(snapPoint(ft)); draw(); renderPanel(); return; }
+  if (SK.mode === 'label') { placeLabel(SK.pendingLabel.text, SK.pendingLabel.room, ft); return; }
   if (SK.mode === 'draw') return; // while drawing, taps do nothing (walls come from the keypad)
   SK.curve = null;
   const l = hitLabel(ft); if (l) { SK.sel = { type: 'label', id: l.id }; draw(); renderPanel(); return; }
   const w = hitWall(ft); if (w) { SK.sel = { type: 'wall', id: w.id, i: w.i }; draw(); renderPanel(); return; }
-  const a = hitArea(ft); SK.sel = a ? { type: 'area', id: a.id } : null; draw(); renderPanel();
+  const a = hitArea(ft); SK.sel = a ? { type: 'area', id: a.id } : null; if (a) SK.cursor = null; else setCursor(ft); draw(); renderPanel();
 }
 
 /* ---------- angle dial ---------- */
@@ -2032,7 +2101,7 @@ function renderShell() {
   <header class="skbar">
     <button class="btn" id="skBack">‹ Back to inspection</button>
     <div class="sktitle"><b>${esc(p.fileName || 'Sketch')}</b><span>${esc([p.addr, p.unit].filter(Boolean).join(' '))}</span></div>
-    <span class="saved" id="skSaved">Saved ✓</span>
+    <span class="saved" id="skSaved">Saved ✓</span><span class="ver">v ${typeof BUILD !== 'undefined' ? BUILD : '?'}</span>
     <button class="btn" id="skUndo">↶ Undo</button><button class="btn" id="skRedo">↷</button>
     <button class="btn" id="skMenu">☰ More</button>
   </header>
@@ -2070,8 +2139,9 @@ function renderPanel() {
   const a = curArea(); const sel = SK.sel;
   let ctxHtml = '';
   if (SK.curve) ctxHtml = curveCtx();
-  if (ctxHtml) {} else if (SK.mode === 'start') ctxHtml = `<div class="ctx"><b>Tap the starting corner</b> of the ${esc(defOf(SK.pendingDef).name)} on the grid (it snaps to existing corners). <button class="btn sm" id="skCancelStart">Cancel</button></div>`;
-  else if (SK.mode === 'label') ctxHtml = `<div class="ctx"><b>Tap where “${esc(SK.pendingLabel)}” goes.</b> <button class="btn sm" id="skCancelLabel">Cancel</button></div>`;
+  if (ctxHtml) {} else if (SK.mode === 'start') ctxHtml = `<div class="ctx"><b>Starting corner for the ${esc(defOf(SK.pendingDef).name)}:</b> ${SK.cursor ? 'cursor dropped –' : 'tap to drop the cursor, or press on a corner and drag to draw the first wall.'}
+      ${SK.cursor ? `<button class="btn sm" id="skJump">⤓ Jump to nearest corner</button><button class="btn primary sm" id="skStartHere">Start here</button>` : ''}<button class="btn sm" id="skCancelStart">Cancel</button></div>`;
+  else if (SK.mode === 'label') ctxHtml = `<div class="ctx"><b>Tap where “${esc(SK.pendingLabel.text)}” goes.</b> <button class="btn sm" id="skCancelLabel">Cancel</button></div>`;
   else if (a) ctxHtml = `<div class="ctx"><b>Drawing: ${esc(a.name || defOf(a.def).name)}</b> · ${a.pts.length - 1} wall${a.pts.length === 2 ? '' : 's'} · type a length, then an arrow. It closes by itself when you get back to the green start.${a.pts.length >= 2 ? ' <button class="btn sm" id="skCurveLast">⌒ Curve last wall</button>' : ''}</div>`;
   else if (sel && sel.type === 'wall') { const ar = SK.sk.areas.find(x => x.id === sel.id); const ws = walls(ar).find(w => w[0] === sel.i); const L = ws ? r1(wallLen(ws[1], ws[2])) : 0; const closing = ar.closed && sel.i === ar.pts.length - 1;
     ctxHtml = `<div class="ctx"><b>Wall: ${L.toFixed(1)} ft</b>${closing ? ' · closing wall (adjusts by itself)' : ''} of ${esc(ar.name || defOf(ar.def).name)}
@@ -2082,8 +2152,11 @@ function renderPanel() {
       <button class="btn sm" id="skAreaProps">Properties</button><button class="btn sm" id="skRot90">↻ 90°</button><button class="btn sm" id="skRotX">Rotate…</button><button class="btn sm" id="skReopen">Edit walls</button><button class="btn sm danger" id="skDel">Delete</button>
       <span class="help">Drag it to move it.</span></div>`; }
   else if (sel && sel.type === 'label') { const l = SK.sk.labels.find(x => x.id === sel.id);
-    ctxHtml = `<div class="ctx"><b>Label: ${esc(l.text)}</b> <button class="btn sm" id="skLblEdit">Change text</button><button class="btn sm danger" id="skDel">Delete</button><span class="help">Drag it to move it.</span></div>`; }
-  else ctxHtml = `<div class="ctx muted">Tap a wall to change its length, tap an area for its properties. Two fingers to zoom and move.</div>`;
+    const lk = l.room && l.room.id && ((SK.ins.lists || {})[l.room.list] || []).find(x => x.id === l.room.id);
+    ctxHtml = `<div class="ctx"><b>${esc(l.text)}</b> · ${l.room ? (l.room.gone ? 'room was removed on the Interior tab' : lk ? 'linked to ' + esc(itemName(l.room.list, lk)) + ' on the Interior tab' : esc(roomWord(l.room)) + ' – added to the Interior tab when saved') : 'label only'} <button class="btn sm" id="skLblEdit">Change</button><button class="btn sm danger" id="skDel">Delete</button><span class="help">Drag it to move it.</span></div>`; }
+  else if (SK.cursor) ctxHtml = `<div class="ctx"><b>Cursor</b> <button class="btn sm" id="skJump">⤓ Jump to nearest corner</button><button class="btn sm" id="skNewHere">+ New area here</button><button class="btn sm" id="skLabelHere">Aa Label here</button><button class="btn sm" id="skCurOff">✕</button>
+      <span class="help">Press and hold a corner to start a new area there and drag the first wall.</span></div>`;
+  else ctxHtml = `<div class="ctx muted">Tap a wall to change its length, tap an area for its properties, tap empty space for the cursor. Two fingers to zoom and move.</div>`;
   const ent = SK.entry || '';
   el.innerHTML = ctxHtml + `
   <div class="pad">
@@ -2103,7 +2176,7 @@ function renderPanel() {
       <button class="btn big" id="skClose" ${a ? '' : 'disabled'}>Close area</button>
       <button class="btn big" id="skDone" ${a ? '' : 'disabled'}>Stop (leave open)</button>
       <button class="btn big" id="skLabel">Aa Label</button>
-      <button class="btn big" id="skFit">Fit to screen</button>
+      <div class="two"><button class="btn big" id="skCenter">◎ Center</button><button class="btn big" id="skFit">Fit all</button></div>
     </div>
   </div>`;
   const on = (id, fn) => { const b = document.getElementById(id); if (b) b.onclick = fn; };
@@ -2111,8 +2184,10 @@ function renderPanel() {
   el.querySelectorAll('[data-dx]').forEach(b => b.onclick = () => addWall(+b.dataset.dx, +b.dataset.dy));
   on('skBs', backspace);
   on('skAngle', () => { if (!curArea()) return toast('Start an area first'); const ld = lastDir(); SK.dial = { ang: SK.lastAngle ?? (ld ?? 0) }; renderPanel(); });
-  on('skNew', openDefs); on('skClose', closeArea); on('skDone', () => finishArea(false)); on('skLabel', () => openLabels()); on('skFit', () => { fitView(); draw(); });
-  on('skCancelStart', () => { SK.mode = 'select'; renderPanel(); }); on('skCancelLabel', () => { SK.mode = 'select'; renderPanel(); });
+  on('skNew', openDefs); on('skClose', closeArea); on('skDone', () => finishArea(false)); on('skLabel', () => openLabels()); on('skFit', () => { fitView(); draw(); }); on('skCenter', centreNow);
+  on('skJump', jumpCorner); on('skStartHere', () => placeStart(SK.cursor, true)); on('skCurOff', () => { SK.cursor = null; draw(); renderPanel(); });
+  on('skNewHere', () => openDefs(true)); on('skLabelHere', () => openLabels(null, SK.cursor));
+  on('skCancelStart', () => { SK.mode = 'select'; SK.cursor = null; renderPanel(); draw(); }); on('skCancelLabel', () => { SK.mode = 'select'; renderPanel(); });
   on('skWallSet', () => { const v = parseFloat(document.getElementById('skWallLen').value); const ar = SK.sk.areas.find(x => x.id === sel.id); setWallLength(ar, sel.i, Math.round(v * 10) / 10); });
   on('skWallArea', () => { SK.sel = { type: 'area', id: sel.id }; draw(); renderPanel(); });
   on('skAreaProps', () => openAreaProps(SK.sk.areas.find(x => x.id === sel.id)));
@@ -2138,14 +2213,16 @@ function defsHtml(q, pickAttr) {
   const groups = {}; allDefs().filter(d => !q || (d.name + ' ' + d.code).toLowerCase().includes(q)).forEach(d => (groups[d.grp] = groups[d.grp] || []).push(d));
   return Object.entries(groups).map(([g, ds]) => `<h4>${esc(g)}</h4><div class="grid-btns">${ds.map(d => `<button class="btn" ${pickAttr}="${esc(d.id)}"><small>${esc(d.code)}</small> ${esc(d.name)}</button>`).join('')}</div>`).join('') || '<p class="help">No match – add it as a new area type.</p>';
 }
-function openDefs() {
+function openDefs(atCursor) {
   if (curArea()) return toast('Close or stop the current area first');
+  const at = atCursor === true && SK.cursor ? [...SK.cursor] : null;
   openSheet(`<h3>New area – what is it?</h3><p class="help">Living areas count as above or below grade from the level you are on (${LEVEL_NAME(SK.level)}).</p>
     <input class="txt" id="skDefQ" placeholder="Search area types" autocomplete="off"><div id="skDefList">${defsHtml('', 'data-def')}</div>
     <div class="row"><button class="btn" id="skNewDef">+ New area type</button><button class="btn" data-close>Cancel</button></div>`, sh => {
-      const wire = () => sh.querySelectorAll('[data-def]').forEach(b => b.onclick = () => { closeSheet(); startArea(b.dataset.def); });
+      const go = id => { if (at) { SK.pendingDef = id; placeStart(at, true); toast('Started at the cursor – type a length and an arrow, or drag from the orange point'); } else startArea(id); };
+      const wire = () => sh.querySelectorAll('[data-def]').forEach(b => b.onclick = () => { closeSheet(); go(b.dataset.def); });
       sh.querySelector('#skDefQ').oninput = e => { sh.querySelector('#skDefList').innerHTML = defsHtml(e.target.value.trim().toLowerCase(), 'data-def'); wire(); }; wire();
-      sh.querySelector('#skNewDef').onclick = () => newDefSheet(id => startArea(id)); });
+      sh.querySelector('#skNewDef').onclick = () => newDefSheet(id => go(id)); });
 }
 function newDefSheet(then, preset) {
   openSheet(`<h3>New area type</h3><p class="help">Your name is printed on the sketch. The bucket decides which UAD total the square footage goes into.</p>
@@ -2174,16 +2251,87 @@ function openAreaProps(a) {
       sh.querySelector('#apSave').onclick = () => { pushUndo(); a.name = sh.querySelector('#apName').value.trim() || undefined; a.def = pick; if (lv !== a.level) { a.level = lv; SK.level = lv; } closeSheet(); markDirty(); draw(); renderPanel(); };
     });
 }
-function openLabels(editing) {
-  openSheet(`<h3>${editing ? 'Change label' : 'Add a label'}</h3><input class="txt" id="lbQ" placeholder="Search or type a new label" autocomplete="off">
-    <div id="lbList" class="grid-btns scrolly"></div><div class="row"><button class="btn primary" id="lbUse">Use what I typed (and save it)</button><button class="btn" data-close>Cancel</button></div>`, sh => {
+/* ---------- room labels: the same rooms as the inspection's Interior tab ---------- */
+const ROOM_WORDS = [
+  [/^(bed|bedroom|bedroom \d+|primary|primary suite|primary bedroom|guest suite|suite|guest room)$/i, { list: 'bedrooms' }],
+  [/^(1\/2|1\/2 bath|half bath|powder|powder room)$/i, { list: 'baths', kind: 'HalfBathroom' }],
+  [/^(bath|bath \d+|full bath|primary bath|pool bath|guest bath)$/i, { list: 'baths', kind: 'FullBathroom' }],
+  [/^kitchen( \d+)?$/i, { list: 'kitchens' }], [/^wet bar$/i, { list: 'wetbars' }],
+  [/^(living|living room)$/i, { list: 'rooms', type: 'Living Room' }], [/^(family|family room)$/i, { list: 'rooms', type: 'Family Room' }],
+  [/^(dining|dining room)$/i, { list: 'rooms', type: 'Dining Room' }], [/^(b-fast|breakfast|breakfast room|nook)$/i, { list: 'rooms', type: 'Breakfast Room' }],
+  [/^(rec\.?|recreation|recreation room|game room)$/i, { list: 'rooms', type: 'Recreation Room' }], [/^(media|media room|theater)$/i, { list: 'rooms', type: 'Media Room' }],
+  [/^(laundry|lndry|laundry room)$/i, { list: 'rooms', type: 'Laundry Room' }], [/^(mud room|mudroom)$/i, { list: 'rooms', type: 'Mudroom' }],
+  [/^(pantry|pntry|walk-in pantry)$/i, { list: 'rooms', type: 'Walk-In Pantry' }], [/^butler'?s( pantry)?$/i, { list: 'rooms', type: "Butler's Pantry" }],
+  [/^(sitting|sitting room)$/i, { list: 'rooms', type: 'Sitting Room / Area' }], [/^gym$/i, { list: 'rooms', type: 'Gym' }], [/^loft$/i, { list: 'rooms', type: 'Loft' }],
+  [/^den$/i, { list: 'rooms', type: 'Den' }], [/^office$/i, { list: 'rooms', type: 'Office' }], [/^study$/i, { list: 'rooms', type: 'Study' }], [/^library$/i, { list: 'rooms', type: 'Library' }],
+];
+const ROOM_KINDS = () => [['Bedroom', { list: 'bedrooms' }], ['Full Bath', { list: 'baths', kind: 'FullBathroom' }], ['Half Bath', { list: 'baths', kind: 'HalfBathroom' }], ['Kitchen', { list: 'kitchens' }], ['Wet Bar', { list: 'wetbars' }],
+  ...ROOM_TYPES.filter(t => t !== 'Other').map(t => [t, { list: 'rooms', type: t }]), ...((SK.lib.customRooms || []).map(t => [t, { list: 'rooms', type: 'Other', name: t }]))];
+function roomFor(text) {
+  const k = (SK.lib.labelKinds || {})[text]; if (k === 'label') return null; if (k) return { ...k };
+  const hit = ROOM_WORDS.find(([rx]) => rx.test(text.trim())); if (hit) return { ...hit[1] };
+  const t = ROOM_TYPES.find(x => x !== 'Other' && x.toLowerCase() === text.trim().toLowerCase()); if (t) return { list: 'rooms', type: t };
+  if ((SK.lib.customRooms || []).includes(text)) return { list: 'rooms', type: 'Other', name: text };
+  return null;
+}
+const roomWord = r => !r ? 'label only' : r.list === 'bedrooms' ? 'bedroom' : r.list === 'baths' ? (r.kind === 'HalfBathroom' ? 'half bath' : 'full bath') : r.list === 'kitchens' ? 'kitchen' : r.list === 'wetbars' ? 'wet bar' : (r.type === 'Other' ? (r.name || 'room') : r.type).toLowerCase();
+function itemName(list, it) { const L = (SK.ins.lists || {})[list] || []; const i = L.indexOf(it); try { return LISTS[list].name(it, i, L); } catch (e) { return it.label || list; } }
+function unplacedItems() { // rooms already in the inspection that are not on the sketch yet
+  const linked = new Set(SK.sk.labels.filter(l => l.room && l.room.id).map(l => l.room.id)); const out = [];
+  const pendingKitchen = SK.sk.labels.some(l => l.room && !l.room.id && l.room.list === 'kitchens');
+  ['bedrooms', 'baths', 'kitchens', 'wetbars', 'rooms'].forEach(list => ((SK.ins.lists || {})[list] || []).forEach(it => { if (!linked.has(it.id) && !(list === 'rooms' && !it.type) && !(pendingKitchen && list === 'kitchens' && !it.fromSketch)) out.push({ list, it, name: itemName(list, it), lv: it.level }); }));
+  return out;
+}
+function openLabels(editing, at) {
+  openSheet(`<h3>${editing ? 'Change label' : 'Add a label or room'}</h3><input class="txt" id="lbQ" placeholder="Search, or type a new name" autocomplete="off">
+    <div id="lbList" class="scrolly tall"></div><div class="row"><button class="btn primary" id="lbUse">Use what I typed…</button>${editing ? '<button class="btn" id="lbPlain">Make this a label only</button>' : ''}<button class="btn" data-close>Cancel</button></div>`, sh => {
       const q = sh.querySelector('#lbQ');
-      const list = () => { const t = q.value.trim().toLowerCase(); sh.querySelector('#lbList').innerHTML = allLabels().filter(l => !t || l.toLowerCase().includes(t)).map(l => `<button class="btn" data-lb="${esc(l)}">${esc(l)}</button>`).join(''); sh.querySelectorAll('[data-lb]').forEach(b => b.onclick = () => use(b.dataset.lb)); };
-      const use = async text => { closeSheet(); if (/^master\b/i.test(text)) toast('Tip: “Master” is flagged as bias wording – “Primary” is suggested');
-        if (editing) { pushUndo(); editing.text = text; markDirty(); draw(); renderPanel(); } else { SK.pendingLabel = text; SK.mode = 'label'; SK.sel = null; renderPanel(); } };
+      const lvName = l => { const e = Object.entries(LEVEL_UAD).find(([, u]) => u === l); return e ? LEVEL_NAME(e[0]) : ''; };
+      const list = () => { const t = q.value.trim().toLowerCase(); const m = x => !t || x.toLowerCase().includes(t);
+        const un = unplacedItems().filter(x => m(x.name)); const rk = ROOM_KINDS().filter(([n]) => m(n)); const lb = allLabels().filter(m);
+        sh.querySelector('#lbList').innerHTML =
+          (un.length ? `<h4>Already in this inspection – put on the sketch</h4><div class="grid-btns">${un.map((x, i) => `<button class="btn room" data-un="${i}">${esc(x.name)}${x.lv ? ` <small>${esc(lvName(x.lv))}</small>` : ''}</button>`).join('')}</div>` : '') +
+          (rk.length ? `<h4>Add a room (creates it on the Interior tab)</h4><div class="grid-btns">${rk.map(([n], i) => `<button class="btn room" data-rk="${esc(n)}">${esc(n)}</button>`).join('')}</div>` : '') +
+          (lb.length ? `<h4>My labels</h4><div class="grid-btns">${lb.map(l => { const r = roomFor(l); return `<button class="btn ${r ? 'room' : ''}" data-lb="${esc(l)}">${esc(l)}${r ? ` <small>${esc(roomWord(r))}</small>` : ''}</button>`; }).join('')}</div>` : '');
+        sh.querySelectorAll('[data-un]').forEach(b => b.onclick = () => { const x = un[+b.dataset.un]; use(x.name, { list: x.list, id: x.it.id, kind: x.it.kind, type: x.it.type }); });
+        sh.querySelectorAll('[data-rk]').forEach(b => b.onclick = () => { const r = ROOM_KINDS().find(([n]) => n === b.dataset.rk); use(b.dataset.rk, { ...r[1] }); });
+        sh.querySelectorAll('[data-lb]').forEach(b => b.onclick = () => use(b.dataset.lb, roomFor(b.dataset.lb))); };
+      const use = (text, room) => { closeSheet(); if (/^master\b/i.test(text)) toast('Tip: “Master” is flagged as bias wording – “Primary” is suggested');
+        if (editing) { pushUndo(); editing.text = text; editing.room = room || null; markDirty(); draw(); renderPanel(); return; }
+        if (at) { placeLabel(text, room, at); return; }
+        SK.pendingLabel = { text, room }; SK.mode = 'label'; SK.sel = null; renderPanel(); };
       q.oninput = list; list();
-      sh.querySelector('#lbUse').onclick = () => { const t = q.value.trim(); if (!t) return toast('Type the label first'); const isNew = !allLabels().includes(t); if (isNew) SK.lib.labels.push(t); use(t); if (isNew) { saveLib(); toast(`“${t}” saved to your labels`); } };
+      const pl = sh.querySelector('#lbPlain'); if (pl) pl.onclick = () => { closeSheet(); pushUndo(); editing.room = null; markDirty(); draw(); renderPanel(); };
+      sh.querySelector('#lbUse').onclick = () => { const t = q.value.trim(); if (!t) return toast('Type the name first');
+        openSheet(`<h3>“${esc(t)}”</h3><p class="help">Is this a room (it will be added to the Interior tab) or just a label on the drawing? The app remembers your answer.</p>
+          <div class="grid-btns col"><button class="btn room" id="ntRoom">A room – add it to the Interior tab</button><button class="btn" id="ntBed">A bedroom</button><button class="btn" id="ntLabel">Just a label</button></div><div class="row"><button class="btn" data-close>Cancel</button></div>`, sh2 => {
+            const save = kind => { if (!allLabels().includes(t)) SK.lib.labels.push(t); SK.lib.labelKinds = SK.lib.labelKinds || {}; SK.lib.labelKinds[t] = kind || 'label'; if (kind && kind.type === 'Other') { SK.lib.customRooms = SK.lib.customRooms || []; if (!SK.lib.customRooms.includes(t)) SK.lib.customRooms.push(t); } saveLib(); };
+            sh2.querySelector('#ntRoom').onclick = () => { const k = { list: 'rooms', type: 'Other', name: t }; save(k); use(t, { ...k }); };
+            sh2.querySelector('#ntBed').onclick = () => { const k = { list: 'bedrooms' }; save(k); use(t, { ...k }); };
+            sh2.querySelector('#ntLabel').onclick = () => { save(null); use(t, null); }; }); };
     });
+}
+function placeLabel(text, room, pt) { pushUndo(); const l = { id: uid(), text, room: room || null, x: r3(pt[0]), y: r3(pt[1]), level: SK.level }; SK.sk.labels.push(l); SK.mode = 'select'; SK.cursor = null; SK.sel = { type: 'label', id: l.id }; draw(); renderPanel(); if (room) saveSketch(); else markDirty(); }
+/* keep the inspection's rooms and levels in step with the sketch (called on every save) */
+function syncRooms(ins) {
+  let changed = false; const U = LEVEL_UAD; ins.lists = ins.lists || {};
+  const linkedIds = new Set(SK.sk.labels.filter(l => l.room && l.room.id).map(l => l.room.id));
+  SK.sk.labels.forEach(l => { const r = l.room; if (!r) return; const L = ins.lists[r.list] = ins.lists[r.list] || []; const lv = U[l.level];
+    if (r.id) { const it = L.find(x => x.id === r.id); if (it) { if (it.fromSketch === l.id && it.level !== lv) { it.level = lv; } r.gone = false; } else if (!r.gone) { r.gone = true; changed = true; } return; }
+    const generic = /^(bed|bedroom|bath|1\/2|1\/2 bath|kitchen|wet bar|half bath|full bath)$/i.test(l.text.trim());
+    const same = it => !linkedIds.has(it.id) && (r.list !== 'baths' || it.kind === r.kind) && (r.list !== 'rooms' || (it.type === r.type && (r.type !== 'Other' || it.label === r.name)));
+    let it = r.list === 'kitchens' ? L.find(x => same(x) && !x.fromSketch) : L.find(x => same(x) && x.level === lv && (generic || !x.label || x.label === l.text));
+    if (!it) { it = { id: uid(), level: lv, fromSketch: l.id };
+      if (r.list === 'rooms') { it.type = r.type; if (r.type === 'Other') it.label = r.name || l.text; else if (l.text.toLowerCase() !== r.type.toLowerCase() && !ROOM_WORDS.some(([rx, k]) => rx.test(l.text) && k.type === r.type)) it.label = l.text; }
+      if (r.list === 'baths') it.kind = r.kind; if (!generic && r.list !== 'rooms') it.label = l.text; L.push(it); }
+    else if (!it.level) it.level = lv;
+    r.id = it.id; linkedIds.add(it.id); changed = true; });
+  // levels used by living areas and rooms appear in the inspection's Levels list
+  const used = new Set([...SK.sk.areas.filter(a => a.closed && ['LIV', 'LIVN', 'UNF'].includes(defOf(a.def).bucket)).map(a => a.level), ...SK.sk.labels.filter(l => l.room).map(l => l.level)]);
+  const have = new Set((ins.lists.levels = ins.lists.levels || []).map(x => x.level));
+  used.forEach(lv => { if (!have.has(U[lv])) { ins.lists.levels.push({ id: uid(), level: U[lv], grade: below(lv) ? undefined : 'AboveGrade', fromSketch: true }); } });
+  ins.sketch = ins.sketch || {}; ins.sketch.labelIds = SK.sk.labels.map(l => l.id);
+  return changed;
 }
 function openTotals() {
   const T = totals(); const f = n => (n || 0).toLocaleString();
@@ -2195,6 +2343,7 @@ function openTotals() {
     <h4>By level</h4><table class="tot"><thead><tr><th>Level</th><th class="n">Finished</th><th class="n">Nonstd.</th><th class="n">Unfinished</th></tr></thead><tbody>
     ${lv.map(([l, v]) => `<tr><td>${LEVEL_NAME(l)}${below(l) ? ' (below grade)' : ''}</td><td class="n">${f(v.fin)}</td><td class="n">${f(v.non)}</td><td class="n">${f(v.unf)}</td></tr>`).join('') || '<tr><td colspan="4">No living areas yet</td></tr>'}</tbody></table>
     ${[['Garage / carport', T.gar], ['Outdoor living', T.out], ['Outbuildings', T.ob], ['ADUs', T.adu], ['Amenities', T.amen]].filter(([, a]) => a.length).map(([h, a]) => `<h4>${h}</h4><table class="tot"><tbody>${a.map(x => row(x.name, x.sf)).join('')}</tbody></table>`).join('')}
+    <h4>Rooms on the sketch</h4><p>${(() => { const r = SK.sk.labels.filter(l => l.room && !l.room.gone); const c = k => r.filter(k).length; return `${c(l => l.room.list === 'bedrooms')} bedrooms · ${c(l => l.room.list === 'baths' && l.room.kind === 'FullBathroom')} full baths · ${c(l => l.room.list === 'baths' && l.room.kind === 'HalfBathroom')} half baths · ${c(l => l.room.list === 'kitchens')} kitchen(s) · ${c(l => l.room.list === 'rooms')} other rooms`; })()}</p>
     <p class="help">Areas drawn inside another area on the same level (for example a garage inside the house outline) are subtracted from it. Totals go to the inspection when you press Back or Save to inspection.</p>
     <div class="row"><button class="btn primary" id="tSend">Save totals + sketch image to inspection</button><button class="btn" data-close>Close</button></div>`, sh => sh.querySelector('#tSend').onclick = async () => { closeSheet(); toast('Saving to the inspection…'); await pushToInspection(true); toast('Sketch image and totals saved to the inspection'); });
 }
@@ -2262,11 +2411,13 @@ async function blobThumb(blob) { const u = URL.createObjectURL(blob); try { cons
 
 /* ---------- leaving ---------- */
 async function goBack() { const b = document.getElementById('skBack'); if (b) b.textContent = 'Saving…'; try { await pushToInspection(SK.sk.areas.some(a => a.closed)); } catch (e) {} location.href = 'index.html?open=' + encodeURIComponent(SK.ins.id) + '&tab=' + encodeURIComponent(SK.retTab); }
-document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden' && SK.sk) { saveSketch(); } });
+document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden' && SK.sk) saveSketch(); });
+window.addEventListener('pagehide', () => { if (SK.sk) saveSketch(); });
 
 /* ---------- boot ---------- */
-function skFatal(msg) { const el = document.getElementById('app'); el.innerHTML = `<div class="fatal"><h2>The sketch could not open</h2><p>Your inspection is not affected.</p><p class="fatal-msg">${esc(msg)}</p><div class="row"><a class="btn primary" href="index.html${SK.ins ? '?open=' + encodeURIComponent(SK.ins.id) : ''}">Back to the inspection</a><button class="btn" onclick="location.reload()">Try again</button></div></div>`; }
+function skFatal(msg) { const el = document.getElementById('app'); el.innerHTML = `<div class="fatal"><h2>The sketch could not open</h2><p>Your inspection is not affected.</p><p class="fatal-msg">${esc(msg)}</p><p class="help">Version ${typeof BUILD !== 'undefined' ? BUILD : '?'} · take a screenshot of this and send it to Claude.</p><div class="row"><a class="btn primary" href="index.html${SK.ins ? '?open=' + encodeURIComponent(SK.ins.id) : ''}">Back to the inspection</a><button class="btn" onclick="location.reload()">Try again</button></div></div>`; }
 window.addEventListener('error', e => { if (!e.message || /ResizeObserver|Script error/.test(e.message)) return; try { saveSketch(); } catch (x) {} toast('Sketch error: ' + e.message); });
+const skWatch = setTimeout(() => { if (!document.getElementById('skCanvas')) skFatal('The sketch is taking too long to open (storage or an old saved copy of the app). Version ' + (typeof BUILD !== 'undefined' ? BUILD : '?') + '.'); }, 6000);
 (async function skBoot() {
   const q = new URLSearchParams(location.search); const id = q.get('ins'); SK.retTab = q.get('tab') || 'interior';
   const ok = await Promise.race([DB.ready, new Promise(r => setTimeout(() => r('timeout'), 8000))]);
@@ -2278,7 +2429,9 @@ window.addEventListener('error', e => { if (!e.message || /ResizeObserver|Script
   SK.sk.areas = (SK.sk.areas || []).filter(a => a && Array.isArray(a.pts)); SK.sk.labels = SK.sk.labels || [];
   SK.level = SK.sk.level || 'L1';
   document.title = 'Sketch – ' + ((SK.ins.data && SK.ins.data.property && SK.ins.data.property.fileName) || 'Inspection');
-  renderShell();
+  try { if (navigator.storage && navigator.storage.persist) navigator.storage.persist().catch(() => {}); } catch (e) {}
+  renderShell(); setSaved(true);
+  if (!DB.persistent) toast('Warning: this page cannot save to the iPad. Open the app from its Home Screen icon.');
   if (SK.sk.view && SK.sk.view.s) { SK.view = SK.sk.view; draw(); } else { fitView(); draw(); }
 })().catch(e => skFatal(e.message || String(e)));
 
